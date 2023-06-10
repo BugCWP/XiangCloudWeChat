@@ -1,0 +1,48 @@
+<view wx:if="{{value == 'label_1'}}">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="首页" t-class-title="nav-title" />
+    </view>
+</view>
+<view wx:if="{{value == 'label_2'}}">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="操作中" t-class-title="nav-title" />
+    </view>
+</view>
+<view wx:if="{{value == 'label_3'}}">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="我的" t-class-title="nav-title" />
+    </view>
+    <view class="minetitle">
+        <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;">
+            <t-avatar size="large" class="avatar-example" image="{{image}}" />
+            <view>
+                <view>姓名</view>
+                <view>13776146050</view>
+            </view>
+        </view>
+    </view>
+    <view class="applypage">
+        <t-grid class="applygird" column="{{4}}">
+            <t-grid-item text="历史订单" icon="file" bindclick="onClick" />
+            <t-grid-item text="账单" icon="money-circle" bindclick="onClick" />
+            <t-grid-item text="公司信息" icon="root-list" bindclick="onClick" />
+            <t-grid-item text="地址" icon="location" bindclick="onClick" />
+            <t-grid-item text="装箱拍照" icon="photo" bindclick="onClick" />
+            <t-grid-item text="进场登记" icon="desktop" bindclick="onClick" />
+        </t-grid>
+    </view>
+</view>
+
+<t-tab-bar value="{{value}}" bindchange="onChange" theme="tag" split="{{false}}">
+    <t-tab-bar-item wx:for="{{list}}" wx:key="index" value="{{item.value}}" icon="{{item.icon}}">
+        {{item.label}}
+    </t-tab-bar-item>
+</t-tab-bar>
+
+<t-dialog
+  visible="{{showTextAndTitle}}"
+  title="未登录"
+  content="必须先登录才可以查看订单数据"
+  confirm-btn="登录/注册"
+  bind:confirm="goLogin"
+/>

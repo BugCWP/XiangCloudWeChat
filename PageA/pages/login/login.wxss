@@ -1,0 +1,48 @@
+/* PageA/pages/login/login.wxss */
+.header {
+    width: 100%;
+    height: 350rpx;
+}
+
+.logoClass {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2px;
+}
+
+.avatar {
+    position: absolute;
+    width: 228rpx;
+    height: 228rpx;
+    margin-top: 186rpx;
+}
+
+.headImage {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 300rpx;
+}
+
+.tabPanelstyle {
+    height: 200rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-example {
+    margin: 0 32rpx;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rpx;
+}

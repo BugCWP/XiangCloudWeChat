@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "tdesign-miniprogram": "^1.1.8"
+  },
+  "name": "xiangcloudwechat",
+  "version": "1.0.0",
+  "description": "cwp",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

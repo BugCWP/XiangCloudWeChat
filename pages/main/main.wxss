@@ -1,0 +1,21 @@
+/* pages/main/main.wxss */
+.custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+  }
+
+  .minetitle {
+      height: 300rpx;
+      background-color: #a5040d;
+      color: white;
+  }
+
+  .applypage {
+      width: 94%;
+      margin-left: 3%;
+      margin-top: 50rpx;
+  }
+
+  .applygird {
+     border-radius: 15px;
+  }
