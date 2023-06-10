@@ -40,6 +40,12 @@
     align-items: center;
 }
 
+.tabPanel2style {
+    height: 200rpx;
+    align-items: center;
+    text-align: left;
+}
+
 .button-example {
     margin: 0 32rpx;
     display: grid;
