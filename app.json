@@ -28,7 +28,12 @@
         "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
         "t-input": "tdesign-miniprogram/input/input",
         "t-image": "tdesign-miniprogram/image/image",
-        "t-loading": "tdesign-miniprogram/loading/loading"
+        "t-loading": "tdesign-miniprogram/loading/loading",
+        "t-image-viewer": "tdesign-miniprogram/image-viewer/image-viewer",
+        "t-toast": "tdesign-miniprogram/toast/toast",
+        "t-popup": "tdesign-miniprogram/popup/popup",
+        "t-radio": "tdesign-miniprogram/radio/radio",
+        "t-radio-group": "tdesign-miniprogram/radio-group/radio-group"
     },
     "window": {
         "backgroundTextStyle": "light",

@@ -27,7 +27,6 @@ Page({
     },
     //跳转集卡司机注册
     goDrive(e) {
-        debugger;
         var thisView = this;
         wx.request({
             url: "https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=DecryptPhoneNumber",
@@ -198,7 +197,6 @@ Page({
                                 'content-type': 'application/json'
                             },
                             success: function (myres) {
-                                debugger;
                                 var myresRtn = JSON.parse(JSON.stringify(myres));
                                 if (myresRtn == undefined || myresRtn == "")
                                     return;
@@ -208,7 +206,7 @@ Page({
                                         sessionId: myresRtn.data,
                                         encryptedData: e.detail.encryptedData,
                                         iv: e.detail.iv,
-                                        unionId: res.result.unionid
+                                        unionId: '' //res.result.unionid
                                     },
                                     header: {
                                         'content-type': 'application/x-www-form-urlencoded'
@@ -244,8 +242,8 @@ Page({
                                             result.OutputValues.UserInfo.HeadImage != undefined && result.OutputValues.UserInfo.HeadImage != null) {
                                             wx.setStorageSync('myHeadImg', result.OutputValues.UserInfo.HeadImage);
                                         }
-                                        wx.reLaunch({
-                                            url: '/packageA/pages/driverInfo/driverInfo?regist=1',
+                                        wx.navigateTo({
+                                            url: '../driverInfo/driverInfo',
                                         })
                                     },
                                     fail: function (err) {}
@@ -376,6 +374,12 @@ Page({
      */
     onShow() {
         var thisView = this;
+        var myToken = wx.getStorageSync('myToken');
+        if (myToken != undefined && myToken != null && myToken != "") {
+            wx.reLaunch({
+                url: '../../../pages/main/main',
+            })
+        }
         //地理位置授权
         wx.getSetting({
             success: (res) => {

@@ -24,7 +24,8 @@ Page({
         ],
         showTextAndTitle: false,
         myUserName: '',
-        myTelephone: ''
+        myTelephone: '',
+        image: ''
     },
 
     /**
@@ -81,9 +82,11 @@ Page({
      */
     onShow() {
         var thisView = this;
+        var wechatImg = wx.getStorageSync("myHeadImg");
         thisView.setData({
             myUserName: wx.getStorageSync('myUserName'),
-            myTelephone: wx.getStorageSync("myTelephone")
+            myTelephone: wx.getStorageSync("myTelephone"),
+            image: wechatImg == null || wechatImg == '' ? '' : 'https://www.xiang-cloud.com' + wechatImg
         })
     },
 

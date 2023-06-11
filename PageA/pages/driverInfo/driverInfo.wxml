@@ -2,21 +2,41 @@
     <t-navbar class="custom-navbar" title="司机" t-class-title="nav-title" left-arrow />
 </view>
 <view class="minetitle">
-    <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;display: inline-block;">
+    <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;">
         <view style="display: inline-block;">
             <view>
                 <t-avatar size="large" icon="user" wx:if="{{image==null||image==''}}" />
-                <t-avatar size="large" image="{{image}}" wx:else />
+                <t-avatar size="large" image="{{image}}" wx:else bindtap='showImg' data-imgsrc="{{image}}" />
             </view>
-            <t-button theme="light" size="extra-small" style="margin-left: 10px;margin-top: 5px;">编辑</t-button>
+            <view style="margin-top: 5px;">
+                <t-button theme="light" size="extra-small" id='imgHeadImage' bindtap='photoFunc'>修改头像</t-button>
+            </view>
         </view>
-        <view style="display: inline-block;margin-left: 10px;position: relative;top: -30px;">
-            <view style="margin-bottom: 4px;font-weight: 600;font-size: 18px;">{{myUserName}}</view>
+        <view style="display: inline-block;margin-left: 20px;position: relative;top: -25px;">
+            <view style="margin-bottom: 4px;font-weight: 600;font-size: 18px;">
+                {{myUserName}}
+                <t-button style="margin-left: 10px;" icon='edit' theme="light" size="extra-small" bindtap="showEdit"></t-button>
+            </view>
             <view>{{myTelephone}}</view>
         </view>
     </view>
 </view>
 <view class="body">
+    <view style="margin:20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx" wx:if="{{haveBindCom.length>0}}">
+        <view style="padding:20rpx">
+            <view style="width:100%;font-size:30rpx;font-weight:bold;text-align: center;margin-bottom: 10px;">挂靠公司</view>
+            <view style="display:flex;font-size:30rpx" wx:if="{{haveBindCom.length>0}}">
+                <view style="width:90%;margin-left: 5%;">
+                    <view wx:for="{{haveBindCom}}">
+                        <view style="display:flex;margin-bottom:20rpx">
+                            <view style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{item.CompanyName}}</view>
+                            <view style="color:#4a8edb;text-decoration:underline;margin-left:20rpx;font-size:34rpx" data-comid="{{item.CompanyId}}" bindtap="unbindCom">解 绑</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
     <view style="margin:20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx">
         <view style="padding:20rpx">
             <view style="width:100%;text-align:center;font-weight:bold">中华人民共和国机动车驾驶证</view>
@@ -54,8 +74,8 @@
                     </view>
                 </view>
                 <view style="margin-left:30rpx;">
-                    <image style="width:150rpx;height:150rpx;margin-left:30rpx;" src='{{defaultUpZhengImage}}' id='imgJiaShiZheng' bindtap='photoFunc'></image>
-                    <view style="width:150rpx;margin-top:-30rpx;margin-left:30rpx;font-size:32rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传驾驶证</view>
+                    <image style="width:150rpx;height:120rpx;margin-left:30rpx;" src='{{defaultUpJiaShiZhengImage}}' id='imgJiaShiZheng' bindtap='photoFunc' data-imgsrc="{{defaultUpJiaShiZhengImage}}" bindlongpress='showImg'></image>
+                    <view style="width:150rpx;margin-left:30rpx;font-size:32rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传驾驶证</view>
                 </view>
             </view>
             <view style="display:flex;align-items:center;margin-top:8rpx">
@@ -112,8 +132,8 @@
                     </view>
                 </view>
                 <view style="margin-left:30rpx;">
-                    <image style="width:150rpx;height:150rpx;" src='{{defaultUpZhengImage}}' id='imgXingShiZheng' name='imgXingShiZheng' bindtap='photoFunc' bindlongtap='previewImage'></image>
-                    <view style="width:150rpx;margin-top:-30rpx;font-size:32rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传行驶证</view>
+                    <image style="width:150rpx;height:120rpx;" src='{{defaultUpXingShiZhengImage}}' id='imgXingShiZheng' name='imgXingShiZheng' bindtap='photoFunc' bindlongpress='showImg' data-imgsrc="{{defaultUpXingShiZhengImage}}"></image>
+                    <view style="width:150rpx;font-size:32rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传行驶证</view>
                 </view>
             </view>
         </view>
@@ -123,9 +143,36 @@
 <view class="foot">
     <view class="button-example">
         <t-button theme="light" block size="large" variant="outline">切换车辆</t-button>
-        <t-button theme="light" block size="large" variant="outline">新增挂靠</t-button>
+        <t-button theme="light" block size="large" variant="outline" bindtap="addGuakao">新增挂靠</t-button>
         <t-button theme="primary" block size="large" bindtap="signOut">注销</t-button>
     </view>
 </view>
 <t-dialog visible="{{errDialogShow}}" title="{{errTitle}}" content="{{errinfo}}" confirm-btn="{{ errConfirmBtn }}" bind:confirm="closeErrDialog" />
 <t-dialog visible="{{SignOutDialogShow}}" title="注销" content="确认要注销此用户？" confirm-btn="{{SignOutConfirmBtn}}" cancel-btn="取消" bind:confirm="confirmSignOut" bind:cancel="closeSignOut" />
+<t-image-viewer deleteBtn="{{deleteBtn}}" closeBtn="{{closeBtn}}" showIndex="{{showIndex}}" visible="{{visible}}" images="{{images}}" bind:change="onChange" bind:delete="onDelete" bind:close="onClose"></t-image-viewer>
+<t-dialog visible="{{EditDialogShow}}" title="个人信息修改" confirm-btn="提交" cancel-btn="取消" bind:confirm="confirmEditDialog" bind:cancel="closeEditDialog">
+    <t-input borderless class="dialog-input" clearable slot="content" label="姓名" placeholder="请输入正确姓名" placeholder-class="placeholder" model:value="{{userName}}" />
+    <t-input borderless class="dialog-input" clearable slot="content" label="车牌" placeholder="请输入正确车牌" placeholder-class="placeholder" model:value="{{plateNo}}" />
+</t-dialog>
+<t-toast id="t-toast" />
+<t-popup visible="{{addvisible}}" bind:visible-change="onVisibleChange" placement="bottom">
+    <view class="popblock">
+        <view class="header">
+            <view class="btn btn--cancel" aria-role="button" bindtap="clossGuakao">取消</view>
+            <view class="title">新增挂靠关系</view>
+            <view class="btn btn--confirm" aria-role="button" bindtap="confirmGuakao">确定</view>
+        </view>
+        <view class="input-example">
+            <t-input label="公司筛选" placeholder="公司抬头或简称" model:value="{{searchCom}}">
+                <t-button slot="suffix" theme="primary" size="extra-small" icon='search' bindtap="bindSearchCom"> </t-button>
+            </t-input>
+        </view>
+        <view style="width: 80%;margin-left: 10%;overflow: scroll;height: 420px;margin-top: 20px;">
+            <radio-group class="radio-group" bindchange="radioChange">
+                <radio id="rdCheck{{item.Id}}" class="radio" wx:for-items="{{items}}" wx:key="Id" value="{{item.Id}}">
+                    <text>{{item.Name}}</text>
+                </radio>
+            </radio-group>
+        </view>
+    </view>
+</t-popup>
