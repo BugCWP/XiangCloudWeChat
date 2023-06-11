@@ -151,6 +151,63 @@ Page({
             url: '../login/login',
         })
     },
+
+    //上传驾驶证
+    photoFunc() {
+        var thisView = this;
+        var objImageClick = "";
+        if (e.currentTarget != null) {
+            objImageClick = e.currentTarget.id;
+        } else {
+            objImageClick = e;
+        }
+        var objImageUrl = '';
+        wx.chooseImage({
+            count: 1,
+            sizeType: ['compressed'],
+            sourceType: ['camera'],
+            success: function (res) {
+                var tempFilePaths = res.tempFilePaths
+                wx.showLoading({
+                    title: '上传图片...',
+                    mask: true
+                })
+                wx.uploadFile({
+                    url: 'https://www.xiang-cloud.com/Api/Shared/FileUpload.ashx',
+                    filePath: tempFilePaths[0],
+                    name: objImageClick,
+                    success: function (res) {
+                        wx.hideLoading()
+                        console.log(res)
+                        var obj = JSON.parse(res.data);
+                        objImageUrl = obj.Url;
+                        var ocrUrl = '';
+                        switch (objImageClick) {
+                            case 'imgJiaShiZheng':
+                                thisView.confirmSave("2", objImageUrl);
+                                break;
+                            case 'imgXingShiZheng':
+                                thisView.confirmSave("3", objImageUrl);
+                                break;
+                            case 'imgHeadImage':
+                                wx.setStorageSync('myHeadImg', objImageUrl);
+                                thisView.setData({
+                                    defaultHeadImage: tempFilePaths[0]
+                                })
+                                thisView.confirmSave("1", objImageUrl);
+                                break;
+                        }
+                    },
+                    fail: function (e) {
+                        wx.hideLoading()
+                    }
+                })
+            }
+        })
+    },
+
+    //上传行驶证
+
     /**
      * 生命周期函数--监听页面隐藏
      */
