@@ -22,16 +22,16 @@
             </view>
         </t-tab-panel>
         <t-tab-panel label="注册" value="2" class="tabPanel2style">
-            <view style="height: 250px;margin-top: 50px;">
-                <view style="text-align:center;margin-bottom: 20px;">
+            <view style="height: 230px;margin-top: 20px;margin-left: 10%;">
+                <view style="text-align:left;margin-bottom: 20px;">
                     <t-image src="../../../img/drivebtn.jpg" width="50" height="50" shape="round" />
                     <t-button theme="primary" size="large" variant="text" bindgetphonenumber="goDrive" open-type="getPhoneNumber">集卡司机</t-button>
                 </view>
-                <view style="text-align:center;margin-bottom: 20px;">
+                <view style="text-align:left;margin-bottom: 20px;">
                     <t-image src="../../../img/companybtn.jpg" width="50" height="50" shape="round" />
                     <t-button theme="primary" size="large" variant="text" bindgetphonenumber="goCompany" open-type="getPhoneNumber">集运公司老板</t-button>
                 </view>
-                <view style="text-align:center;margin-bottom: 10px;">
+                <view style="text-align:left;">
                     <t-image src="../../../img/employeebtn.jpg" width="50" height="50" shape="round" bindtap="goEmployee" />
                     <t-button theme="primary" size="large" variant="text" bindgetphonenumber="goEmployee" open-type="getPhoneNumber">集运公司员工</t-button>
                 </view>

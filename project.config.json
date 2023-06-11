@@ -38,7 +38,8 @@
         "checkInvalidKey": true,
         "disableUseStrict": false,
         "useCompilerPlugins": false,
-        "minifyWXML": true
+        "minifyWXML": true,
+        "condition": false
     },
     "compileType": "miniprogram",
     "libVersion": "2.20.2",

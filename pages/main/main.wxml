@@ -13,11 +13,12 @@
         <t-navbar class="custom-navbar" title="我的" t-class-title="nav-title" />
     </view>
     <view class="minetitle">
-        <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;">
-            <t-avatar size="large" class="avatar-example" image="{{image}}" />
-            <view>
-                <view>姓名</view>
-                <view>13776146050</view>
+        <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;display: inline-block;">
+            <t-avatar size="large" icon="user" wx:if="{{image==null||image==''}}" bindtap="goMine" />
+            <t-avatar size="large" image="{{image}}" wx:else bindtap="goMine" />
+            <view style="display: inline-block;margin-top: 10px;margin-left: 10px;">
+                <view style="margin-bottom: 4px;font-weight: 600;font-size: 18px;">{{myUserName}}</view>
+                <view>{{myTelephone}}</view>
             </view>
         </view>
     </view>
@@ -39,10 +40,4 @@
     </t-tab-bar-item>
 </t-tab-bar>
 
-<t-dialog
-  visible="{{showTextAndTitle}}"
-  title="未登录"
-  content="必须先登录才可以查看订单数据"
-  confirm-btn="登录/注册"
-  bind:confirm="goLogin"
-/>
+<t-dialog visible="{{showTextAndTitle}}" title="未登录" content="必须先登录才可以查看订单数据" confirm-btn="登录/注册" bind:confirm="goLogin" />

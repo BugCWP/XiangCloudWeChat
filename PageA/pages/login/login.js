@@ -49,7 +49,7 @@ Page({
                     thisView.setData({
                         errTitle: '注册失败',
                         errDialogShow: true,
-                        errinfo: result.ErrorCode != '' ? result.ErrorCode : '由于用户主动拒绝，未获取到手机号，请重新授权',
+                        errinfo: result.ErrorDesc != '' ? result.ErrorDesc : '由于用户主动拒绝，未获取到手机号，请重新授权',
                         errConfirmBtn: {
                             content: '确认',
                             variant: 'base'
@@ -190,7 +190,7 @@ Page({
                     if (res.code) {
                         var js_code = res.code;
                         wx.request({
-                            url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=WeXinLogin',
+                            url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=WeXinLogin2',
                             data: {
                                 code: js_code
                             },
@@ -198,6 +198,7 @@ Page({
                                 'content-type': 'application/json'
                             },
                             success: function (myres) {
+                                debugger;
                                 var myresRtn = JSON.parse(JSON.stringify(myres));
                                 if (myresRtn == undefined || myresRtn == "")
                                     return;
@@ -425,30 +426,7 @@ Page({
                 success: function (res) {
                     if (res.code) {
                         var js_code = res.code;
-                        wx.request({
-                            url: 'https://api.weixin.qq.com/sns/jscode2session',
-                            data: {
-                                appid: 'wx29db92d7ac791a0f',
-                                secret: '2cf25582f67e91e8cf9a830b32725b2b',
-                                js_code: js_code,
-                                grant_type: 'authorization_code'
-                            },
-                            header: {
-                                'content-type': 'application/json'
-                            },
-                            success: function (myres) {
-                                var rtn = JSON.parse(JSON.stringify(myres));
-                                if (rtn == undefined || rtn == "")
-                                    return;
-                                thisView.setData({
-                                    session_key: rtn.data.session_key,
-                                    openid: rtn.data.openid,
-                                    unionId: rtn.data.unionId
-                                })
-                                wx.setStorageSync('unionId', rtn.data.unionid);
-                            },
-                            fail: function (err) {}
-                        })
+                        thisView.getWeXinLogin(js_code);
                     }
                 }
             })
@@ -456,6 +434,53 @@ Page({
         }
         wx.reLaunch({
             url: '../../../pages/mainform/mainform',
+        })
+    },
+    getjscode2session(js_code) {
+        var thisView = this;
+        wx.request({
+            url: 'https://api.weixin.qq.com/sns/jscode2session',
+            data: {
+                appid: 'wx29db92d7ac791a0f',
+                secret: '2cf25582f67e91e8cf9a830b32725b2b',
+                js_code: js_code,
+                grant_type: 'authorization_code'
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (myres) {
+                var rtn = JSON.parse(JSON.stringify(myres));
+                if (rtn == undefined || rtn == "")
+                    return;
+                thisView.setData({
+                    openid: rtn.data.openid,
+                    unionId: rtn.data.unionId
+                })
+                wx.setStorageSync('unionId', rtn.data.unionid);
+            },
+            fail: function (err) {}
+        })
+    },
+    getWeXinLogin(e) {
+        var thisView = this;
+        wx.request({
+            url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=WeXinLogin2',
+            data: {
+                code: e
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (myres) {
+                var rtn = JSON.parse(JSON.stringify(myres));
+                if (rtn == undefined || rtn == "")
+                    return;
+                thisView.setData({
+                    session_key: rtn.data,
+                })
+            },
+            fail: function (err) {}
         })
     },
     //获取验证码
@@ -522,7 +547,6 @@ Page({
 
             return;
         };
-
         if (thisView.data.validatecode == '') {
             wx.showToast({
                 title: '请输入验证码',
@@ -531,12 +555,10 @@ Page({
             })
             return;
         };
-
         wx.showLoading({
             title: '正在登录',
             mask: true
         })
-
         wx.request({
             url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=LoginByCaptcha',
             data: {
@@ -572,10 +594,8 @@ Page({
                         return;
                     }
                 }
-
                 if (result.OutputValues.UserInfo.ProfileTypeId == null) {
                     wx.setStorageSync('myTelephone', thisView.data.telephone);
-
                     thisView.setData({
                         errTitle: '登录失败',
                         errDialogShow: true,
@@ -592,26 +612,23 @@ Page({
                 wx.setStorageSync('BindCompanyName', result.OutputValues.UserInfo.BindCompanyName == null ? "" : result.OutputValues.UserInfo.BindCompanyName);
                 wx.setStorageSync('BindCompanyLocationAddress', result.OutputValues.UserInfo.BindCompanyLocationAddress == null ? "" : result.OutputValues.UserInfo.BindCompanyLocationAddress);
                 wx.setStorageSync('myUserName', result.OutputValues.UserInfo.UserName);
-
                 if (result.OutputValues != undefined && result.OutputValues != null &&
                     result.OutputValues.UserInfo != undefined && result.OutputValues.UserInfo != null &&
                     result.OutputValues.UserInfo.HeadImage != undefined && result.OutputValues.UserInfo.HeadImage != null) {
                     wx.setStorageSync('myHeadImg', result.OutputValues.UserInfo.HeadImage);
                 }
-
                 wx.reLaunch({
-                    url: '../../../pages/mainform/mainform',
+                    url: '../../../pages/main/main',
                 })
-
             },
             fail: function (res) {
                 wx.hideLoading()
-
                 thisView.setData({
-                    modalHidden: false,
-                    errinfo: res
+                    errTitle: '登录失败',
+                    errDialogShow: true,
+                    errinfo: res,
+                    errConfirmBtn: '确认'
                 })
-
             },
             complete: function (res) {
                 wx.hideLoading()

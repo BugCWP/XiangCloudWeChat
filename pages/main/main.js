@@ -23,6 +23,8 @@ Page({
             },
         ],
         showTextAndTitle: false,
+        myUserName: '',
+        myTelephone: ''
     },
 
     /**
@@ -49,6 +51,24 @@ Page({
             url: '../../PageA/pages/login/login',
         })
     },
+    goMine() {
+        if (wx.getStorageSync('myUserProfileType') == '103') {
+            //司机
+            wx.navigateTo({
+                url: '../../PageA/pages/driverInfo/driverInfo',
+            })
+        } else if (wx.getStorageSync('myUserProfileType') == '102') {
+            //公司员工
+            wx.navigateTo({
+                url: '../driverphoto/driverphoto?comefromInfo=1',
+            })
+        } else {
+            //公司管理
+            wx.navigateTo({
+                url: '../companyphoto/companyphoto?comefromInfo=1',
+            })
+        }
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -60,7 +80,11 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-
+        var thisView = this;
+        thisView.setData({
+            myUserName: wx.getStorageSync('myUserName'),
+            myTelephone: wx.getStorageSync("myTelephone")
+        })
     },
 
     /**
