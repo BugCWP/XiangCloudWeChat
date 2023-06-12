@@ -29,8 +29,15 @@
             <t-grid-item text="公司信息" icon="root-list" bindclick="onClick" />
             <t-grid-item text="地址" icon="location" bindclick="onClick" />
             <t-grid-item text="装箱拍照" icon="photo" bindclick="onClick" />
-            <t-grid-item text="进场登记" icon="desktop" bindclick="onClick" />
+            <t-grid-item text="进场出场" icon="desktop" bindclick="gocontainerinout" />
+            <t-grid-item text="联系平台" icon="call" bindclick="callClick" />
         </t-grid>
+    </view>
+    <view class="button-example">
+        <t-button theme="primary" size="large" block icon='logout' bindtap="logout">退出登录</t-button>
+    </view>
+    <view class="footer-example">
+        <t-footer text="{{text}}" links="{{links}}" />
     </view>
 </view>
 
@@ -41,3 +48,5 @@
 </t-tab-bar>
 
 <t-dialog visible="{{showTextAndTitle}}" title="未登录" content="必须先登录才可以查看订单数据" confirm-btn="登录/注册" bind:confirm="goLogin" />
+<t-dialog visible="{{showlogout}}" title="退出登录" content="确认退出？" confirm-btn="{{ logoutconfirmBtn }}" cancel-btn="取消" bind:confirm="logoutConfirm" bind:cancel="closelogout" />
+<t-dialog visible="{{showCall}}" title="联系电话" content="{{phoneNumber}}" confirm-btn="{{ callconfirmBtn }}" cancel-btn="取消" bind:confirm="callConfirm" bind:cancel="closecall" />

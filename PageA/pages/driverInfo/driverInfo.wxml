@@ -142,7 +142,7 @@
 </view>
 <view class="foot">
     <view class="button-example">
-        <t-button theme="light" block size="large" variant="outline">切换车辆</t-button>
+        <t-button theme="light" block size="large" variant="outline" bindtap="addCar">切换车辆</t-button>
         <t-button theme="light" block size="large" variant="outline" bindtap="addGuakao">新增挂靠</t-button>
         <t-button theme="primary" block size="large" bindtap="signOut">注销</t-button>
     </view>
@@ -163,14 +163,33 @@
             <view class="btn btn--confirm" aria-role="button" bindtap="confirmGuakao">确定</view>
         </view>
         <view class="input-example">
-            <t-input label="公司筛选" placeholder="公司抬头或简称" model:value="{{searchCom}}">
-                <t-button slot="suffix" theme="primary" size="extra-small" icon='search' bindtap="bindSearchCom"> </t-button>
-            </t-input>
+            <view class="example-search">
+                <t-search model:value="{{searchCom}}" center placeholder="公司抬头或简称" action="{{actionText}}" bind:blur="blurHandle" bind:focus="focusHandle" bind:action-click="bindSearchCom"  bind:change="changeHandle"/>
+            </view>
         </view>
         <view style="width: 80%;margin-left: 10%;overflow: scroll;height: 420px;margin-top: 20px;">
             <radio-group class="radio-group" bindchange="radioChange">
                 <radio id="rdCheck{{item.Id}}" class="radio" wx:for-items="{{items}}" wx:key="Id" value="{{item.Id}}">
                     <text>{{item.Name}}</text>
+                </radio>
+            </radio-group>
+        </view>
+    </view>
+</t-popup>
+
+<t-popup visible="{{changeCarvisible}}" bind:visible-change="onCallVisibleChange" placement="bottom">
+    <view class="popblock">
+        <view class="header">
+            <view class="btn btn--cancel" aria-role="button" bindtap="clossCar">取消</view>
+            <view class="title">{{cph}}</view>
+            <view class="btn btn--confirm" aria-role="button" bindtap="confirmCar">确定</view>
+        </view>
+        <view style="width: 86%;margin-left:7%;color: #999 ;text-indent:30px">请确定您所驾驶车牌跟您所选车牌一致,以上信息一旦确认,eir数据即刻发送到上海港eir平台。您将无法自行变更数据。</view>
+        <view style="width: 80%;margin-left: 10%;overflow: scroll;height: 420px;margin-top: 20px;">
+            <t-empty style="margin-top: 60px;" icon="info-circle-filled" description="暂无车辆" wx:if="{{cphArr.length == 0}}" />
+            <radio-group class="radio-group" bindchange="carradioChange" wx:else>
+                <radio id="rdCheck{{item}}" class="radio" wx:for-items="{{cphArr}}" wx:key="Id" value="{{item}}">
+                    <text>{{item}}</text>
                 </radio>
             </radio-group>
         </view>

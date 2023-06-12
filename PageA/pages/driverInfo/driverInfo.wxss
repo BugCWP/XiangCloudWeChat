@@ -116,3 +116,8 @@
     font-size: 14px;
     font-weight: bold;
   }
+
+  .example-search {
+    background-color: #fff;
+    padding: 0rpx 32rpx;
+  }

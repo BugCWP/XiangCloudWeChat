@@ -2,20 +2,33 @@
 .custom-navbar {
     --td-navbar-color: #fff;
     --td-navbar-bg-color: #a5040d;
-  }
+}
 
-  .minetitle {
-      height: 300rpx;
-      background-color: #a5040d;
-      color: white;
-  }
+.minetitle {
+    height: 300rpx;
+    background-color: #a5040d;
+    color: white;
+}
 
-  .applypage {
-      width: 94%;
-      margin-left: 3%;
-      margin-top: 50rpx;
-  }
+.applypage {
+    width: 94%;
+    margin-left: 3%;
+    margin-top: 50rpx;
+}
 
-  .applygird {
-     border-radius: 15px;
-  }
+.applygird {
+    border-radius: 15px;
+}
+
+.button-example {
+    margin: 0 32rpx;
+    margin-top: 50rpx;
+}
+
+.footer-example {
+    padding: 20rpx 0;
+}
+
+.footer-example:not(:last-child) {
+    margin-bottom: 32rpx;
+}

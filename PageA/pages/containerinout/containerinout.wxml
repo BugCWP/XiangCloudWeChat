@@ -1,0 +1,22 @@
+<!--PageA/pages/containerinout/containerinout.wxml-->
+<view class="block">
+    <t-navbar class="custom-navbar" title="进场出场" t-class-title="nav-title" left-arrow />
+
+</view>
+<view style="height: 978rpx; width: 750rpx; display: block; box-sizing: border-box">
+    <image style="height:100%;width:100%;" src="../../../img/v2_rhoovt.png"></image>
+</view>
+<view style="position: absolute;width: 80%;left: 10%;top: 500rpx;">
+    <t-search value="{{selectedYardName}}" shape="round" center placeholder="请选择堆场" bind:focus="focusHandle" display />
+</view>
+<view style="width:100%;margin-top: 10%;display: block;height: 14%;">
+    <view style="width:30%;float:left;margin-left: 10%;">
+        <t-button theme="primary" size="large" shape="round" bind:click="YardIn" icon="edit-1">进场登记</t-button>
+    </view>
+    <view style="width:30%;float:left;margin-left: 20%;">
+        <t-button theme="primary" size="large" shape="round" bind:click="YardOut" icon='backtop-rectangle'>提箱出场</t-button>
+    </view>
+</view>
+<t-picker visible="{{pickVisible}}" value="{{selectedYardName}}" data-key="city" title="选择堆场" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+    <t-picker-item options="{{YardPositionSelect}}"></t-picker-item>
+</t-picker>

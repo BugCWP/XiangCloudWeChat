@@ -25,7 +25,23 @@ Page({
         showTextAndTitle: false,
         myUserName: '',
         myTelephone: '',
-        image: ''
+        image: '',
+        showlogout: false,
+        logoutconfirmBtn: {
+            content: '退出',
+            variant: 'base'
+        },
+        text: 'Copyright © 2021-2031 TD.All Rights Reserved.',
+        links: [{
+            name: 'v1.0.1',
+            openType: 'navigate',
+        }],
+        phoneNumber: '021-68861893',
+        showCall: false,
+        callconfirmBtn: {
+            content: '拨打',
+            variant: 'base'
+        },
     },
 
     /**
@@ -40,6 +56,65 @@ Page({
             })
             return;
         }
+        var label = wx.getStorageSync("label");
+        if (label != undefined && label != null && label != '') {
+            thisView.setData({
+                value: label
+            })
+        }
+    },
+    //进场出场
+    gocontainerinout() {
+        wx.navigateTo({
+            url: '../../PageA/pages/containerinout/containerinout',
+        })
+    },
+    callClick() {
+        var thisView = this;
+        thisView.setData({
+            showCall: true
+        })
+    },
+    callConfirm() {
+        var thisView = this;
+        wx.makePhoneCall({
+            phoneNumber: thisView.data.phoneNumber
+        })
+    },
+    closecall() {
+        var thisView = this;
+        thisView.setData({
+            showCall: false
+        })
+    },
+    //退出登录
+    logout() {
+        var thisView = this;
+        thisView.setData({
+            showlogout: true
+        })
+    },
+    logoutConfirm() {
+        var thisView = this;
+        wx.setStorageSync('myToken', '');
+        wx.setStorageSync('myTelephone', '');
+        wx.setStorageSync('myUserProfileType', '');
+        wx.setStorageSync("mywechatuser", '');
+        wx.setStorageSync("mywechatid", '');
+        wx.setStorageSync("myHeadImg", '');
+        wx.setStorageSync("myUserName", '');
+        wx.setStorageSync("iscb", '');
+        wx.setStorageSync("flashSet", '');
+        wx.clearStorage();
+        wx.reLaunch({
+            url: '../main/main',
+        })
+    },
+    closelogout() {
+        var thisView = this;
+        thisView.setData({
+            showlogout: false
+        })
     },
     goLogin() {
         const {
@@ -128,5 +203,6 @@ Page({
         this.setData({
             value: e.detail.value,
         });
+        wx.setStorageSync("label", e.detail.value);
     },
 })

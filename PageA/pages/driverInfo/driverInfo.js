@@ -39,6 +39,10 @@ Page({
         arrayBizLocation: '',
         comIndex: 0,
         haveBindCom: [],
+        changeCarvisible: false,
+        cphArr: [],
+        cph: '请选择车牌',
+        actionText: ''
     },
 
     /**
@@ -73,6 +77,73 @@ Page({
         thisView.GetDriverInfo();
         thisView.getCompany();
         thisView.getBindCom();
+    },
+    GetOwnerCompanyPlateNo() {
+        var thisView = this
+        wx.showLoading({
+            title: '获取车牌...',
+        })
+        wx.request({
+            url: 'https://www.xiang-cloud.com/Api/Mini/index.ashx?act=GetOwnerCompanyPlateNo',
+            data: {},
+            header: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Authorization': wx.getStorageSync("myToken")
+            },
+            method: 'POST',
+            success: function (res) {
+                var rtn = JSON.parse(JSON.stringify(res));
+                if (rtn == undefined || rtn == "")
+                    return;
+                var result = rtn.data;
+                thisView.setData({
+                    cphArr: result
+                })
+                try {
+                    if (result.ErrorDesc || result.ErrorCode || result.HasError) {
+                        let msg = (result.ErrorCode ? '(' + result.ErrorCode + ') ' : '') + result.ErrorDesc;
+                        thisView.setData({
+                            errDialogShow: true,
+                            errTitle: '注销失败',
+                            errinfo: msg,
+                            errConfirmBtn: {
+                                content: '确定',
+                                variant: 'base'
+                            }
+                        })
+                        return;
+                    } else if (typeof result === 'string' && result.match(/error/)) {
+                        thisView.setData({
+                            errDialogShow: true,
+                            errTitle: '注销失败',
+                            errinfo: result,
+                            errConfirmBtn: {
+                                content: '确定',
+                                variant: 'base'
+                            }
+                        })
+                        return;
+                    }
+                } catch (e) {
+                    throw e;
+                }
+            },
+            fail: function (res) {
+                wx.hideLoading()
+                thisView.setData({
+                    errDialogShow: true,
+                    errTitle: '注销失败',
+                    errinfo: res,
+                    errConfirmBtn: {
+                        content: '确定',
+                        variant: 'base'
+                    }
+                })
+            },
+            complete: function (res) {
+                wx.hideLoading()
+            },
+        })
     },
     //注销
     signOut() {
@@ -590,7 +661,137 @@ Page({
             plateNo: thisView.data.driverDetail.CrmDriverVehicleLicense == null ? '' : thisView.data.driverDetail.CrmDriverVehicleLicense.PlateNo
         });
     },
+    //切换车辆
+    onCallVisibleChange() {
+        var thisView = this
+        thisView.setData({
+            changeCarvisible: false
+        });
+    },
+    clossCar() {
+        var thisView = this
+        thisView.setData({
+            changeCarvisible: false
+        });
+    },
+    carradioChange(res) {
+        var thisView = this;
+        var cph = res.detail.value;
+        this.setData({
+            cph: cph
+        })
+    },
+    confirmCar() {
+        var thisView = this
+        if (thisView.data.cph == '' || thisView.data.cph == '请选择车牌') {
+            Toast({
+                context: this,
+                selector: '#t-toast',
+                message: '请选择车牌号',
+                theme: 'warning',
+                direction: 'column',
+            });
+            return
+        }
+        wx.showLoading({
+            title: '确认更换...',
+        })
+        wx.request({
+            url: 'https://www.xiang-cloud.com/Api/Mini/index.ashx?act=ChangeDriverPlateNo',
+            data: {
+                plateNo: thisView.data.cph,
+            },
+            header: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Authorization': wx.getStorageSync("myToken")
+            },
+            method: 'POST',
+            success: function (res) {
+                var rtn = JSON.parse(JSON.stringify(res));
+                if (rtn == undefined || rtn == "")
+                    return;
+                var result = rtn.data;
+                try {
+                    if (result.ErrorDesc || result.ErrorCode || result.HasError) {
+                        let msg = (result.ErrorCode ? '(' + result.ErrorCode + ') ' : '') + result.ErrorDesc;
+                        thisView.setData({
+                            errDialogShow: true,
+                            errTitle: '提交失败',
+                            errinfo: msg,
+                            errConfirmBtn: {
+                                content: '确定',
+                                variant: 'base'
+                            }
+                        })
+                        return;
+                    } else if (typeof result === 'string' && result.match(/error/)) {
+                        thisView.setData({
+                            errDialogShow: true,
+                            errTitle: '提交失败',
+                            errinfo: result,
+                            errConfirmBtn: {
+                                content: '确定',
+                                variant: 'base'
+                            }
+                        })
+                        return;
+                    }
+                    thisView.setData({
+                        changeCarvisible: false
+                    });
+                    setTimeout(function () {
+                        wx.showToast({
+                            title: '更换成功',
+                        })
+                    }, 1000)
+                } catch (e) {
+                    throw e;
+                }
+            },
+            fail: function (res) {
+                wx.hideLoading()
+                thisView.setData({
+                    errDialogShow: true,
+                    errTitle: '提交失败',
+                    errinfo: res,
+                    errConfirmBtn: {
+                        content: '确定',
+                        variant: 'base'
+                    }
+                })
+            },
+            complete: function (res) {
+                wx.hideLoading()
+            },
+        })
+    },
+    addCar() {
+        var thisView = this
+        thisView.GetOwnerCompanyPlateNo();
+        thisView.setData({
+            changeCarvisible: true
+        });
+    },
     //新增挂靠
+    focusHandle() {
+        this.setData({
+            actionText: '搜索',
+        });
+    },
+
+    blurHandle() {
+        this.setData({
+            actionText: '搜索',
+        });
+    },
+    changeHandle(e) {
+        const {
+            value
+        } = e.detail;
+        this.setData({
+            searchCom: value
+        });
+    },
     onVisibleChange() {
         var thisView = this
         thisView.setData({
@@ -801,7 +1002,6 @@ Page({
                 var result = rtn.data;
                 thisView.getBindCom()
                 thisView.setData({
-                    items: [],
                     searchCom: '',
                     addvisible: false
                 })

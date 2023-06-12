@@ -9,7 +9,8 @@
             "name": "业务",
             "pages": [
                 "pages/login/login",
-                "pages/driverInfo/driverInfo"
+                "pages/driverInfo/driverInfo",
+                "pages/containerinout/containerinout"
             ]
         }
     ],
@@ -33,7 +34,12 @@
         "t-toast": "tdesign-miniprogram/toast/toast",
         "t-popup": "tdesign-miniprogram/popup/popup",
         "t-radio": "tdesign-miniprogram/radio/radio",
-        "t-radio-group": "tdesign-miniprogram/radio-group/radio-group"
+        "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
+        "t-footer": "tdesign-miniprogram/footer/footer",
+        "t-empty": "tdesign-miniprogram/empty/empty",
+        "t-search": "tdesign-miniprogram/search/search",
+        "t-picker": "tdesign-miniprogram/picker/picker",
+        "t-picker-item": "tdesign-miniprogram/picker-item/picker-item"
     },
     "window": {
         "backgroundTextStyle": "light",
