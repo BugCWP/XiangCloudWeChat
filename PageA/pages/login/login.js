@@ -294,7 +294,15 @@ Page({
             },
             method: 'POST',
             success: function (res) {
-                console.log(res)
+                thisView.setData({
+                    errTitle: '登录失败',
+                    errDialogShow: true,
+                    errinfo: res,
+                    errConfirmBtn: {
+                        content: '确认',
+                        variant: 'base'
+                    }
+                })
                 var rtn = JSON.parse(JSON.stringify(res));
                 if (rtn == undefined || rtn == "")
                     return;

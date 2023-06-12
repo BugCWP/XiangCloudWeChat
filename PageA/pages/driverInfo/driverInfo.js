@@ -261,7 +261,7 @@ Page({
         wx.chooseImage({
             count: 1,
             sizeType: ['compressed'],
-            sourceType: ['camera'],
+            sourceType: ['album', 'camera'],
             success: function (res) {
                 var tempFilePaths = res.tempFilePaths
                 wx.showLoading({
@@ -514,6 +514,18 @@ Page({
                         result.CrmDriverVehicleLicense.RegisterDate = result.CrmDriverVehicleLicense.RegisterDate.substring(0, 10)
                     if (result.CrmDriverVehicleLicense.IssueDate)
                         result.CrmDriverVehicleLicense.IssueDate = result.CrmDriverVehicleLicense.IssueDate.substring(0, 10)
+                }
+                if (result.DrivingLicense != null && result.DrivingLicense != '') {
+                    thisView.setData({
+                        defaultUpJiaShiZhengImage: 'https://www.xiang-cloud.com' + result.DrivingLicense,
+                    })
+
+                }
+                if (result.VehicleLicense != null && result.VehicleLicense != '') {
+                    thisView.setData({
+                        defaultUpXingShiZhengImage: 'https://www.xiang-cloud.com' + result.VehicleLicense,
+                    })
+
                 }
                 thisView.setData({
                     driverDetail: result,
