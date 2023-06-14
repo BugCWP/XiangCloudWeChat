@@ -10,7 +10,9 @@
             "pages": [
                 "pages/login/login",
                 "pages/driverInfo/driverInfo",
-                "pages/containerinout/containerinout"
+                "pages/containerinout/containerinout",
+                "pages/containerIn/containerIn",
+                "pages/containerOut/containerOut"
             ]
         }
     ],

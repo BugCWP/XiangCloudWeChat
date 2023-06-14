@@ -1,4 +1,5 @@
 // PageA/pages/containerinout/containerinout.js
+import Toast from 'tdesign-miniprogram/toast/index';
 Page({
 
     /**
@@ -19,11 +20,45 @@ Page({
     onLoad(options) {
 
     },
-    onPickerChange() {
-
+    //进场登记
+    YardIn() {
+        var thisView = this;
+        if (thisView.data.selectedYardName == "") {
+            Toast({
+                context: this,
+                selector: '#t-toast',
+                message: '请选择堆场',
+                theme: 'warning',
+                direction: 'column',
+            });
+        }
+        wx.navigateTo({
+            url: '../containerIn/containerIn?YardPositionId=' + thisView.data.selectedYard.id + '&YardPositionName=' + thisView.data.selectedYard.name + '&YardPositionAddress' + thisView.data.selectedYard.address, //页面路径
+        })
     },
-    onColumnChange() {
-
+    //提箱出场
+    YardOut() {
+        var thisView = this;
+    },
+    onPickerChange(e) {
+        var thisView = this;
+        var value = e.detail.value[0];
+        var label = e.detail.label[0];
+        for (var i = 0; i < thisView.data.YardPosition.length; i++) {
+            if (label == thisView.data.YardPosition[i].name) {
+                thisView.setData({
+                    selectedYard: {
+                        id: thisView.data.YardPosition[i].id,
+                        name: thisView.data.YardPosition[i].name,
+                        address: thisView.data.YardPosition[i].address,
+                    },
+                    selectedYardName: thisView.data.YardPosition[i].Name
+                });
+            }
+        }
+        thisView.setData({
+            selectedYardName: label
+        })
     },
     onPickerCancel() {
         this.setData({
@@ -55,7 +90,7 @@ Page({
                         address: res.data[i].Address,
                     })
                     YardPositionSelectData.push({
-                        label:res.data[i].Name,
+                        label: res.data[i].Name,
                         value: res.data[i].Id
                     })
                     if (thisView.data.selectedYardName == res.data[i].Name) {

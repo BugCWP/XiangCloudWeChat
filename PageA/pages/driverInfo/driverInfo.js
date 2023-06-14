@@ -524,7 +524,7 @@ Page({
                 if (result.VehicleLicense != null && result.VehicleLicense != '') {
                     thisView.setData({
                         defaultUpXingShiZhengImage: 'https://www.xiang-cloud.com' + result.VehicleLicense,
-                    })
+                    }) 
 
                 }
                 thisView.setData({

@@ -12,12 +12,12 @@
 }
 
 .minetitle {
-    height: 300rpx;
+    height: 320rpx;
     background-color: #a5040d;
     color: white;
     width: 100%;
     position: fixed;
-    top: 90px;
+    z-index: 200;
 }
 
 .body {
