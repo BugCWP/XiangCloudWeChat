@@ -41,7 +41,8 @@
         "t-empty": "tdesign-miniprogram/empty/empty",
         "t-search": "tdesign-miniprogram/search/search",
         "t-picker": "tdesign-miniprogram/picker/picker",
-        "t-picker-item": "tdesign-miniprogram/picker-item/picker-item"
+        "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
+        "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar"
     },
     "window": {
         "backgroundTextStyle": "light",

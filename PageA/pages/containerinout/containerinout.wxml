@@ -1,13 +1,12 @@
 <!--PageA/pages/containerinout/containerinout.wxml-->
 <view class="block">
     <t-navbar class="custom-navbar" title="进场出场" t-class-title="nav-title" left-arrow />
-
 </view>
 <view style="height: 978rpx; width: 750rpx; display: block; box-sizing: border-box">
     <image style="height:100%;width:100%;" src="../../../img/v2_rhoovt.png"></image>
 </view>
 <view style="position: absolute;width: 80%;left: 10%;top: 500rpx;">
-    <t-search value="{{selectedYardName}}" shape="round" center placeholder="请选择堆场" disabled bindtap="focusHandle" />
+    <t-search value="{{selectedYardName}}" shape="round" center placeholder="请选择堆场" disabled bindtap="focusHandle"/>
 </view>
 <view style="width:100%;margin-top: 10%;display: block;height: 14%;">
     <view style="width:30%;float:left;margin-left: 10%;">

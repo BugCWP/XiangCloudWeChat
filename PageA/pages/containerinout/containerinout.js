@@ -33,7 +33,7 @@ Page({
             });
         }
         wx.navigateTo({
-            url: '../containerIn/containerIn?YardPositionId=' + thisView.data.selectedYard.id + '&YardPositionName=' + thisView.data.selectedYard.name + '&YardPositionAddress' + thisView.data.selectedYard.address, //页面路径
+            url: '../containerIn/containerIn?YardPositionId=' + thisView.data.selectedYard.id + '&YardPositionName=' + thisView.data.selectedYard.name + '&YardPositionAddress=' + thisView.data.selectedYard.address, //页面路径
         })
     },
     //提箱出场

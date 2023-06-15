@@ -1,1 +1,25 @@
-/* PageA/pages/containerIn/containerIn.wxss */
+.custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+
+page {
+    background-color: #ddd;
+}
+
+.input-example {
+    --td-input-vertical-padding: 24rpx;
+
+    background-color: #fff;
+    padding: 32rpx 32rpx 16rpx;
+}
+
+.input-example__label {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 24rpx;
+    line-height: 40rpx;
+    margin: 0 8rpx 16rpx;
+}
+.button-example {
+    margin: 0 32rpx;
+  }

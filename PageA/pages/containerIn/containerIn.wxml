@@ -1,2 +1,63 @@
-<!--PageA/pages/containerIn/containerIn.wxml-->
-<text>PageA/pages/containerIn/containerIn.wxml</text>
+<view class="block">
+    <t-navbar class="custom-navbar" title="进场登记" t-class-title="nav-title" left-arrow />
+</view>
+<view style="background-color: white;width: 86%;height: auto;border-radius:10px;margin-left: 3%;margin-top: 10px;padding: 4%;">
+    <view style="line-height: 30px;">
+        <view style="font-weight: 600;">马上预约落箱！</view>
+        <view style="color: #a5040d;font-size: 20px;font-weight: 800;">{{YardPositionName}}</view>
+    </view>
+    <view style="line-height: 20px;">
+        <view style="font-size: 13px;color: gray;font-weight:600">{{YardPositionAddress}}</view>
+        <view style="font-size: 14px;color: rgb(233, 157, 66);">预约完成后，正面吊司机即可收到落箱任务；</view>
+    </view>
+</view>
+<view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+    <t-tabs defaultValue="{{0}}" t-class="custom-tabs" t-class-content="custom-panel">
+        <t-tab-panel label="业务检索" value="0">
+            <view style="background-color: #fff0ed;margin-bottom: 20px;">
+                <view style="display: flex;padding:10px 15px 0px 15px">
+                    <t-icon style="color:#ff826a;margin-right: 5px;" name="error-circle-filled" size="40rpx" data-name="error-circle-filled" />请点击"确认"，检索业务数据。
+                </view>
+                <view style="padding:2px 15px 10px 15px; ">本次检索，讲优先从预约过的业务中检索改集装箱业务数据；如没有预约，系统将自动从贵公司授权的系统中检索业务数据；</view>
+
+            </view>
+            <view class="input-example">
+                <t-input placeholder="请录入箱号" borderless="{{true}}" suffixIcon="{{ { name: 'search', ariaLabel: '提示' } }}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;" model:value="{{BoxNumber}}" />
+            </view>
+            <view class="button-example" style="margin-top:20px">
+                <t-button theme="primary" size="large" block icon="search" bindtap="firstClick">确认</t-button>
+            </view>
+        </t-tab-panel>
+        <t-tab-panel label="EIR检索" value="1">
+            <view style="background-color: #fff0ed;margin-bottom: 20px;">
+                <view style="display: flex;padding:10px 15px 0px 15px;">
+                    <t-icon style="color:#ff826a;margin-right: 5px;" name="error-circle-filled" size="40rpx" data-name="error-circle-filled" />从eir获取业务信息。
+                </view>
+                <view style="padding:2px 15px 10px 15px;display: flex; ">需要您录入箱号以及该集装箱持箱人的公司首字母代码、公司在箱云系统中的代码，或者eir账号代码，以便我们检索业务信息。</view>
+            </view>
+            <view class="input-example">
+                <t-input placeholder="请录入箱号" borderless="{{true}}" suffixIcon="{{ { name: 'search', ariaLabel: '提示' } }}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;"  model:value="{{BoxNumber}}"/>
+                <t-input placeholder="请录入公司代码" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;margin-top: 20px;"  model:value="{{FirmNo}}"/>
+            </view>
+            <view class="button-example" style="margin-top:20px">
+                <t-button theme="primary" size="large" block bindtap="secondClick" icon="cloud">从eir获取业务信息</t-button>
+            </view>
+        </t-tab-panel>
+        <t-tab-panel label="EIR截图" value="2">
+            <view style="background-color: #fff0ed;margin-bottom: 30px;padding-bottom: 10px;">
+                <view style="display: flex;padding:10px 15px 0px 15px;">
+                    <t-icon style="color:#ff826a;margin-right: 5px;" name="error-circle-filled" size="40rpx" data-name="error-circle-filled" />导入eir信息截屏的方式，实现自助预约！
+                </view>
+                <view style="padding:2px 15px 5px 15px;display: flex; ">将eir中的业务信息内容截屏保存，点击“导入eir截屏”导入截取图片，文字识别系统通过识别eir截屏，完成自助预约</view>
+                <view style="padding:2px 15px 10px 15px;display: flex; ">截屏样图：</view>
+                <view style="width: 94%;margin-left: 3%;text-align: center;">
+                    <t-image src="../../../img/eir.png" mode="heightFix" width="100%"/>
+                </view>
+            </view>
+            <view class="button-example" style="margin-top:20px">
+                <t-button theme="primary" size="large" block icon="cloud-upload" bindtap="goToCamer">导入eir截屏</t-button>
+            </view>
+        </t-tab-panel>
+    </t-tabs>
+</view>
+<t-toast id="t-toast" />
