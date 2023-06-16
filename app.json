@@ -12,7 +12,8 @@
                 "pages/driverInfo/driverInfo",
                 "pages/containerinout/containerinout",
                 "pages/containerIn/containerIn",
-                "pages/containerOut/containerOut"
+                "pages/containerOut/containerOut",
+                "pages/containerPay/containerPay"
             ]
         }
     ],

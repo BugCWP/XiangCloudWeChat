@@ -10,7 +10,20 @@ Page({
         YardPositionName: '',
         YardPositionAddress: '',
         BoxNumber: '',
-        FirmNo: ''
+        FirmNo: '',
+        cntrNo: '',
+        cntrTypeId: '',
+        cntrTypeCode: '',
+        containerOperatorId: '',
+        containerOperator: '',
+        billNo: '',
+        vesselName: '',
+        voyageNo: '',
+        portId: '',
+        port: '',
+        truckNo: '',
+        isEmpty: '',
+        IsEmptyName: ''
     },
 
     /**
@@ -81,11 +94,16 @@ Page({
             method: 'POST',
             success: function (res) {
                 if (res.data == '' || res.data.HasError) {
-                    var failMessage = res.data == '' ? '未查询到此数据' : res.data.ErrorDesc
-                    Toast.fail(failMessage);
+                    var failMessage = res.data == '' ? '未查询到此数据,请选择其他检索方式' : res.data.ErrorDesc
+                    Toast({
+                        context: this,
+                        selector: '#t-toast',
+                        message: failMessage,
+                        theme: 'warning',
+                        direction: 'column',
+                    });
                 } else {
                     thisView.setData({
-                        showPage: 6,
                         cntrNo: res.data.CntrNo,
                         cntrTypeId: res.data.ContainerTypeId,
                         cntrTypeCode: res.data.ContainerTypeName,
@@ -100,7 +118,7 @@ Page({
                         isEmpty: res.data.IsEmpty,
                         IsEmptyName: res.data.IsEmpty ? '空箱' : '重箱'
                     })
-                    that.GetContainerInFee();
+                    thisView.GetContainerInFee();
                 }
             },
             fail: function (res) {
@@ -112,21 +130,21 @@ Page({
         })
     },
     GetContainerInFee() {
-        var that = this;
+        var thisView = this;
         wx.request({
             url: 'https://www.xiang-cloud.com/Api/Mini/Yard.ashx?act=GetContainerInFee',
             data: {
-                billNo: that.data.billNo,
-                cntrNo: that.data.cntrNo,
-                cntrTypeCode: that.data.cntrTypeCode.slice(2),
-                cntrSizeCode: that.data.cntrTypeCode.substring(0, 2),
-                containerOperator: that.data.containerOperatorId,
-                vesselName: that.data.vesselName,
-                voyageNo: that.data.voyageNo,
-                port: that.data.port,
-                truckNo: that.data.truckNo,
-                isEmpty: that.data.isEmpty,
-                yadCompanyId: that.data.selectedYard.id
+                billNo: thisView.data.billNo,
+                cntrNo: thisView.data.cntrNo,
+                cntrTypeCode: thisView.data.cntrTypeCode.slice(2),
+                cntrSizeCode: thisView.data.cntrTypeCode.substring(0, 2),
+                containerOperator: thisView.data.containerOperatorId,
+                vesselName: thisView.data.vesselName,
+                voyageNo: thisView.data.voyageNo,
+                port: thisView.data.port,
+                truckNo: thisView.data.truckNo,
+                isEmpty: thisView.data.isEmpty,
+                yadCompanyId: thisView.data.selectedYard.id
             },
             header: {
                 'content-type': 'application/x-www-form-urlencoded',
