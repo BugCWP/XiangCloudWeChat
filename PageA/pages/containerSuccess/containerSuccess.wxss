@@ -1,0 +1,10 @@
+.custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+
+.demo-section__content {
+    margin-top: 25%;
+    width: 70%;
+    margin-left: 15%;
+  }

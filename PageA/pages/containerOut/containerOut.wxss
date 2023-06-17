@@ -1,1 +1,50 @@
-/* PageA/pages/containerOut/containerOut.wxss */
+.custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+
+page {
+    background-color: #ddd;
+    height: 100%;
+}
+
+.input-example {
+    --td-input-vertical-padding: 24rpx;
+
+    background-color: #fff;
+    padding: 32rpx 32rpx 16rpx;
+}
+
+.input-example__label {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 24rpx;
+    line-height: 40rpx;
+    margin: 0 8rpx 16rpx;
+}
+
+.button-example {
+    margin: 0 32rpx;
+}
+
+.input-example2 {
+    --td-input-vertical-padding: 24rpx;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.input-example__label2 {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 30rpx;
+    margin: 0 8rpx 16rpx;
+    flex: 1;
+}
+
+.button-example-zh {
+    margin: 0 32rpx;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rpx;
+}

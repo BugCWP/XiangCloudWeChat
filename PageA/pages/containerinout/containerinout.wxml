@@ -13,7 +13,7 @@
         <t-button theme="primary" size="large" shape="round" bindtap="YardIn" icon="edit-1">进场登记</t-button>
     </view>
     <view style="width:30%;float:left;margin-left: 20%;">
-        <t-button theme="primary" size="large" shape="round" bind:click="YardOut" icon='backtop-rectangle'>提箱出场</t-button>
+        <t-button theme="primary" size="large" shape="round" bind:click="YardOut" icon='backtop-rectangle'  bindtap="YardOut">登记提箱</t-button>
     </view>
 </view>
 <t-picker visible="{{pickVisible}}" value="{{selectedYardName}}" title="选择堆场" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">

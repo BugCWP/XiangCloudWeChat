@@ -1,4 +1,5 @@
 {
+    "functionalPages": true,
     "cloud": true,
     "pages": [
         "pages/main/main"
@@ -13,7 +14,7 @@
                 "pages/containerinout/containerinout",
                 "pages/containerIn/containerIn",
                 "pages/containerOut/containerOut",
-                "pages/containerPay/containerPay"
+                "pages/containerSuccess/containerSuccess"
             ]
         }
     ],
@@ -43,7 +44,11 @@
         "t-search": "tdesign-miniprogram/search/search",
         "t-picker": "tdesign-miniprogram/picker/picker",
         "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
-        "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar"
+        "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+        "t-collapse": "tdesign-miniprogram/collapse/collapse",
+        "t-collapse-panel": "tdesign-miniprogram/collapse-panel/collapse-panel",
+        "t-divider": "tdesign-miniprogram/divider/divider",
+        "t-result": "tdesign-miniprogram/result/result"
     },
     "window": {
         "backgroundTextStyle": "light",

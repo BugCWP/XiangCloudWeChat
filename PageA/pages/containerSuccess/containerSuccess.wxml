@@ -1,0 +1,13 @@
+<view class="block">
+    <t-navbar class="custom-navbar" title="进场登记" t-class-title="nav-title" left-arrow />
+</view>
+<view>
+    <view class="demo-section__content">
+        <t-result theme="{{theme}}" title="{{title}}" description="" />
+        <view style="height: auto;text-indent: 2em;color: rgb(170, 170, 170);font-size: 14px;">集装箱进场登记已经完成，到场后可直接落箱！</view>
+        <view style="height: auto;color: rgb(170, 170, 170);font-size: 14px;">{{description}}</view>
+    </view>
+    <view style="display: flex;margin-top: 50px;width: 60%;margin-left: 20%;">
+        <t-button theme="primary" size="large" block icon="check-circle-filled" bindtap="goback">确定</t-button>
+    </view>
+</view>

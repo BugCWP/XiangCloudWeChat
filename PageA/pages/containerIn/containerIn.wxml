@@ -11,7 +11,7 @@
         <view style="font-size: 14px;color: rgb(233, 157, 66);">预约完成后，正面吊司机即可收到落箱任务；</view>
     </view>
 </view>
-<view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+<view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;" wx:if="{{!showFree}}">
     <t-tabs defaultValue="{{0}}" t-class="custom-tabs" t-class-content="custom-panel">
         <t-tab-panel label="业务检索" value="0">
             <view style="background-color: #fff0ed;margin-bottom: 20px;">
@@ -36,28 +36,134 @@
                 <view style="padding:2px 15px 10px 15px;display: flex; ">需要您录入箱号以及该集装箱持箱人的公司首字母代码、公司在箱云系统中的代码，或者eir账号代码，以便我们检索业务信息。</view>
             </view>
             <view class="input-example">
-                <t-input placeholder="请录入箱号" borderless="{{true}}" suffixIcon="{{ { name: 'search', ariaLabel: '提示' } }}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;"  model:value="{{BoxNumber}}"/>
-                <t-input placeholder="请录入公司代码" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;margin-top: 20px;"  model:value="{{FirmNo}}"/>
+                <t-input placeholder="请录入箱号" borderless="{{true}}" suffixIcon="{{ { name: 'search', ariaLabel: '提示' } }}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;" model:value="{{BoxNumber}}" />
+                <t-input placeholder="请录入公司代码" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;margin-top: 20px;" model:value="{{FirmNo}}" />
             </view>
             <view class="button-example" style="margin-top:20px">
                 <t-button theme="primary" size="large" block bindtap="secondClick" icon="cloud">从eir获取业务信息</t-button>
             </view>
         </t-tab-panel>
         <t-tab-panel label="EIR截图" value="2">
-            <view style="background-color: #fff0ed;margin-bottom: 30px;padding-bottom: 10px;">
-                <view style="display: flex;padding:10px 15px 0px 15px;">
-                    <t-icon style="color:#ff826a;margin-right: 5px;" name="error-circle-filled" size="40rpx" data-name="error-circle-filled" />导入eir信息截屏的方式，实现自助预约！
+            <view wx:if="{{!showEirData}}">
+                <view style="background-color: #fff0ed;margin-bottom: 30px;padding-bottom: 10px;">
+                    <view style="display: flex;padding:10px 15px 0px 15px;">
+                        <t-icon style="color:#ff826a;margin-right: 5px;" name="error-circle-filled" size="40rpx" data-name="error-circle-filled" />导入eir信息截屏的方式，实现自助预约！
+                    </view>
+                    <view style="padding:2px 15px 5px 15px;display: flex; ">将eir中的业务信息内容截屏保存，点击“导入eir截屏”导入截取图片，文字识别系统通过识别eir截屏，完成自助预约</view>
+                    <view style="padding:2px 15px 10px 15px;display: flex; ">截屏样图：</view>
+                    <view style="width: 94%;margin-left: 3%;text-align: center;">
+                        <t-image src="../../../img/eir.png" mode="heightFix" width="100%" />
+                    </view>
                 </view>
-                <view style="padding:2px 15px 5px 15px;display: flex; ">将eir中的业务信息内容截屏保存，点击“导入eir截屏”导入截取图片，文字识别系统通过识别eir截屏，完成自助预约</view>
-                <view style="padding:2px 15px 10px 15px;display: flex; ">截屏样图：</view>
-                <view style="width: 94%;margin-left: 3%;text-align: center;">
-                    <t-image src="../../../img/eir.png" mode="heightFix" width="100%"/>
+                <view class="button-example" style="margin-top:20px">
+                    <t-button theme="primary" size="large" block icon="cloud-upload" bindtap="goToCamer">导入eir截屏</t-button>
                 </view>
             </view>
-            <view class="button-example" style="margin-top:20px">
-                <t-button theme="primary" size="large" block icon="cloud-upload" bindtap="goToCamer">导入eir截屏</t-button>
+            <view wx:if="{{showEirData}}">
+                <view style="background-color: #fff0ed;margin-bottom: 10px;padding-bottom: 10px;">
+                    <view style="display: flex;padding:10px 15px 0px 15px;text-indent: 2em;">
+                        因受计算机视觉识别技术的限制，识别结果有一定的错误率，请仔细复核上述识别结果，发现错误及时更正，避免造成不必要的损失。
+                    </view>
+                </view>
+                <view class="wrapper">
+                    <view style="width: 94%;margin-left: 3%;text-align: center;margin-bottom: 10px;">
+                        <t-image src="{{eirsrc}}" mode="heightFix" width="100%" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 箱营运人： </view>
+                        <t-input placeholder="请输入箱营运人" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{containerOperator}}" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 车牌： </view>
+                        <t-input placeholder="请输入车牌" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{truckNo}}" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 提单号： </view>
+                        <t-input placeholder="请输入提单号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{billNo}}" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 箱号/箱型： </view>
+                        <t-input placeholder="请输入箱号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{cntrNo}}" />
+                        <t-input placeholder="请输入箱型" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{cntrTypeCode}}" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 船名/航次： </view>
+                        <t-input placeholder="请输入船名" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{vesselName}}" />
+                        <t-input placeholder="请输入航次" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{voyageNo}}" />
+                    </view>
+                    <view class="input-example2">
+                        <view class="input-example__label2"> 进箱港区： </view>
+                        <t-input placeholder="请输入进箱港区" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{port}}" />
+                    </view>
+                </view>
+                <view class="button-example-zh" style="margin-top:20px">
+                    <t-button theme="light" block size="large" icon="cloud-upload" bindtap="goToCamer">重新导入</t-button>
+                    <t-button theme="primary" block size="large" icon="check-circle" bindtap="InformationConfirm">信息确认</t-button>
+                </view>
             </view>
         </t-tab-panel>
     </t-tabs>
+</view>
+<view wx:if="{{showFree}}">
+    <view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+        <view class="wrapper">
+            <view style="font-size: 18px;font-weight: 600;margin-top: 15px;">业务信息</view>
+            <t-divider />
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱营运人： </view>
+                <t-input placeholder="请输入箱营运人" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{containerOperator}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 车牌： </view>
+                <t-input placeholder="请输入车牌" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{truckNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 提单号： </view>
+                <t-input placeholder="请输入提单号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{billNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱号/箱型： </view>
+                <t-input placeholder="请输入箱号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{cntrNo}}" />
+                <t-input placeholder="请输入箱型" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{cntrTypeCode}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 船名/航次： </view>
+                <t-input placeholder="请输入船名" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{vesselName}}" />
+                <t-input placeholder="请输入航次" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{voyageNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 进箱港区： </view>
+                <t-input placeholder="请输入进箱港区" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{port}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱状态： </view>
+                <t-input placeholder="请输入进箱港区" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{IsEmptyName}}" />
+            </view>
+        </view>
+    </view>
+    <view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+        <view class="wrapper">
+            <view style="font-size: 18px;font-weight: 600;margin-top: 15px;">费用详情</view>
+            <t-divider />
+            <view style="display: flex;height: 40px;text-align: center;justify-content: center;line-height: 40px;" wx:for="{{Feedetail}}" wx:for-index="{{index}}" wx:for-item="cell" wx:key="index">
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.FeeTypeName}}</view>
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.Amount}}</view>
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.SettlementTypeName}}</view>
+            </view>
+            <view style="height: 20px;"></view>
+            <view style="background-color: #fff0ed;margin-bottom: 10px;">
+                <view style="display: flex;padding:10px 15px 0px 15px;font-size: 16px;">
+                    现付金额:<view style="color: red;font-weight: 600;">{{AmountSum}}</view>元;
+                </view>
+                <view style="padding:2px 15px 10px 15px; color: gray;font-size: 13px;"> 剩余金额在集装箱提离场地时支付，收费标准详见以下《堆场收费标准查询》。</view>
+            </view>
+        </view>
+    </view>
+
+</view>
+<view style="height: 100px;"></view>
+<view style="width:90%;position: fixed;bottom: 3%;left: 5%;display: flex;" wx:if="{{showFree}}">
+    <view style="flex: 2;background-color: #a5040d;line-height: 50px;font-size: 20px;padding-left: 20px;border-radius: 20px 0 0 20px;color: white;font-weight: 600;">现付:{{AmountSum}}元</view>
+    <view style="flex: 1;background-color: rgb(97, 97, 97);color: white;line-height: 50px;font-size: 17px;text-align: right;padding-right: 20px;border-radius:0 20px  20px  0; font-weight: 600;" bindtap="submitOrder">提交订单</view>
 </view>
 <t-toast id="t-toast" />

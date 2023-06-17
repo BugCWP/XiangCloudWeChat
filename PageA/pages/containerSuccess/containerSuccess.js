@@ -1,11 +1,13 @@
-// PageA/pages/containerPay/containerPay.js
+// PageA/pages/containerSuccess/containerSuccess.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+        theme:'success',
+        title:'提交成功',
+        description:'场内限速5KM/小时，请勿超速；到场后，请在选择安全区域下车，打开集装箱角件锁扣；本堆场不接受危险品集装箱，违者后果自行承担；如您业务数据为手工填写，后续可跟堆场联系，达成长期协议，以便您后续简化登记手续。'
     },
 
     /**
@@ -14,7 +16,11 @@ Page({
     onLoad(options) {
 
     },
-
+    goback(){
+        wx.redirectTo({
+          url: '../../../pages/main/main',
+        })
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

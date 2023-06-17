@@ -1,2 +1,90 @@
-<!--PageA/pages/containerOut/containerOut.wxml-->
-<text>PageA/pages/containerOut/containerOut.wxml</text>
+<view class="block">
+    <t-navbar class="custom-navbar" title="提箱出场" t-class-title="nav-title" left-arrow />
+</view>
+<view style="background-color: white;width: 86%;height: auto;border-radius:10px;margin-left: 3%;margin-top: 10px;padding: 4%;" wx:if="{{showFree}}">
+    <view style="line-height: 30px;">
+        <view style="color: #a5040d;font-size: 20px;font-weight: 800;">{{YardPositionName}}</view>
+    </view>
+    <view style="line-height: 20px;">
+        <view style="font-size: 13px;color: gray;font-weight:600">{{YardPositionAddress}}</view>
+        <view style="font-size: 14px;color: rgb(233, 157, 66);">费用支付完成后，即可安排车辆从堆场提箱进港；</view>
+    </view>
+</view>
+<view style="background-color: white;width: 100%;height: 100%;border-radius:10px;" wx:if="{{!showFree}}">
+    <view style="width: 100%;">
+        <t-image src="../../../img/yardOut.png" width="100%" mode="widthFix" />
+    </view>
+    <view style="width: 80%;margin-left: 10%;margin-top: 30px;background-color: white;z-index: 1000;">
+        <view class="input-example">
+            <t-input placeholder="请录入箱号" borderless="{{true}}" suffixIcon="{{ { name: 'search', ariaLabel: '提示' } }}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 50rpx;" model:value="{{BoxNumber}}" />
+        </view>
+    </view>
+    <view style="width: 80%;margin-left: 10%;">
+        <view class="button-example" style="margin-top:100px">
+            <t-button theme="primary" size="large" block icon="search" bindtap="firstClick">确认</t-button>
+        </view>
+    </view>
+</view>
+<view wx:if="{{showFree}}">
+    <view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+        <view class="wrapper">
+            <view style="font-size: 18px;font-weight: 600;margin-top: 15px;">业务信息</view>
+            <t-divider />
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱营运人： </view>
+                <t-input placeholder="请输入箱营运人" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{containerOperator}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 车牌： </view>
+                <t-input placeholder="请输入车牌" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{truckNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 提单号： </view>
+                <t-input placeholder="请输入提单号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{billNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱号/箱型： </view>
+                <t-input placeholder="请输入箱号" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{cntrNo}}" />
+                <t-input placeholder="请输入箱型" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{cntrTypeCode}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 船名/航次： </view>
+                <t-input placeholder="请输入船名" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 2;" model:value="{{vesselName}}" />
+                <t-input placeholder="请输入航次" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 1;" model:value="{{voyageNo}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 进箱港区： </view>
+                <t-input placeholder="请输入进箱港区" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{port}}" />
+            </view>
+            <view class="input-example2">
+                <view class="input-example__label2"> 箱状态： </view>
+                <t-input placeholder="请输入进箱港区" borderless="{{true}}" style="border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;padding: 6px;flex: 3;" model:value="{{IsEmptyName}}" />
+            </view>
+        </view>
+    </view>
+    <view style="background-color: white;width: 86%;padding: 4%;margin-left: 3%;height: auto;border-radius:10px;margin-top: 10px;padding-top: 5px;">
+        <view class="wrapper">
+            <view style="font-size: 18px;font-weight: 600;margin-top: 15px;">费用详情</view>
+            <t-divider />
+            <view style="display: flex;height: 40px;text-align: center;justify-content: center;line-height: 40px;" wx:for="{{Feedetail}}" wx:for-index="{{index}}" wx:for-item="cell" wx:key="index">
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.FeeTypeName}}</view>
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.Amount}}</view>
+                <view style="border: 1px solid rgb(194, 194, 194);flex: 1;">{{cell.SettlementTypeName}}</view>
+            </view>
+            <view style="height: 20px;"></view>
+            <view style="background-color: #fff0ed;margin-bottom: 10px;">
+                <view style="display: flex;padding:10px 15px 0px 15px;font-size: 16px;">
+                    现付金额:<view style="color: red;font-weight: 600;">{{AmountSum}}</view>元;
+                </view>
+                <view style="padding:2px 15px 10px 15px; color: gray;font-size: 13px;"> 剩余金额在集装箱提离场地时支付，收费标准详见以下《堆场收费标准查询》。</view>
+            </view>
+        </view>
+    </view>
+
+</view>
+<view style="height: 100px;"></view>
+<view style="width:90%;position: fixed;bottom: 3%;left: 5%;display: flex;" wx:if="{{showFree}}">
+    <view style="flex: 2;background-color: #a5040d;line-height: 50px;font-size: 20px;padding-left: 20px;border-radius: 20px 0 0 20px;color: white;font-weight: 600;">现付:{{AmountSum}}元</view>
+    <view style="flex: 1;background-color: rgb(97, 97, 97);color: white;line-height: 50px;font-size: 17px;text-align: right;padding-right: 20px;border-radius:0 20px  20px  0; font-weight: 600;" bindtap="submitOrder">提交订单</view>
+</view>
+<t-toast id="t-toast" />

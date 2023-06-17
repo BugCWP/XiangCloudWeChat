@@ -587,7 +587,7 @@ Page({
         var thisView = this
         if (thisView.data.userName == '') {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '司机姓名不能为空',
                 theme: 'warning',
@@ -597,7 +597,7 @@ Page({
         }
         if (thisView.data.plateNo == '') {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '车牌号码不能为空',
                 theme: 'warning',
@@ -608,7 +608,7 @@ Page({
         var regExp = /(^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$)/;
         if (!(/(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/.test(thisView.data.plateNo))) {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '请输入正确的车牌号',
                 theme: 'warning',
@@ -697,7 +697,7 @@ Page({
         var thisView = this
         if (thisView.data.cph == '' || thisView.data.cph == '请选择车牌') {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '请选择车牌号',
                 theme: 'warning',
@@ -974,7 +974,7 @@ Page({
         }
         if (selectedCompanyName == '') {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '请点击搜索，选择正确的挂靠公司',
                 theme: 'warning',
@@ -984,7 +984,7 @@ Page({
         }
         if ((idCompanyVal == undefined || idCompanyVal == null || idCompanyVal == "" || idCompanyVal == 0) && thisView.data.searchCom == '') {
             Toast({
-                context: this,
+                context: thisView,
                 selector: '#t-toast',
                 message: '请选择公司',
                 theme: 'warning',
