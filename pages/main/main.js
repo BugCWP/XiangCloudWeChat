@@ -63,6 +63,11 @@ Page({
             })
         }
     },
+    goOceanShipping(){
+        wx.navigateTo({
+            url: '../../PageA/pages/oceanShipping/oceanShipping',
+        })
+    },
     //进场出场
     gocontainerinout() {
         wx.navigateTo({

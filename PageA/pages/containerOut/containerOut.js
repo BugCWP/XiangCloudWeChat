@@ -27,7 +27,7 @@ Page({
         showEirData: false,
         activeValues: [0],
         showFree: false,
-         Feedetail: [],
+        Feedetail: [],
         AmountSum: 0,
         version: 'develop',
         eirsrc: '',
@@ -81,26 +81,43 @@ Page({
     },
     submitOrder() {
         var thisView = this;
-        var version = thisView.data.version;
-        var currencyType = 'CNY';
-        var paymentArgs = {};
-        var fee = thisView.AmountSum * 100;
-        fee = 1;
         if (this.data.AmountSum == 0) {
             thisView.SubmitContainerIn();
         } else {
-            wx.requestPluginPayment({
-                fee,
-                paymentArgs,
-                currencyType,
-                version,
-                success(r) {
-                    debugger
-                    thisView.SubmitContainerIn();
+            wx.request({
+                url: 'https://www.xiang-cloud.com/Api/Mini/Yard.ashx?act=ContainerInPay',
+                data: {
+                    sessionId: wx.getStorageSync('session_key'),
+                    companyId: thisView.data.YardPositionId,
+                    amount: thisView.data.AmountSum
                 },
-                fail(e) {
-                    console.error(e)
-                }
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'Authorization': wx.getStorageSync('myToken')
+                },
+                method: 'POST',
+                success: function (res) {
+                    console.log(res);
+                    wx.requestPayment({
+                        timeStamp: res.data.prePay.timeStamp,
+                        nonceStr: res.data.prePay.nonceStr,
+                        package: res.data.prePay.package,
+                        signType: res.data.prePay.signType,
+                        paySign: res.data.prePay.paySign,
+                        success(r) {
+                            thisView.SubmitContainerIn();
+                        },
+                        fail(e) {
+                            console.error(e)
+                        }
+                    })
+                },
+                fail: function (res) {
+                    wx.hideLoading()
+                },
+                complete: function (res) {
+                    wx.hideLoading()
+                },
             })
         }
     },

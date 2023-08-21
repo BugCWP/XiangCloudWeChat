@@ -200,6 +200,7 @@ Page({
                                 var myresRtn = JSON.parse(JSON.stringify(myres));
                                 if (myresRtn == undefined || myresRtn == "")
                                     return;
+                                wx.setStorageSync('session_key', myresRtn.data);
                                 wx.request({
                                     url: "https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=LoginByViaWeXinPhone",
                                     data: {
@@ -448,32 +449,6 @@ Page({
             url: '../../../pages/mainform/mainform',
         })
     },
-    getjscode2session(js_code) {
-        var thisView = this;
-        wx.request({
-            url: 'https://api.weixin.qq.com/sns/jscode2session',
-            data: {
-                appid: 'wx29db92d7ac791a0f',
-                secret: '2cf25582f67e91e8cf9a830b32725b2b',
-                js_code: js_code,
-                grant_type: 'authorization_code'
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success: function (myres) {
-                var rtn = JSON.parse(JSON.stringify(myres));
-                if (rtn == undefined || rtn == "")
-                    return;
-                thisView.setData({
-                    openid: rtn.data.openid,
-                    unionId: rtn.data.unionId
-                })
-                wx.setStorageSync('unionId', rtn.data.unionid);
-            },
-            fail: function (err) {}
-        })
-    },
     getWeXinLogin(e) {
         var thisView = this;
         wx.request({
@@ -491,6 +466,7 @@ Page({
                 thisView.setData({
                     session_key: rtn.data,
                 })
+                wx.setStorageSync('session_key', rtn.data);
             },
             fail: function (err) {}
         })

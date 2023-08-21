@@ -14,7 +14,8 @@
                 "pages/containerinout/containerinout",
                 "pages/containerIn/containerIn",
                 "pages/containerOut/containerOut",
-                "pages/containerSuccess/containerSuccess"
+                "pages/containerSuccess/containerSuccess",
+                "pages/oceanShipping/oceanShipping"
             ]
         }
     ],

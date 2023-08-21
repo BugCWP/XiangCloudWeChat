@@ -31,6 +31,7 @@ Page({
         theme: 'warning',
         direction: 'column',
       });
+      return;
     }
     wx.navigateTo({
       url: '../containerIn/containerIn?YardPositionId=' + thisView.data.selectedYard.id + '&YardPositionName=' + thisView.data.selectedYard.name + '&YardPositionAddress=' + thisView.data.selectedYard.address, //页面路径
@@ -47,6 +48,7 @@ Page({
         theme: 'warning',
         direction: 'column',
       });
+      return;
     }
     wx.navigateTo({
       url: '../containerOut/containerOut?YardPositionId=' + thisView.data.selectedYard.id + '&YardPositionName=' + thisView.data.selectedYard.name + '&YardPositionAddress=' + thisView.data.selectedYard.address, //页面路径
