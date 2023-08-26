@@ -25,7 +25,17 @@ Page({
             }
         ],
         imgTemp: '',
-        photographNum:0
+        photographNum: 0,
+        dataArray:[
+            {
+                Id:1,
+                srcImg:'../../../img/yardOut.png',
+                packageNo:'111',
+                guandanhao:'222',
+                packageType:'3333',
+                liushuihao:'4444'
+            }
+        ]
     },
 
     /**
@@ -167,161 +177,141 @@ Page({
     getspecifieddata(filePath) {
         var thisView = this;
         var apiUrl = "https://www.xiang-cloud.com/Api/Mini/Index.ashx?act=OcrBoxPackingDoorPhoto";
-    
+
         wx.showLoading({
-          title: '正在识别箱照...',
-          mask: true
+            title: '正在识别箱照...',
+            mask: true
         })
-    
+
         wx.request({
-          url: apiUrl,
-          data: {
-            doorPhoto: filePath
-          },
-          header: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'Authorization': wx.getStorageSync('myToken')
-          },
-          method: 'POST',
-          success: function (res) {
-            wx.hideLoading()
-            var rtn = JSON.parse(JSON.stringify(res));
-            if (rtn == undefined || rtn == "")
-              return;
-            if (thisView.data.photographNum == 2) {
-              thisView.setData({
-                directUpload: false
-              })
-              return
-            }
-            var result = rtn.data;
-    
-            if (result.ErrorDesc != null && result.ErrorDesc != "") {
-              thisView.setData({
-                modalSuccessHidden: false,
-                successinfo: result.ErrorDesc,
-                photographNum: thisView.data.photographNum + 1
-              })
-    
-              if (result.ErrorDesc.indexOf('未找到相关数据') < 0) {
-                thisView.setData({
-                  failRecords: thisView.data.failRecords + 1
-                })
-              }
-    
-              // if (thisView.data.failRecords == 3) {
-              //   thisView.scanBarcodeAndUploadImage(filePath);
-    
-              // }
-            } else {
-              for (var i = 0; i < thisView.data.dataArray.length; i++) {
-                if (thisView.data.dataArray[i]["packageNo"] == result.CntrNo) {
-                  thisView.setData({
-                    modalSuccessHidden: false,
-                    modalTitle: '错误信息',
-                    successinfo: '请勿重复识别相同箱号'
-                  })
-    
-                  return;
-                }
-              }
-    
-              debugger
-    
-              var arrData = thisView.data.dataArray;
-              var obj = {};
-              obj.Id = result.Id;
-              obj.srcImg = filePath;
-              obj.packageNo = result.CntrNo;
-              obj.packageType = result.CntrSizeCode + result.CntrTypeCode;
-              obj.guandanhao = result.BillNo;
-              obj.liushuihao = result.BizNo;
-              obj.importImageTitle = '继续拍照';
-              obj.completeDate = result.CompleteDate;
-              obj.createdDate = result.CreatedDate;
-              arrData.push(obj);
-    
-              var arrList = JSON.parse(JSON.stringify(arrData));
-    
-              thisView.setData({
-                dataArray: arrList,
-                failRecords: 0
-              })
-              let sysres = wx.getSystemInfoSync();
-              if (sysres.platform == 'ios') {
-                wx.saveImageToPhotosAlbum({
-                  filePath: filePath,
-                  success: function (data) {
-                    console.log(data)
-                    wx.hideLoading()
-                    wx.showToast({
-                      title: '保存成功',
-                      icon: 'success',
-                      duration: 2000
+            url: apiUrl,
+            data: {
+                doorPhoto: filePath
+            },
+            header: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Authorization': wx.getStorageSync('myToken')
+            },
+            method: 'POST',
+            success: function (res) {
+                wx.hideLoading()
+                var rtn = JSON.parse(JSON.stringify(res));
+                if (rtn == undefined || rtn == "")
+                    return;
+                if (thisView.data.photographNum == 2) {
+                    thisView.setData({
+                        directUpload: false
                     })
-                  },
-                  fail: function (err) {
-                    console.log(err);
-                    if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny" || err.errMsg === "saveImageToPhotosAlbum:fail:auth denied") {
-                      console.log("当初用户拒绝，再次发起授权")
-                      wx.showModal({
-                        title: '提示',
-                        content: '需要您授权保存相册',
-                        showCancel: false,
-                        success: modalSuccess => {
-                          wx.openSetting({
-                            success(settingdata) {
-                              console.log("settingdata", settingdata)
-                              if (settingdata.authSetting['scope.writePhotosAlbum']) {
-                                wx.showModal({
-                                  title: '提示',
-                                  content: '获取权限成功',
-                                  showCancel: false,
-                                })
-                              } else {
-                                wx.showModal({
-                                  title: '提示',
-                                  content: '获取权限失败，将无法保存到相册',
-                                  showCancel: false,
-                                })
-                              }
-                            },
-                            fail(failData) {
-                              console.log("failData", failData)
-                            },
-                            complete(finishData) {
-                              console.log("finishData", finishData)
-                            }
-                          })
+                    return
+                }
+                var result = rtn.data;
+
+                if (result.ErrorDesc != null && result.ErrorDesc != "") {
+                    thisView.setData({
+                        modalSuccessHidden: false,
+                        successinfo: result.ErrorDesc,
+                        photographNum: thisView.data.photographNum + 1
+                    })
+                } else {
+                    for (var i = 0; i < thisView.data.dataArray.length; i++) {
+                        if (thisView.data.dataArray[i]["packageNo"] == result.CntrNo) {
+                            thisView.setData({
+                                modalSuccessHidden: false,
+                                modalTitle: '错误信息',
+                                successinfo: '请勿重复识别相同箱号'
+                            })
+                            return;
                         }
-                      })
                     }
-                  },
-                  complete(res) {
-                    console.log(res);
-                    wx.hideLoading()
-                  }
-                })
-              }
-              wx.setStorageSync('saveIdsArray', thisView.data.dataArray);
-    
-              wx.navigateTo({
-                url: '../packagephoto/packagephoto?id=' + result.Id + '&packageNo=' + result.CntrNo +
-                  '&packageType=' + result.CntrSizeCode + result.CntrTypeCode + '&guandanhao=' + result.BillNo +
-                  '&liushuihao=' + result.BizNo + '&srcImg=' + filePath
-              })
-    
-              thisView.refreshData('');
-            }
-          },
-          fail: function (res) {
-            wx.hideLoading()
-          },
-          complete: function (res) {
-            wx.hideLoading()
-          },
+                    var arrData = thisView.data.dataArray;
+                    var obj = {};
+                    obj.Id = result.Id;
+                    obj.srcImg = filePath;
+                    obj.packageNo = result.CntrNo;
+                    obj.packageType = result.CntrSizeCode + result.CntrTypeCode;
+                    obj.guandanhao = result.BillNo;
+                    obj.liushuihao = result.BizNo;
+                    obj.importImageTitle = '继续拍照';
+                    obj.completeDate = result.CompleteDate;
+                    obj.createdDate = result.CreatedDate;
+                    arrData.push(obj);
+
+                    var arrList = JSON.parse(JSON.stringify(arrData));
+
+                    thisView.setData({
+                        dataArray: arrList
+                    })
+                    let sysres = wx.getSystemInfoSync();
+                    if (sysres.platform == 'ios') {
+                        wx.saveImageToPhotosAlbum({
+                            filePath: filePath,
+                            success: function (data) {
+                                console.log(data)
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '保存成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                            },
+                            fail: function (err) {
+                                if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny" || err.errMsg === "saveImageToPhotosAlbum:fail:auth denied") {
+                                    console.log("当初用户拒绝，再次发起授权")
+                                    wx.showModal({
+                                        title: '提示',
+                                        content: '需要您授权保存相册',
+                                        showCancel: false,
+                                        success: modalSuccess => {
+                                            wx.openSetting({
+                                                success(settingdata) {
+                                                    console.log("settingdata", settingdata)
+                                                    if (settingdata.authSetting['scope.writePhotosAlbum']) {
+                                                        wx.showModal({
+                                                            title: '提示',
+                                                            content: '获取权限成功',
+                                                            showCancel: false,
+                                                        })
+                                                    } else {
+                                                        wx.showModal({
+                                                            title: '提示',
+                                                            content: '获取权限失败，将无法保存到相册',
+                                                            showCancel: false,
+                                                        })
+                                                    }
+                                                },
+                                                fail(failData) {
+                                                    console.log("failData", failData)
+                                                },
+                                                complete(finishData) {
+                                                    console.log("finishData", finishData)
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            },
+                            complete(res) {
+                                wx.hideLoading()
+                            }
+                        })
+                    }
+                    wx.setStorageSync('saveIdsArray', thisView.data.dataArray);
+
+                    wx.navigateTo({
+                        url: '../oceanPackagephoto/oceanPackagephoto?id=' + result.Id + '&packageNo=' + result.CntrNo +
+                            '&packageType=' + result.CntrSizeCode + result.CntrTypeCode + '&guandanhao=' + result.BillNo +
+                            '&liushuihao=' + result.BizNo + '&srcImg=' + filePath
+                    })
+                }
+            },
+            fail: function (res) {
+                wx.hideLoading()
+            },
+            complete: function (res) {
+                wx.hideLoading()
+            },
         })
-      },
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

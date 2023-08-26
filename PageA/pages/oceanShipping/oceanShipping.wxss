@@ -12,3 +12,14 @@ page {
   .external-class {
     border-radius: 0 !important;
   }
+
+  .card {
+    width: 92%;
+    background: white;
+    border-radius: 15rpx;
+    margin:2%;
+    margin-top: 30rpx;
+    padding: 2%;
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
+  }
