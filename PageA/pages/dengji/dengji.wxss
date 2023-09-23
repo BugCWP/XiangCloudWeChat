@@ -1,0 +1,51 @@
+/* packageA/pages/driverInfo/driverInfo.wxss */
+page{
+    background-color: #efeff4;
+    font-size: 30rpx;
+  }
+  
+  .viewClass{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    
+  }
+  
+  .imageHeadStyle{
+    margin: 20rpx 0rpx;
+    height: 150rpx;
+    width: 150rpx;
+    border-radius: 50%;  
+  }
+  
+  .radio-group {
+    border-bottom: 1px solid #ddd;
+    display:flex;
+    flex-direction:column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content:left;
+    align-items:flex-start;
+    margin-left: 10px;
+  }
+  .radio {
+    border-top: 0px solid #ddd;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+
+.button-example {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 32rpx 32rpx;
+}
+
+.external-class {
+  border-radius: 0 !important;
+}

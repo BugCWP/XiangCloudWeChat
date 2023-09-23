@@ -16,8 +16,14 @@
                 "pages/containerOut/containerOut",
                 "pages/containerSuccess/containerSuccess",
                 "pages/oceanShipping/oceanShipping",
-                "pages/oceanPackagephoto",
-                "pages/oceanPackagephoto/oceanPackagephoto"
+                "pages/oceanPackagephoto/oceanPackagephoto",
+                "pages/barcodelist/barcodelist",
+                "pages/railwaypackage/railwaypackage",
+                "pages/dengji/dengji",
+                "pages/railwaypackagephoto/railwaypackagephoto",
+                "pages/railwaypackagestep/railwaypackagestep",
+                "pages/railwayImport/railwayImport",
+                "pages/railwayEmpty/railwayEmpty"
             ]
         }
     ],
@@ -51,7 +57,10 @@
         "t-collapse": "tdesign-miniprogram/collapse/collapse",
         "t-collapse-panel": "tdesign-miniprogram/collapse-panel/collapse-panel",
         "t-divider": "tdesign-miniprogram/divider/divider",
-        "t-result": "tdesign-miniprogram/result/result"
+        "t-result": "tdesign-miniprogram/result/result",
+        "t-switch": "tdesign-miniprogram/switch/switch",
+        "t-cell": "tdesign-miniprogram/cell/cell",
+        "t-textarea": "tdesign-miniprogram/textarea/textarea"
     },
     "window": {
         "backgroundTextStyle": "light",

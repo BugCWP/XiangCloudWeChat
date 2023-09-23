@@ -39,7 +39,7 @@ let RadioGroup = class RadioGroup extends SuperComponent {
         ];
         this.observers = {
             value(v) {
-                this.getChilds().forEach((item) => {
+                this.getChildren().forEach((item) => {
                     item.setData({
                         checked: v === item.data.value,
                     });
@@ -50,7 +50,7 @@ let RadioGroup = class RadioGroup extends SuperComponent {
             },
         };
         this.methods = {
-            getChilds() {
+            getChildren() {
                 let items = this.$children;
                 if (!(items === null || items === void 0 ? void 0 : items.length)) {
                     items = this.selectAllComponents(`.${prefix}-radio-option`);
@@ -61,8 +61,9 @@ let RadioGroup = class RadioGroup extends SuperComponent {
                 this._trigger('change', { value });
             },
             handleRadioChange(e) {
-                const { value, index } = e.target.dataset;
-                this._trigger('change', { value, index });
+                const { checked } = e.detail;
+                const { value, index, allowUncheck } = e.target.dataset;
+                this._trigger('change', checked === false && allowUncheck ? { value: null, index } : { value, index });
             },
             initWithOptions() {
                 const { options, value, keys } = this.data;

@@ -19,6 +19,10 @@ export interface TdNoticeBarProps {
         type: StringConstructor;
         value?: string;
     };
+    interval: {
+        type: NumberConstructor;
+        value: number;
+    };
     marquee?: {
         type: null;
         value?: boolean | DrawMarquee;

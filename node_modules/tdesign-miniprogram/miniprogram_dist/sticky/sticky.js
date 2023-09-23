@@ -17,11 +17,7 @@ let Sticky = class Sticky extends SuperComponent {
         super(...arguments);
         this.externalClasses = [`${prefix}-class`, `${prefix}-class-content`];
         this.properties = props;
-        this.behaviors = [
-            pageScrollMixin(function (event) {
-                this.onScroll(event);
-            }),
-        ];
+        this.behaviors = [pageScrollMixin()];
         this.observers = {
             'offsetTop, disabled, container'() {
                 this.onScroll();

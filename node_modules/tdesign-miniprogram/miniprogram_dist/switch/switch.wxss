@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  font-size: var(--td-swtich-label-font-size, 28rpx);
+  font-size: var(--td-switch-label-font-size, 28rpx);
   color: var(--td-switch-label-color, var(--td-font-gray-4, rgba(0, 0, 0, 0.26)));
   overflow: hidden;
 }
@@ -54,10 +54,10 @@
   color: var(--td-switch-checked-disabled-color, var(--td-brand-color-disabled, var(--td-primary-color-3, #b5c7ff)));
 }
 .t-switch__label--large {
-  font-size: var(--td-swtich-label-font-size, 32rpx);
+  font-size: var(--td-switch-label-large-font-size, 32rpx);
 }
 .t-switch__label--small {
-  font-size: var(--td-swtich-label-font-size, 24rpx);
+  font-size: var(--td-switch-label-small-font-size, 24rpx);
 }
 .t-switch__label:empty {
   display: none;

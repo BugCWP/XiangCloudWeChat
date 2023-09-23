@@ -1,11 +1,11 @@
 export interface TdDropdownMenuProps {
+    arrowIcon?: {
+        type: null;
+        value?: string | object;
+    };
     closeOnClickOverlay?: {
         type: BooleanConstructor;
         value?: boolean;
-    };
-    style?: {
-        type: StringConstructor;
-        value?: string;
     };
     duration?: {
         type: null;

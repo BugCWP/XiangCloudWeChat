@@ -1,0 +1,301 @@
+<view class="block">
+    <t-navbar class="custom-navbar" title="铁路装箱照片详情" t-class-title="nav-title" left-arrow />
+</view>
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg1" wx:if="{{slectIndex==0}}">
+    <view>如何拍摄空相照</view>
+    <view>take Picture-Empty Conrainer</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg2" wx:if="{{slectIndex==1}}">
+    <view>如何拍摄半装照</view>
+    <view>take Picture-Loading Conrainer</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg3" wx:if="{{slectIndex==2}}">
+    <view>如何拍摄满装照</view>
+    <view>take Picture-Loaded Conrainer</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg4" wx:if="{{slectIndex==3}}">
+    <view>如何拍摄加固照</view>
+    <view>take Picture-cargo fixed in Container</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg5" wx:if="{{slectIndex==4}}">
+    <view>如何拍摄半关门照</view>
+    <view>take Picture-half open Container</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg6" wx:if="{{slectIndex==5}}">
+    <view>如何拍摄关门照</view>
+    <view>take Picture-Close Container</view>
+</view>
+
+<view style="width:630rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin-left:60rpx;font-size:25rpx;position:fixed;bottom:10rpx;z-index:2000" bindtap="showImg7" wx:if="{{slectIndex==6}}">
+    <view>如何拍摄施封照</view>
+    <view>take Picture-Sealed Container</view>
+</view>
+
+
+<camera resolution="low" device-position="back" flash="{{flashSet}}" style="width:100%;height:750rpx;position:fixed;z-index: 2000;" wx:if="{{!hiddenPhotoPage}}" frame-size="large">
+    <cover-image src='{{templateImg}}' class="img-wrap" style="position: fixed;"></cover-image>
+</camera> 
+
+<view hidden="{{hiddenPhotoButtonPage}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext0" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg0" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage1}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto1" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext1" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg1" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage2}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightnin.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto2" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext2" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg2" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage3}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto3" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext3" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg3" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage4}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto4" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext4" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg4" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage5}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto5" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext5" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg5" />
+</view>
+<view hidden="{{hiddenPhotoButtonPage6}}" style="background-color: white;width: 100%;height: 17%;z-index: 1000;position: fixed;bottom: 0;">
+    <t-icon wx:if="{{flashSet=='torch'}}" color="Gold" name="../../../img/lightning.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightClose" />
+    <t-icon wx:if="{{flashSet=='off'}}" color="gray" name="../../../img/lightning-gray.png" size="30px" size="25px" style="position: fixed; left: 5%;bottom: 11%;z-index: 1000;" bindtap="lightOpen" />
+    <t-icon name="rollback" color="#a5040d" size="40px" style="position: fixed; left: 15%;bottom: 10%;z-index: 1000;" bindtap="closePhoto6" />
+    <t-icon name="../../../img/camera.png" color="#a5040d" size="40px" style="position: fixed; left: 45%;bottom: 10%;z-index: 1000;" bindtap="takePhotoCreateCameraContext6" />
+    <t-icon name="image" color="#a5040d" size="40px" style="position: fixed; right: 10%;bottom: 10%;z-index: 1000;" bindtap="upImg6" />
+</view>
+
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">空箱照（限6张）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}" theme="card">
+        <radio-group bindchange="imgRadioChange">
+            <t-grid-item use-slot wx:for="{{ KongXiangZhao }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <view style="position: absolute;top: 20px;right: 20px;" wx:if="{{KongXiangZhao.length>=6}}">
+                    <radio value="{{idx}}" />
+                </view>
+                <image style="width: 90px; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </radio-group>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage1}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">装箱照（不限）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <t-grid-item use-slot wx:for="{{ halfPhotoList }}" wx:for-index="idx" wx:for-item="item">
+            <view style="position: absolute;bottom: 20px;right: 25px;">
+                <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+            </view>
+            <image style="width: 90px; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+        </t-grid-item>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage2}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">满箱照（限2张）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <radio-group bindchange="imgRadioChange">
+            <t-grid-item use-slot wx:for="{{ ManZhuangZhao }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <view style="position: absolute;top: 20px;right: 20px;" wx:if="{{ManZhuangZhao.length>=2}}">
+                    <radio value="{{idx}}" />
+                </view>
+                <image style="width: 90px; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </radio-group>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage3}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">加固照（不限）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <t-grid-item use-slot wx:for="{{ JiaGuZhao }}" wx:for-index="idx" wx:for-item="item">
+            <view style="position: absolute;bottom: 20px;right: 25px;">
+                <!-- <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" /> -->
+                <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>=0}}" />
+            </view>
+            <image style="width: 90px; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+        </t-grid-item>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage4}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">半关门照（限1张）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <t-grid-item use-slot>
+            <view style="position: absolute;bottom: 20px;right: 25px;">
+                <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[0]==0}}" />
+                <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[0]>=7}}" />
+                <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[0]<7&&FenShu[0]>0}}" />
+            </view>
+            <image style="width: 90px; height: 90px;" src="{{imgBanGuanMenPhoto}}" data-src="{{imgBanGuanMenPhoto}}" bindtap="bigimg" />
+        </t-grid-item>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage5}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">关门照（限1张）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <t-grid-item use-slot>
+            <view style="position: absolute;bottom: 20px;right: 25px;">
+                <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[0]==0}}" />
+                <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[0]>=7}}" />
+                <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[0]<7&&FenShu[0]>0}}" />
+            </view>
+            <image style="width: 90px; height: 90px;" src="{{imgGuanMenShiFengPhoto}}" data-src="{{imgGuanMenShiFengPhoto}}" bindtap="bigimg" />
+        </t-grid-item>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<view style="width: 100%;margin-top: 20px;position: absolute;top: 950rpx;margin-bottom: 300rpx;" hidden="{{hiddenPhotoButtonPage6}}">
+    <view style="color:#a5040d;font-weight: 600;margin-left: 5%;">封志照（不限）</view>
+    <t-divider />
+    <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+        <t-grid-item use-slot wx:for="{{ FengZhiZhao }}" wx:for-index="idx" wx:for-item="item">
+            <view style="position: absolute;bottom: 20px;right: 25px;">
+                <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+            </view>
+            <image style="width: 90px; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+        </t-grid-item>
+    </t-grid>
+    <view style="width: 100%;height: 300rpx;"></view>
+</view>
+<t-dialog visible="{{isshowimg1}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_2_EmptyPhotos.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg2}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_3_HalfPhotos.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg3}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_4_FullPhotos.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg4}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_5_StrengthenPhotos.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg5}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_6_HalfCloseDoorPhoto.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg6}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_7_SealPhoto.png" />
+</t-dialog>
+<t-dialog visible="{{isshowimg7}}" close-btn>
+    <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_7_SealPhoto.png" />
+</t-dialog>
+
+<modal hidden="{{hiddenGoOnSaveBill}}" title="提示tips" confirm-text="确认confirm" cancel-text="取消cancel" bindconfirm="continueSaveBill" bindcancel="cancelSaveBill">
+    <text style="font-size:30rpx;"> {{myNewErrorInfo}} </text>
+</modal>
+
+<modal hidden="{{hiddenShowTipKongXiang}}" no-cancel bindconfirm="closeShowTipKongXiang">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/tipkongxiang.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        打开箱门，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。
+    </view>
+</modal>
+
+<modal hidden="{{hiddenShowTipBanZhuangXiang}}" no-cancel bindconfirm="closeShowTipBanZhuangXiang">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/banzhuangxiang.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        货物装入一半，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。
+    </view>
+</modal>
+
+<modal hidden="{{hiddenShowTipManZhuangXiang}}" no-cancel bindconfirm="closeShowTipManZhuangXiang">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/banzhuangxiang.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        货物装满，留出箱壁箱号位置，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。
+    </view>
+</modal>
+
+<modal hidden="{{hiddenShowTipJiaGu}}" no-cancel bindconfirm="closeShowTipJiaGu">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/jiagu.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        打开箱门正对集装箱方向拍摄,确保集装箱门框立柱位于照片内确保光线充足，能看清货物及加固情况。
+    </view>
+</modal>
+
+<modal hidden="{{hiddenShowTipBanGuanMen}}" no-cancel bindconfirm="closeShowTipBanGuanMen">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/banguanmen.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        半关箱门正对集装箱方向拍摄，确保集装箱门框立柱位于照片内确保光线充足，能看清装箱情况确保货物装载规整。
+    </view>
+</modal>
+
+<modal hidden="{{hiddenShowTipShiFeng}}" no-cancel bindconfirm="closeShowTipShiFeng">
+    <view style="float:center;">
+        <image mode="aspectFit" src="http://www.xiang-cloud.com:8099/images/shifengzhao.png"></image>
+    </view>
+
+    <view style="text-align:left;font-size:16px;margin-top:20px;">
+        关闭箱门正对集装箱方向拍摄，确保集装箱门框立柱位于照片内确保光线充足，能看清箱号。
+    </view>
+</modal>
+
+<modal hidden="{{modalSuccessHidden}}" no-cancel title="{{modalTitle}}" bindconfirm="resetSuccessModal">
+    <view style="font-size:20px;"> {{successinfo}} </view>
+</modal>
+
+<modal hidden="{{hiddenConfirm}}" title="封志未拍，真要完成吗？" confirm-text="确认" cancel-text="取消" bindconfirm="confirmGoOn" bindcancel="cancelHiddenModal">
+</modal>

@@ -4,7 +4,7 @@ export interface TdIndexesProps {
         value?: string;
     };
     indexList?: {
-        type: ArrayConstructor;
+        type: null;
         value?: string[] | number[];
     };
     list?: {

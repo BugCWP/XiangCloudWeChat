@@ -1,9 +1,9 @@
 export interface TdCheckboxProps {
-    placement?: {
-        type: StringConstructor;
-        value?: 'left' | 'right';
-    };
     block?: {
+        type: BooleanConstructor;
+        value?: boolean;
+    };
+    borderless?: {
         type: BooleanConstructor;
         value?: boolean;
     };
@@ -26,10 +26,6 @@ export interface TdCheckboxProps {
     contentDisabled?: {
         type: BooleanConstructor;
         value?: boolean;
-    };
-    style?: {
-        type: StringConstructor;
-        value?: string;
     };
     disabled?: {
         type: BooleanConstructor;
@@ -62,6 +58,10 @@ export interface TdCheckboxProps {
     name?: {
         type: StringConstructor;
         value?: string;
+    };
+    placement?: {
+        type: StringConstructor;
+        value?: 'left' | 'right';
     };
     readonly?: {
         type: BooleanConstructor;

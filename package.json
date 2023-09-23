@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "tdesign-miniprogram": "^1.1.8"
+    "tdesign-miniprogram": "^1.2.2"
   },
   "name": "xiangcloudwechat",
   "version": "1.0.0",

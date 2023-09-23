@@ -1,4 +1,20 @@
 import gulpError from './utils/gulpError';
+import {
+  helper
+} from './core/index'
+
+const buildType = 3; //1:Develop 2:Test 3:Live
+
+helper.polyfill();
+helper.configService.setSetting({
+  isDebug: buildType == 1,
+  baseUrl: buildType == 1 ?
+    'http://192.168.0.100:9000/Api/' /* Develop */ : buildType == 2 ?
+    'https://www.xiang-cloud.com/Api/' /* Test */ : buildType == 3 ?
+    'https://www.xiang-cloud.com/Api/' /* Live */ : '',
+});
+helper.httpRequest.setUrl(helper.configService.baseUrl);
+
 App({
     onShow() {
         if (gulpError !== 'gulpErrorPlaceHolder') {

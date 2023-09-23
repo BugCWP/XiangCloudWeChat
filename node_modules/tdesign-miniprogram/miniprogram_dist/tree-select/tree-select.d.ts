@@ -1,4 +1,5 @@
 import { SuperComponent } from '../common/src/index';
+import type { TreeOptionData } from '../common/common';
 export default class TreeSelect extends SuperComponent {
     externalClasses: string[];
     options: {
@@ -7,17 +8,14 @@ export default class TreeSelect extends SuperComponent {
     data: {
         prefix: string;
         classPrefix: string;
-        labelAlias: string;
-        valueAlias: string;
     };
-    properties: import("./type").TdTreeSelectProps<import("../common/common").TreeOptionData>;
+    properties: import("./type").TdTreeSelectProps<TreeOptionData>;
     controlledProps: {
         key: string;
         event: string;
     }[];
     observers: {
-        value(): void;
-        keys(obj: any): void;
+        'value, options, keys, multiple'(): void;
     };
     methods: {
         buildTreeOptions(): void;

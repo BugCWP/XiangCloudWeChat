@@ -1,0 +1,22 @@
+.lblStyle{
+    margin-left:2px;
+    font-size:14px;
+  }
+  .block {
+    display: block;
+    margin-bottom: 32rpx;
+  }
+  .custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+.card {
+    width: 88%;
+    background: white;
+    border-radius: 15rpx;
+    margin:2%;
+    margin-top: 30rpx;
+    padding: 4%;
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
+  }

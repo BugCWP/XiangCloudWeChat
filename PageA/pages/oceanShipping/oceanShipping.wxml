@@ -1,57 +1,71 @@
 <block wx:if="{{!iscamera}}">
-    <view class="block">
-        <t-navbar class="custom-navbar" title="海运装箱照片" t-class-title="nav-title" left-arrow />
-    </view>
-    <view style="width:100%;height:90%;background-size: 100% 100%;background-image:url('http://www.lanshuicar.com/Content/images/miniproImgs/newIcon/nBcak2.png'); margin: 0rpx;position: fixed;overflow: hidden;">
-    </view>
-    <scroll-view scroll-y="true" class="scoll-h">
-        <block wx:for="{{dataArray}}" wx:key="dataArray">
-            <view class="card" style="font-size:28rpx;display:flex;">
-                <view style="flex:1">
-                    <image mode="aspectFit" src="{{item.srcImg}}" style="width:200rpx;height:150rpx;"></image>
-                </view>
-                <view style="flex: 2;">
-                    <view style="color:#888;">箱号:<text style="color:black">{{item.packageNo}}</text></view>
-                    <view style="color:#888;">箱型:<text style="color:black">{{item.packageType}}</text></view>
-                </view>
-                <view style="flex: 2;">
-                    <view style="color:#888">关单号：<text style="color:black">{{item.guandanhao}}</text></view>
-                    <view style="color:#888">流水号：<text style="color:black">{{item.liushuihao}}</text></view>
-                </view>
-
-                <view style="width:220rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:8rpx 0rpx;margin:15rpx 0rpx 15rpx 450rpx" id="takephoto{{item.Id}}" bindtap="gotoTakePhotoDetail">继续拍照</view>
-            </view>
-        </block>
-    </scroll-view>
-    <view style="position: fixed;width: 100%;bottom: 20px;">
-        <view class="button-example">
-            <t-button theme="primary" size="large" icon="photo" shape="round" block bindtap="showCamera">拍箱门照</t-button>
+  <view class="block">
+    <t-navbar class="custom-navbar" title="海运装箱照片" t-class-title="nav-title" left-arrow />
+  </view>
+  <view style="width:100%;height:90%;background-size: 100% 100%;background-image:url('http://www.lanshuicar.com/Content/images/miniproImgs/newIcon/nBcak2.png'); margin: 0rpx;position: fixed;overflow: hidden;">
+  </view>
+  <scroll-view scroll-y="true" class="scoll-h">
+    <block wx:for="{{dataArray}}" wx:key="dataArray">
+      <view class="card">
+        <view style="font-size:28rpx;display:flex;">
+          <view style="flex:1">
+              <t-image mode="aspectFill" width="100" height="100"  src="https://www.xiang-cloud.com/uploads/zxzp/{{item.srcImg}}"  shape="round"/>
+          </view>
+          <view style="flex: 2;">
+            <view style="color:#888;">箱号:<text style="color:black">{{item.packageNo}}</text></view>
+            <view style="color:#888;">箱型:<text style="color:black">{{item.packageType}}</text></view>
+            <view style="color:#888">关单号：<text style="color:black">{{item.guandanhao}}</text></view>
+            <view style="color:#888">流水号：<text style="color:black">{{item.liushuihao}}</text></view>
+          </view>
         </view>
+        <view style="float: right;position: relative;right: 20px;">
+          <t-button theme="primary" size="small" shape="round" id="takephoto{{item.Id}}" bindtap="gotoTakePhotoDetail">继续拍照</t-button>
+        </view>
+      </view>
+
+    </block>
+  </scroll-view>
+  <view style="position: fixed;width: 100%;bottom: 20px;">
+    <view class="button-example">
+      <t-button theme="primary" size="large" icon="photo" shape="round" block bindtap="showCamera">拍箱门照</t-button>
     </view>
+  </view>
 </block>
 
 <block wx:else>
-    <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:100%;">
+  <view style="background-color: black;width: 100%;height: 100%;">
+    <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:80%;position: fixed;top: 14%;">
     </camera> 
-    <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
-        <view style="flex: 2;text-align: center;">
-            <t-icon name="rollback" size="70rpx" style="color: white;" bind:click="cameBack" />
-        </view>
-        <view style="flex: 1;text-align: center;">
-            <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takeImg"></t-button>
-        </view>
-        <view style="flex: 2;text-align: center;display: flex;">
-            <view style="flex: 1;"></view>
-            <view style="flex: 1;">
-                <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
-            </view>
-            <view style="flex: 1;"></view>
-        </view>
+    <view style="position: fixed;text-align: center;left: 5%;top: 8%;">
+      <t-icon name="close" size="70rpx" style="color: white;" bind:click="cameBack" />
     </view>
-    <view style="position: fixed;bottom: 5%;right: 10%;color: #a5040d;font-weight: 700;">
-        <view bindtap="changeWatermark">水印：{{watermarkText}}</view>
+    <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
+
+      <view style="flex: 2;text-align: center;display: flex;">
+        <view style="flex: 1;"></view>
+        <view style="flex: 1;">
+          <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
+        </view>
+        <view style="flex: 1;"></view>
+      </view>
+      <view style="flex: 1;text-align: center;">
+        <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takeImg"></t-button>
+      </view>
+      <view style="flex: 2;text-align: center;color: white;font-weight: 700;">
+        <view bindtap="changeWatermark">{{watermarkText}}</view>
+      </view>
+    </view>
+    <view style="position: fixed;bottom: 5%;right: 10%;">
+
     </view>
     <t-picker visible="{{watermarkVisible}}" value="{{watermarkValue}}" title="水印选择" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
-        <t-picker-item options="{{waterTypes}}"></t-picker-item>
+      <t-picker-item options="{{waterTypes}}"></t-picker-item>
     </t-picker>
+  </view>
 </block>
+<t-dialog visible="{{showMsg}}" title="{{MsgTitle}}" content="{{MsgText}}" confirm-btn="{{ MsgBtn }}" bind:confirm="closeMsg" />
+<t-dialog visible="{{showAgain}}" title="{{MsgTitle}}" content="{{MsgText}}" confirm-btn="确定" cancel-btn="取消" bind:confirm="resetSuccessModal2" bind:cancel="cancelSuccessModal" />
+<t-dialog visible="{{showPhoto}}" title="{{MsgTitle}}" content="{{MsgText}}" confirm-btn="重拍" cancel-btn="取消" bind:confirm="btnshowPhoto" bind:cancel="cancelshowPhoto" />
+<t-dialog visible="{{directUpload}}" title="提示" content="您3次没能识别箱号，请手动输入箱号" confirm-btn="确定" cancel-btn="取消" bind:confirm="confirmDirectUpload" bind:cancel="cancelDirectUpload">
+  <t-input borderless class="dialog-input" clearable slot="content" placeholder="输入箱号" placeholder-class="placeholder" value="{{containerNo}}" bind:change='handleInputChange' />
+</t-dialog>

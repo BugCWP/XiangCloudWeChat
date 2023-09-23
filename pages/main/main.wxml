@@ -29,7 +29,6 @@
             <t-grid-item text="公司信息" icon="root-list" bindclick="onClick" />
             <t-grid-item text="地址" icon="location" bindclick="onClick" />
             <t-grid-item text="海运装箱照片" icon="../../../img/ship.png" bindclick="goOceanShipping" />
-            <t-grid-item text="装箱拍照" icon="photo" bindclick="onClick" />
             <t-grid-item text="进场出场" icon="desktop" bindclick="gocontainerinout" />
             <t-grid-item text="联系平台" icon="call" bindclick="callClick" />
         </t-grid>

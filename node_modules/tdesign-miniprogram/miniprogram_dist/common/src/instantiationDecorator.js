@@ -17,7 +17,7 @@ const ComponentNativeProps = [
     'definitionFilter',
 ];
 export const toComponent = function toComponent(options) {
-    const { relations, behaviors = [], properties, externalClasses = [] } = options;
+    const { relations, behaviors = [], externalClasses = [] } = options;
     if (options.properties) {
         Object.keys(options.properties).forEach((k) => {
             let opt = options.properties[k];

@@ -75,6 +75,7 @@
   height: var(--td-checkbox-icon-size, 48rpx);
   color: var(--td-checkbox-icon-color, var(--td-gray-color-4, #dcdcdc));
   font-size: var(--td-checkbox-icon-size, 48rpx);
+  margin-top: calc((var(--td-checkbox-title-line-height, 48rpx) - var(--td-checkbox-icon-size, 48rpx)) / 2);
 }
 .t-checkbox__icon:empty {
   display: none;

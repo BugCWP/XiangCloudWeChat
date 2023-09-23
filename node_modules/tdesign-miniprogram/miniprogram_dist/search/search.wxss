@@ -32,7 +32,7 @@
 }
 .t-search__label {
   padding: 8rpx;
-  color: var(--search-label-color, var(--td-font-gray-1, rgba(0, 0, 0, 0.9)));
+  color: var(--td-search-label-color, var(--td-font-gray-1, rgba(0, 0, 0, 0.9)));
 }
 .t-search__input-box {
   flex: 1;

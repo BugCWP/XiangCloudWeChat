@@ -17,7 +17,7 @@ export default class RadioGroup extends SuperComponent {
         options(): void;
     };
     methods: {
-        getChilds(): any;
+        getChildren(): any;
         updateValue(value: any): void;
         handleRadioChange(e: any): void;
         initWithOptions(): void;

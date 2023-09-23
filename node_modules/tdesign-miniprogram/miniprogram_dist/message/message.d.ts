@@ -23,7 +23,7 @@ export default class Message extends SuperComponent {
     nextAnimationContext: number;
     resetAnimation: WechatMiniprogram.Animation;
     ready(): void;
-    memoInitalData(): void;
+    memoInitialData(): void;
     resetData(cb: () => void): void;
     detached(): void;
     checkAnimation(): void;

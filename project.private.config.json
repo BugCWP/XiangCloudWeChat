@@ -343,6 +343,20 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "PageA/pages/railwaypackage/railwaypackage",
+                    "query": "scene=rail%2C54%2C47554",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "PageA/pages/railwayEmpty/railwayEmpty",
+                    "query": "scene=railwayEmpty%2C75%2C919",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

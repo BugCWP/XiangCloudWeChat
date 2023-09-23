@@ -1,0 +1,175 @@
+<!--pages/railwayImport/railwayImport.wxml-->
+<view wx:if="{{iscamera}}" style="height: 100%;">
+    <view style="background-color: black;width: 100%;height: 100%;">
+        <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:80%;position: fixed;top: 14%;">
+        </camera> 
+        <view style="position: fixed;text-align: center;left: 5%;top: 8%;">
+            <t-icon name="close" size="70rpx" style="color: white;" bind:click="closeCarPhoto" />
+        </view>
+        <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
+            <view style="flex: 2;text-align: center;display: flex;">
+                <view style="flex: 1;"></view>
+                <view style="flex: 1;">
+                    <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
+                </view>
+                <view style="flex: 1;"></view>
+            </view>
+            <view style="flex: 1;text-align: center;">
+                <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takeCarPhoto"></t-button>
+            </view>
+            <view style="flex: 2;text-align: center;"></view>
+        </view>
+        <view style="position: fixed;bottom: 5%;right: 10%;">
+        </view>
+    </view>
+</view>
+<view style="width: 750rpx; background: #d1d1d1; height: 110vh; display: block; box-sizing: border-box;   " wx:if="{{!showGetPhoneNumberBtn && !iscamera}}">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="{{navbarTitle}}" t-class-title="nav-title" left-arrow />
+    </view>
+    <t-notice-bar visible="{{true}}" prefixIcon="{{false}}" marquee="{{marquee2}}" content="点击定位标识，可自动获取办单定位，关联导航系统。">
+        <view slot="prefix-icon">
+            <t-icon name="error-circle-filled"></t-icon>
+        </view>
+    </t-notice-bar>
+    <view style="display: flex;justify-content: center;">
+        <view style="width: 96%; background: white; height: 612rpx; margin-top: 20px; border-radius: 5px; display: block; box-sizing: border-box; position: relative;top: -26rpx;padding: 10px;">
+            <view style="display:flex; flex-direction:column; height: 150px; padding: 10px; margin-bottom: 10px;">
+                <view style="background-color: white; flex: 1;" wx:if="{{CntrNo=='' || CntrNo==null}}">
+                    <view style="font-size: 30px;text-align: center;color:#f1a743;margin-bottom: 10px;font-weight: 700;">请拍箱门识别箱号</view>
+                </view>
+                <view style="background-color: white; flex: 1;">
+                    <view style="position:relative;color: #a5040d;font-size: 22px;font-weight: 600;">{{InOrOut}}号：<view style="display: inline-block;color: darkgray;font-weight: 400;">{{BizNo}}</view>
+                    </view>
+                </view>
+                <view style="background-color: white; flex: 1;"  wx:if="{{CntrNo!='' && CntrNo!=null}}">
+                    <view style="position:relative;color: #a5040d;font-size: 22px;font-weight: 600;">箱 号：<view style="display: inline-block;color: darkgray;font-weight: 400;">{{CntrNo}}</view>
+                    </view>
+                </view>
+                <view style="background-color: white; flex: 1;"  wx:if="{{CntrNo!='' && CntrNo!=null}}">
+                    <view style="position:relative;color: #a5040d;font-size: 22px;font-weight: 600;">箱 型：<view style="display: inline-block;color: darkgray;font-weight: 400;">{{CntrSizeCode}}</view>
+                    </view>
+                </view>
+                <view style="background-color: white; flex: 1;">
+                    <view style="display:flex; flex-direction:row; height: auto; padding-top: 10px; margin-top: 10px;">
+                        <view style="background-color: white; flex: 1;">
+                            <view style="position:relative;color: #a5040d;font-size: 18px;font-weight: 600;">地址：
+                                <view style="display: inline-block;color: darkgray;font-weight: 400;">{{addressName}}</view>
+                            </view>
+
+                            <map show-location="true" longitude="120.552742" latitude="31.337681" scale="15" markers="{{covers}}" style="width: 346rpx; height: 212rpx; display: block; box-sizing: border-box; left: -4rpx; top: 4rpx; position: relative" bindtap="nav"></map>
+
+                        </view>
+                        <!-- <view style="background-color: white; flex: 1;">
+                           
+                        </view> -->
+
+                    </view>
+
+                </view>
+
+            </view>
+        </view>
+    </view>
+    <view style="background-color: #d1d1d1; flex: 1;width: 95%;margin-left: 2%;">
+        <text style="position:relative;color: black;font-size: 17px;"></text>
+    </view>
+    <view style="display: flex;width: 90%;margin-bottom: 10px;text-align: center;background-color: white;border-radius: 10px;padding: 3%;margin-left: 2%;" wx:if="{{isFront}}">
+        <view style="flex: 1;">
+            <view style="color:#a5040d;font-weight:bold;">集卡车头</view>
+            <view bindlongtap="takePhotoCar" wx:if="{{truckPic!=''}}">
+                <image src="https://www.xiang-cloud.com/uploads/zxzp/{{truckPic}}" style="height:70px;width:80px;" data-src="{{truckPic}}" catchtap="bigimg"></image>
+            </view>
+            <view bindtap="takePhotoCar" wx:if="{{truckPic==''}}">
+                <t-grid-item icon="photo" bindtap="takePhotoCar" data-index="3" />
+            </view>
+        </view>
+        <view style="flex: 1;">
+            <view style="color:#a5040d;font-weight:bold;">集卡车尾</view>
+            <view bindlongtap="takePhotoCar2" wx:if="{{container1Pic!=''}}">
+                <image src="https://www.xiang-cloud.com/uploads/zxzp/{{container1Pic}}" style="height:70px;width:80px;" data-src="{{container1Pic}}" catchtap="bigimg"></image>
+            </view>
+            <view bindtap="takePhotoCar2" wx:if="{{container1Pic==''}}">
+                <t-grid-item icon="photo" bindtap="takePhotoCar" data-index="3" />
+            </view>
+        </view>
+        <view style="flex: 1;">
+            <view style="color:#a5040d;font-weight:bold;">集卡车尾</view>
+            <view bindlongtap="takePhotoCar4" wx:if="{{tailTruckPic!=''}}">
+                <image src="https://www.xiang-cloud.com/uploads/zxzp/{{tailTruckPic}}" style="height:70px;width:80px;" data-src="{{tailTruckPic}}" catchtap="bigimg"></image>
+            </view>
+            <view bindtap="takePhotoCar4" wx:if="{{tailTruckPic==''}}">
+                <t-grid-item icon="photo" bindtap="takePhotoCar" data-index="3" />
+            </view>
+
+        </view>
+    </view>
+    <view style="display:flex; flex-direction:column; height: 150px; padding: 3%; margin-bottom: 10px;font-size: 13px;background-color: white;width: 90%;margin-left: 2%;border-radius: 10px;" wx:if="{{remarkNo}}">
+        <view style="background-color: white; flex: 1;padding-bottom: 5px;">
+            <text style="position:relative;color: #a5040d;font-size: 17px;font-weight: 700;">提箱流程：</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">1.苏州西站货场2号门进（导航江苏苏州国际铁路物流中心，到达海关门口右转开到底），到集装箱交接室凭进口提箱单办理提箱手续；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">2.办完提箱手续，原路返回至江苏苏州国际铁路物流中心，从3号门或4号门进，至货一线提箱；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">3.提箱时间:上午8：00-11:00.下午12:30-23:00；</text>
+        </view>
+    </view>
+    <view style="display:flex; flex-direction:column; height: 220px; padding: 3%; margin-bottom: 10px;font-size: 13px;background-color: white;width: 90%;margin-left: 2%;border-radius: 10px;" wx:else>
+        <view style="background-color: white; flex: 1;padding-bottom: 5px;">
+            <text style="position: relative; color: #a5040d; font-size: 17px; left: 2rpx; top: 0rpx;font-weight: 700;">提箱流程：</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">1，提箱点：太仓港铁路综合枢纽（多式联运）园区（西门，太仓市滨江大道入口进）；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">2，司机带好提箱单（提箱单上相关信息填好并且盖好车队章），不提供提箱单一律不给作业；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">3，司机到了铁路道口以后，可以让道口的工作人员拉进太仓铁路提还箱群（司机进群后修改备注，车牌+名字+电话）；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">4，进群以后，把需要提箱的箱号以及场位发在群里，进场提箱；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">5，提箱时间：上午8：00-11：30，下午12：30-18：00；</text>
+        </view>
+        <view style="background-color: white; flex: 1;">
+            <text style="position:relative;color: gray;">6，紧急联系人： 方先生 18551247555</text>
+        </view>
+    </view>
+    <view style="position: fixed;bottom: 2%;width: 100%;">
+        <view class="button-example">
+            <view style="flex: 1;" wx:if="{{CntrNo=='' || CntrNo==null}}">
+                <t-button theme="light" block size="large" bindtap="takePhotoM" style="width: 85%;">拍箱门照</t-button>
+            </view>
+
+            <view style="flex: 1;" wx:if="{{isFront}}">
+                <t-button theme="primary" block size="large" bindtap="finishCar" style="width: 85%;">确认保存</t-button>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view style="margin-top: 30%;width:60%;margin-left:19%;border:1px solid #000;padding:10rpx" wx:if="{{showGetPhoneNumberBtn}}">
+    <text>检测到您未授权小程序获取您的手机号码，是否获取授权？</text>
+    <view>
+        <button style="color:green" slot="footer" bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">确定</button>
+    </view>
+</view>
+<t-dialog visible="{{!directUpload}}" title="提示" content="您3次没能识别箱号，请手动输入箱号" confirm-btn="确定" cancel-btn="取消" bind:confirm="confirmDirectUpload" bind:cancel="cancelDirectUpload">
+    <view slot="content">
+        <t-input borderless class="dialog-input" clearable placeholder="输入箱号" placeholder-class="placeholder" value="{{CntrNo}}" />
+    </view>
+    <view slot="content">
+        <t-radio-group default-value="0" borderless t-class="box" style="width: 60%;" slot="content" bindchange="cntrSizeRadioChange">
+            <t-radio block="{{false}}" label="20" value="20" />
+            <t-radio block="{{false}}" label="40" value="40" />
+        </t-radio-group>
+    </view>
+</t-dialog>
+
+<t-dialog visible="{{!modalSuccessHidden}}" title="{{modalTitle}}" content="{{successinfo}} " confirm-btn="{{ { content: '确认', variant: 'base' } }}" bind:confirm="resetSuccessModal" wx:if="{{!iscamera}}" />

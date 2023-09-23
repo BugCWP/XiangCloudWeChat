@@ -1,0 +1,18 @@
+module.exports.onlyDate = function (value) {
+  if (value)
+    return value.toString().split(' ')[0];
+};
+
+module.exports.stringFormat = function (value, format) {
+  return value === null || value === undefined || value === ''
+    ? ''
+    : format
+      ? format.replace('%1', value)
+      : value;
+};
+
+module.exports.encodeURI = function (value) {
+  if (value)
+    return encodeURI(value);
+};
+

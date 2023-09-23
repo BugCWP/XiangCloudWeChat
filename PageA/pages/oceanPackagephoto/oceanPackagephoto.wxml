@@ -1,2 +1,466 @@
-<!--PageA/pages/oceanPackagephoto/oceanPackagephoto.wxml-->
-<text>PageA/pages/oceanPackagephoto/oceanPackagephoto.wxml</text>
+<block wx:if="{{!iscamera}}" style="background-color:azure">
+  <view class="block">
+    <t-navbar class="custom-navbar" title="海运装箱照片详情" t-class-title="nav-title" left-arrow />
+  </view>
+  <view class="card">
+    <view style="display:flex; align-items: center;justify-content: center;">
+      <view style="flex: 1;">
+        <t-image mode="aspectFill" src="https://www.xiang-cloud.com/uploads/zxzp/{{srcImg1}}" width="100" height="100" shape="round" />
+      </view>
+      <view style="flex: 2;">
+        <view style="font-size:30rpx;font-weight: 600;">箱号： {{packageNo}}</view>
+        <view style="font-size:30rpx;font-weight: 600;">箱形： {{packageType}}</view>
+        <view style="font-size:26rpx;font-weight: 500;">关单号：{{guandanhao}}</view>
+        <view style="font-size:26rpx;font-weight: 500;">流水号：{{liushuihao}}</view>
+        <view style="font-size:26rpx;font-weight: 500;">托盘：{{PendingCount}}/{{TotalCount}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="card" wx:if="{{!showSeven}}">
+    <view style="font-weight: 600;color: #a5040d;margin-left: 20px;">装箱照</view>
+    <t-divider />
+    <view>
+      <view style="display: inline-block;margin: 5px;" wx:for="{{arrloadphotoList}}" wx:key="index">
+        <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{item}}" width="72" height="72" shape="round" data-index="{{index}}" data-type="1" bindtap="openBigImg" />
+      </view>
+      <view style="display: inline-block;" wx:for="{{arrphotoList}}" wx:key="index">
+        <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{item}}" width="72" height="72" shape="round" data-index="{{index}}" data-type="2" bindtap="openBigImg" />
+      </view>
+      <view style="display: inline-block;">
+        <t-grid-item icon="../../../img/add.png" bindclick="takephoto" data-index="1" />
+      </view>
+    </view>
+  </view>
+  <view class="card" style="display: flex;justify-content:center; align-items: center;" wx:if="{{!showSeven}}">
+    <view style="flex: 1;text-align: center;">
+      <view style="font-weight: 600;color: #a5040d;">半关门照</view>
+      <t-divider />
+      <view>
+        <view style="display: inline-block;margin: 5px;" wx:if="{{emptyImageBanFengMenImg != ''}}">
+          <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{emptyImageBanFengMenImg}}" width="72" height="72" shape="round" bindlongtap="takephoto" data-type="3" bindtap="openBigImg" data-index="2" />
+        </view>
+        <view style="display: inline-block;" wx:if="{{emptyImageBanFengMenImg == ''}}">
+          <t-grid-item icon="photo" bindclick="takephoto" data-index="2" />
+        </view>
+      </view>
+    </view>
+    <view style="flex: 1;text-align: center;">
+      <view style="font-weight: 600;color: #a5040d;">全关门照</view>
+      <t-divider />
+      <view>
+        <view style="display: inline-block;margin: 5px;" wx:if="{{emptyImageFengZhiImg != ''}}">
+          <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{emptyImageFengZhiImg}}" width="72" height="72" shape="round" bindlongtap="takephoto" data-type="4" bindtap="openBigImg" data-index="3" />
+        </view>
+        <view style="display: inline-block;" wx:if="{{emptyImageFengZhiImg == ''}}">
+          <t-grid-item icon="photo" bindclick="takephoto" data-index="3" />
+        </view>
+      </view>
+    </view>
+    <view style="flex: 1;text-align: center;">
+      <view style="font-weight: 600;color: #a5040d;">封志</view>
+      <t-divider />
+      <view>
+        <view style="display: inline-block;margin: 5px;" wx:if="{{emptyImageFengZhiImg2 != ''}}">
+          <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{emptyImageFengZhiImg2}}" width="72" height="72" shape="round" bindlongtap="takephoto" data-type="5" bindtap="openBigImg" data-index="4" />
+        </view>
+        <view style="display: inline-block;" wx:if="{{emptyImageFengZhiImg2 == ''}}">
+          <t-grid-item icon="photo" bindclick="takephoto" data-index="4" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="card" wx:if="{{showSeven}}">
+    <view wx:if="{{OutsideUndercarriageShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-外部/底盘</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeOutsideUndercarriage" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{OutsideUndercarriagePhoto}}" width="90" height="90" shape="round" wx:if="{{OutsideUndercarriagePhoto!=''}}" data-index="5" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{OutsideUndercarriagePhoto==''}}" data-index="5" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{OutsideUndercarriageOk}}" slot="note" data-index="5" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{OutsideUndercarriageRemark}}" data-index="5" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{OutsideInsideDoorShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-箱门</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeOutsideInsideDoor" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{OutsideInsideDoorPhoto}}" width="90" height="90" shape="round" wx:if="{{OutsideInsideDoorPhoto!=''}}" data-index="6" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{OutsideInsideDoorPhoto==''}}" data-index="6" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{OutsideInsideDoorOk}}" slot="note" data-index="6" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{OutsideInsideDoorRemark}}" data-index="6" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{LeftSideShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-箱左侧</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon defaultValue="close" size="50rpx" style="color: #a5040d;" bind:click="closeLeftSide" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{LeftSidePhoto}}" width="90" height="90" shape="round" wx:if="{{LeftSidePhoto!=''}}" bindtap="takephoto" data-index="7" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{LeftSidePhoto==''}}" bindtap="takephoto" data-index="7" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{LeftSideOk}}" slot="note" data-index="7" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{LeftSideRemark}}" data-index="7" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+
+    <view wx:elif="{{CeilingRoofShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-箱顶</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeCeilingRoof" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{CeilingRoofPhoto}}" width="90" height="90" shape="round" wx:if="{{CeilingRoofPhoto!=''}}" bindtap="takephoto" data-index="8" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{CeilingRoofPhoto==''}}" bindtap="takephoto" data-index="8" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{CeilingRoofOk}}" slot="note" data-index="8" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{CeilingRoofRemark}}" data-index="8" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{FrontWallShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-前墙</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeFrontWall" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{FrontWallPhoto}}" width="90" height="90" shape="round" wx:if="{{FrontWallPhoto!=''}}" data-index="9" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{FrontWallPhoto==''}}" data-index="9" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{FrontWallOk}}" slot="note" data-index="9" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{FrontWallRemark}}" data-index="9" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{RightSideShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-箱右侧</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeRightSide" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{RightSidePhoto}}" width="90" height="90" shape="round" wx:if="{{RightSidePhoto!=''}}" data-index="10" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{RightSidePhoto==''}}" data-index="10" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{RightSideOk}}" slot="note" data-index="10" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{RightSideRemark}}" data-index="10" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{FloorShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-地板</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeFloor" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{FloorPhoto}}" width="90" height="90" shape="round" wx:if="{{FloorPhoto!=''}}" data-index="11" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{FloorPhoto==''}}" data-index="11" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{FloorOk}}" slot="note" data-index="11" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{FloorRemark}}" data-index="11" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{LightTestShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-光线测试</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeLightTest" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{LightTestPhoto}}" width="90" height="90" shape="round" wx:if="{{LightTestPhoto!=''}}" data-index="12" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{LightTestPhoto==''}}" data-index="12" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{LightTestOk}}" slot="note" data-index="12" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{LightTestRemark}}" data-index="12" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:elif="{{CleannessShow}}">
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱-其他</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeCleanness" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;align-items: center;justify-content:center;width: 100%;">
+        <view>
+          <view style="flex: 1;height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{CleannessPhoto}}" width="90" height="90" shape="round" wx:if="{{CleannessPhoto!=''}}" data-index="13" bindtap="takephoto" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{CleannessPhoto==''}}" data-index="13" bindtap="takephoto" />
+          </view>
+        </view>
+      </view>
+      <t-cell title="是否异常" bordered="{{false}}">
+        <t-switch defaultValue="{{CleannessOk}}" slot="note" data-index="13" bindchange="swicthChange" />
+      </t-cell>
+      <view class="textarea-example">
+        <text class="textarea-example__label">异常备注</text>
+        <t-textarea t-class="external-class" placeholder="请输入文字" bordered maxlength="100" disableDefaultPadding="{{true}}" indicator style="{{style}}" value="{{CleannessRemark}}" data-index="13" bindchange="tareaChange" />
+      </view>
+      <view class="button-example">
+        <t-button theme="primary" size="large" block bindtap="sevenSubmit">提交</t-button>
+      </view>
+    </view>
+    <view wx:else>
+      <view style="display: flex;">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;display: inline-block;flex: 5;">七点验箱</view>
+        <view style="display: inline-block;flex: 1;">
+          <t-icon name="close" size="50rpx" style="color: #a5040d;" bind:click="closeSeven" />
+        </view>
+      </view>
+      <t-divider />
+      <view style="display: flex;flex-wrap: wrap;">
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showOutsideUndercarriage">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{OutsideUndercarriagePhoto}}" width="90" height="90" shape="round" wx:if="{{OutsideUndercarriagePhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{OutsideUndercarriagePhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{OutsideUndercarriagePhoto==''?'black':(OutsideUndercarriageOk?'green':'red')}};">外部/底盘</view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showOutsideInsideDoor">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{OutsideInsideDoorPhoto}}" width="90" height="90" shape="round" wx:if="{{OutsideInsideDoorPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{OutsideInsideDoorPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{OutsideInsideDoorPhoto==''?'black':(OutsideInsideDoorOk?'green':'red')}};">箱门</view>
+        </view>
+
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showLeftSide">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{LeftSidePhoto}}" width="90" height="90" shape="round" wx:if="{{LeftSidePhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{LeftSidePhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{LeftSidePhoto==''?'black':(LeftSideOk?'green':'red')}};">箱左侧
+          </view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showCeilingRoof">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{CeilingRoofPhoto}}" width="90" height="90" shape="round" wx:if="{{CeilingRoofPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{CeilingRoofPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{CeilingRoofPhoto==''?'black':(CeilingRoofOk?'green':'red')}};">箱顶</view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showFrontWall">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{FrontWallPhoto}}" width="90" height="90" shape="round" wx:if="{{FrontWallPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{FrontWallPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{FrontWallPhoto==''?'black':(FrontWallOk?'green':'red')}};">前墙
+          </view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showRightSide">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{RightSidePhoto}}" width="90" height="90" shape="round" wx:if="{{RightSidePhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{RightSidePhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{RightSidePhoto==''?'black':(RightSideOk?'green':'red')}};">箱右侧</view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showFloor">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{FloorPhoto}}" width="90" height="90" shape="round" wx:if="{{FloorPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{FloorPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{FloorPhoto==''?'black':(FloorOk?'green':'red')}};">地板</view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showLightTest">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{LightTestPhoto}}" width="90" height="90" shape="round" wx:if="{{LightTestPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{LightTestPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{LightTestPhoto==''?'black':(LightTestOk?'green':'red')}};">光线测试</view>
+        </view>
+        <view style="flex: 1;margin-left: 10px;margin-right: 10px;">
+          <view style="height: 90px;width: 90px;background-color: #f3f3f3;border-radius: 10px;display: flex;align-items: center;justify-content:center;" bindtap="showCleanness">
+            <t-image src="https://www.xiang-cloud.com/uploads/zxzp/{{CleannessPhoto}}" width="90" height="90" shape="round" wx:if="{{CleannessPhoto!=''}}" />
+            <t-image src="../../../img/photo.png" width="40" height="40" shape="round" wx:if="{{CleannessPhoto==''}}" />
+          </view>
+          <view style="position: relative;top: -30px;width: 90px;text-align: center;color: {{CleannessPhoto==''?'black':(CleannessOk?'green':'red')}};">其他
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view style="height: 150px"></view>
+  <view style="position: fixed;width: 100%;bottom: 0px;background-color: white;border-top:1px  solid gray;height: 10%;display: flex;justify-content:center;align-items: center;">
+    <view style="flex: 1;display: flex;text-align: center;justify-content:center">
+      <view class="grid-item__image">
+        <t-button variant="text" icon="save" bindtap="confirmPackagePhoto"></t-button>
+      </view>
+    </view>
+    <view style="flex: 1;display: flex;text-align: center;justify-content:center">
+      <view class="grid-item__image">
+        <t-button variant="text" icon="../../../img/change.png" bindtap="onchange"></t-button>
+      </view>
+    </view>
+    <view style="flex: 1;display: flex;text-align: center;justify-content:center">
+      <view class="grid-item__image">
+        <t-button variant="text" icon="../../../img/scan.png" bindtap="scanmybarcode" bindlongtap="gotobarcodelist"></t-button>
+      </view>
+    </view>
+    <view style="flex: 1;display: flex;text-align: center;justify-content:center">
+      <view class="grid-item__image">
+        <t-button variant="text" icon="../../../img/share.png" open-type="share"></t-button>
+      </view>
+    </view>
+    <view style="flex: 1;display: flex;text-align: center;justify-content:center">
+      <view class="grid-item__image">
+        <t-button variant="text" icon="../../../img/inspection.png" bindtap="showSevenBtn"></t-button>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{visible}}">
+    <view style="width: 100%; height: 100%; display: flex ; box-sizing: border-box; position: fixed; top: 0rpx; background: rgba(0, 0, 0, 0.6); align-items: center;" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" bindtap="onClose">
+      <image mode="widthFix" src="https://www.xiang-cloud.com/uploads/zxzp/{{bigImgUrl}}" style="width: 90%;margin-left: 5%;"></image>
+    </view>
+  </view>
+</block>
+<block wx:if="{{iscamera}}">
+  <view style="background-color: black;width: 100%;height: 100%;">
+    <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:80%;position: fixed;top: 14%;">
+    </camera> 
+    <view style="position: fixed;text-align: center;left: 5%;top: 8%;">
+      <t-icon name="close" size="70rpx" style="color: white;" bind:click="cameBack" />
+    </view>
+    <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
+
+      <view style="flex: 2;text-align: center;display: flex;">
+        <view style="flex: 1;"></view>
+        <view style="flex: 1;">
+          <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
+        </view>
+        <view style="flex: 1;"></view>
+      </view>
+      <view style="flex: 1;text-align: center;">
+        <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takeImg"></t-button>
+      </view>
+      <view style="flex: 2;text-align: center;color: white;font-weight: 700;">
+        <view bindtap="changeWatermark">{{watermarkText}}</view>
+      </view>
+    </view>
+    <view style="position: fixed;bottom: 5%;right: 10%;">
+
+    </view>
+    <t-picker visible="{{watermarkVisible}}" value="{{watermarkValue}}" title="水印选择" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+      <t-picker-item options="{{waterTypes}}"></t-picker-item>
+    </t-picker>
+  </view>
+</block>
+<t-dialog visible="{{showMsg}}" title="{{MsgTitle}}" content="{{MsgText}}" confirm-btn="{{ MsgBtn }}" bind:confirm="closeMsg" />
+<t-dialog visible="{{showFenzhi}}" title="提示" content="封志未拍，真要完成吗？" confirm-btn="{{FenZhiBtn}}" cancel-btn="取消" bind:confirm="confirmGoOn" bind:cancel="closeFenzhi" />
+<t-picker visible="{{changePackageVisible}}" value="{{id}}" title="箱照切换" cancelBtn="取消" confirmBtn="确认" bindchange="changePackage" bindcancel="changePackageCancel">
+  <t-picker-item options="{{changeDatas}}"></t-picker-item>
+</t-picker>

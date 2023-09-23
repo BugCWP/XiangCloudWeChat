@@ -1,6 +1,6 @@
 const props = {
     indexList: {
-        type: Array,
+        type: null,
     },
     list: {
         type: Array,

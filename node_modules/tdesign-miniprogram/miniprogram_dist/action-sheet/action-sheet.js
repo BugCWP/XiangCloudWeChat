@@ -75,8 +75,10 @@ let ActionSheet = class ActionSheet extends SuperComponent {
                 const realIndex = isSwiperMode ? index + currentSwiperIndex * count : index;
                 if (item) {
                     this.triggerEvent('selected', { selected: item, index: realIndex });
-                    this.triggerEvent('close', { trigger: 'select' });
-                    this._trigger('visible-change', { visible: false });
+                    if (!item.disabled) {
+                        this.triggerEvent('close', { trigger: 'select' });
+                        this._trigger('visible-change', { visible: false });
+                    }
                 }
             },
             onCancel() {

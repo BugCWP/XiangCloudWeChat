@@ -53,7 +53,7 @@
 .t-popup--bottom {
   bottom: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   border-top-left-radius: var(--td-popup-border-radius, var(--td-radius-default, 12rpx));
   border-top-right-radius: var(--td-popup-border-radius, var(--td-radius-default, 12rpx));
   padding-bottom: constant(safe-area-inset-bottom);

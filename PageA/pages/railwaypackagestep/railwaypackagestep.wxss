@@ -1,0 +1,27 @@
+/* pages/railwaypackagestep/railwaypackagestep.wxss */
+page{
+    width: 100%;
+    height: 100%;
+  }
+  
+  .batchImageStyle {
+    height: 156rpx;
+    width: 156rpx;
+  
+  }
+  .img-wrap {
+  
+    width: 720rpx;
+    height: 720rpx;
+    margin-top: 15rpx;
+    margin-left: 15rpx;
+  }
+  .flex-row{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+  }
+  .custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}

@@ -1,0 +1,197 @@
+<view class="block">
+  <t-navbar class="custom-navbar" title="司机登记" t-class-title="nav-title" left-arrow />
+</view>
+<view style="display: flex; justify-content: space-between;align-items: center;background-color: #a5040d;padding-bottom: 5px;">
+  <view class="viewClass" style="background-color: #a5040d;flex: 1;">
+    <image class='imageHeadStyle' mode='aspectFill' src='{{defaultHeadImage}}' id='imgHeadImage' bindtap='photoFunc'>
+    </image>
+  </view>
+
+  <view  style="background-color: #a5040d;flex: 1;">
+    <view style="color: white;padding: 2px;">{{driverusername}}</view>
+    <view style="color: white;padding: 2px;">{{parenttelphone}}</view>
+  </view>
+</view>
+
+<view style="margin:20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx">
+  <view style="padding:20rpx">
+    <view style="width:100%;text-align:center;font-weight:bold">中华人民共和国机动车驾驶证</view>
+    <view style="width:100%;text-align:center;color:#888;font-size:24rpx;margin-top:10rpx">
+      Driving License of the People's Republic of China
+    </view>
+    <view style="display:flex;margin-left:40%;align-items:center">
+      <view style="background:#eee;padding:5rpx 15rpx">证号</view>
+      <view>{{driverDetail.CrmDrivingLicense.No}}</view>
+    </view>
+    <view style="display:flex;align-items:center">
+      <view>姓名</view>
+      <input value="{{driverDetail.CrmDrivingLicense.Name}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+
+      <view style="margin-left:30rpx">国籍</view>
+      <input value="{{driverDetail.CrmDrivingLicense.Nationality}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+    </view>
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+      <view>住址</view>
+      <input value="{{driverDetail.CrmDrivingLicense.Address}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+
+      <view style="flex:1">
+
+        <view style="display:flex;align-items:center;">
+          <view>出生日期</view>
+          <input value="{{driverDetail.CrmDrivingLicense.Birth}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+        </view>
+
+        <view style="display:flex;align-items:center;margin-top:8rpx">
+          <view>领证日期</view>
+          <input value="{{driverDetail.CrmDrivingLicense.FirstIssueDate}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+        </view>
+
+        <view style="display:flex;align-items:center;margin-top:8rpx">
+          <view>准驾车型</view>
+          <input value="{{driverDetail.CrmDrivingLicense.Class}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+        </view>
+
+      </view>
+      <view style="margin-left:30rpx;">
+        <image style="width:150rpx;height:120rpx;margin-left:30rpx;" src='{{defaultUpZhengImage2}}' id='imgJiaShiZheng' bindtap='photoFunc'></image>
+        <view style="width:150rpx;margin-top:-30rpx;margin-left:30rpx;font-size:30rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传/更新驾驶证</view>
+      </view>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+      <view>有效期限</view>
+      <input value="{{driverDetail.CrmDrivingLicense.ValidFrom}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+      <view style="margin-left:20rpx">至</view>
+      <input value="{{driverDetail.CrmDrivingLicense.ValidTo}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+    </view>
+  </view>
+
+</view>
+
+<view style="margin:0rpx 20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx">
+  <view style="padding:20rpx">
+    <view style="width:100%;text-align:center;font-weight:bold">中华人民共和国机动车行驶证</view>
+    <view style="width:100%;text-align:center;color:#888;font-size:24rpx;margin-top:10rpx">
+      Vehicle License of the People's Republic of China
+    </view>
+
+    <view style="display:flex;align-items:center">
+      <view style="width:130rpx">车牌号码</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.PlateNo}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+
+      <view style="margin-left:20rpx">车辆类型</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.Type}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+      <view style="width:130rpx">所有人</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.Owner}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+      <view style="width:130rpx">住址</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.Address}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+      <view style="width:130rpx">使用性质</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.UsageType}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+
+      <view style="margin-left:20rpx">品牌型号</view>
+      <input value="{{driverDetail.CrmDriverVehicleLicense.BrandModel}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;margin-left:20rpx"></input>
+    </view>
+
+    <view style="display:flex;align-items:center;margin-top:8rpx">
+
+      <view style="flex:1">
+
+        <view style="display:flex;align-items:center;">
+          <view style="width:150rpx">车牌识别码</view>
+          <input value="{{driverDetail.CrmDriverVehicleLicense.Vin}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+        </view>
+
+        <view style="display:flex;align-items:center;margin-top:8rpx">
+          <view style="width:150rpx">发动机号码</view>
+          <input value="{{driverDetail.CrmDriverVehicleLicense.EngineNo}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+        </view>
+
+        <view style="display:flex;align-items:center;margin-top:8rpx">
+          <view style="width:150rpx">注册日期</view>
+          <input value="{{driverDetail.CrmDriverVehicleLicense.RegisterDate}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+        </view>
+
+        <view style="display:flex;align-items:center;margin-top:8rpx">
+          <view style="width:150rpx">发证日期</view>
+          <input value="{{driverDetail.CrmDriverVehicleLicense.IssueDate}}" disabled="true" style="border-bottom: 2rpx solid #999;flex:1;"></input>
+        </view>
+
+      </view>
+
+      <view style="margin-left:30rpx;">
+        <image style="width:150rpx;height:150rpx;" src='{{defaultUpZhengImage}}' id='imgXingShiZheng' name='imgXingShiZheng' bindtap='photoFunc' bindlongtap='previewImage'></image>
+        <view style="width:150rpx;margin-top:-30rpx;font-size:30rpx;text-align:center;color: #a5040d;font-weight: 600;">拍照上传/更新行驶证</view>
+      </view>
+
+    </view>
+  </view>
+</view>
+<view style="height: 100px;"></view>
+
+<view class="button-example" style="position: fixed;bottom: 0px;width: 90%;">
+  <t-button theme="primary" size="large" block shape="round" bindtap="baocun">保存上传</t-button>
+</view>
+
+
+<view style="margin:20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx" wx:if="{{haveBindCom.length>0}}">
+  <view style="padding:20rpx">
+    <view style="display:flex;font-size:30rpx" wx:if="{{haveBindCom.length>0}}">
+      <view style="width:200rpx;font-size:30rpx;font-weight:bold">挂靠公司</view>
+      <view style="width:470rpx">
+        <view wx:for="{{haveBindCom}}">
+          <view style="display:flex;margin-bottom:20rpx">
+            <view style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{item.CompanyName}}</view>
+            <view style="color:#4a8edb;text-decoration:underline;margin-left:20rpx;font-size:34rpx" data-comid="{{item.CompanyId}}" bindtap="unbindCom">解 绑</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view style="width:80%;margin-left:10%;border:none;position: fixed;top: 25%;box-shadow: 2px 2px 5px #000;z-index: auto;z-index: 1000;" wx:if="{{queren}}">
+  <view style="background-color: #a5040d;color: white;padding-left: 10px;padding-top: 10px;padding-bottom: 10px;">信息确认
+  </view>
+  <view style="background-color: white;padding-left: 10px;">
+    <view style="padding: 15px;font-size: 20px;">
+      <van-row>
+        <van-col span="6">姓名:</van-col>
+        <van-col span="16"><input type="text" style="border: 1px solid;height: 30px;border-radius: 5px;" model:value="{{userName}}"></input></van-col>
+      </van-row>
+    </view>
+    <view style="padding: 15px;font-size: 20px;">
+      <van-row>
+        <van-col span="6">车牌:</van-col>
+        <van-col span="16"><input type="text" style="border: 1px solid;height: 30px;border-radius: 5px;" model:value="{{plateNo}}"></input></van-col>
+      </van-row>
+    </view>
+    <view style="padding: 15px;padding-bottom: 20px;color:#a5040d">请仔细核实，谨慎确认!</view>
+    <view style="padding: 15px;font-size: 20px;">
+      <van-row>
+        <van-col offset="14" span="10">
+          <view style="display: inline-block;color: white;background-color: #a5040d;padding-top: 10px;padding-bottom: 10px;padding-left: 10px;padding-right: 10px;border-radius: 15px;width: 60%;text-align: center;font-size: 20px;" bindtap="querenbutton">确认</view>
+        </van-col>
+      </van-row>
+    </view>
+  </view>
+</view>
+
+<modal hidden="{{modalHidden}}" no-cancel title="提示信息" bindconfirm="resetModal">
+  <view> {{errinfo}} </view>
+</modal>
+
+<modal hidden="{{modalSuccessHidden}}" no-cancel title="成功" bindconfirm="resetSuccessModal">
+  <view> {{successinfo}} </view>
+</modal>

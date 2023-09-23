@@ -210,7 +210,7 @@ let Upload = class Upload extends SuperComponent {
             gridConfig = {};
         const { column = 4, width = 160, height = 160 } = gridConfig;
         this.setData({
-            gridItemStyle: `width:${width}rpx;height:${height}rpx`,
+            gridItemStyle: `align-self:flex-end;width:${width}rpx;height:${height}rpx`,
             column: column,
         });
     }

@@ -16,6 +16,10 @@ export interface TdTabsProps {
         type: BooleanConstructor;
         value?: boolean;
     };
+    split?: {
+        type: BooleanConstructor;
+        value?: boolean;
+    };
     sticky?: {
         type: BooleanConstructor;
         value?: boolean;

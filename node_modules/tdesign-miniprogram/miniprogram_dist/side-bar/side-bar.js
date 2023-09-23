@@ -14,16 +14,16 @@ let SideBar = class SideBar extends SuperComponent {
     constructor() {
         super(...arguments);
         this.externalClasses = [`${prefix}-class`];
-        this.childs = [];
+        this.children = [];
         this.relations = {
             [relationsPath]: {
                 type: 'child',
                 linked(child) {
-                    this.childs.push(child);
+                    this.children.push(child);
                 },
                 unlinked(child) {
-                    const index = this.childs.findIndex((item) => item === child);
-                    this.childs.splice(index, 1);
+                    const index = this.children.findIndex((item) => item === child);
+                    this.children.splice(index, 1);
                 },
             },
         };

@@ -49,6 +49,7 @@
 }
 .t-radio__icon {
   position: relative;
+  margin-top: calc((var(--td-radio-label-line-height, 48rpx) - var(--td-radio-icon-size, 48rpx)) / 2);
   width: var(--td-radio-icon-size, 48rpx);
   height: var(--td-radio-icon-size, 48rpx);
   font-size: var(--td-radio-icon-size, 48rpx);

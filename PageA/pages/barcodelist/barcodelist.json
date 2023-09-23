@@ -1,0 +1,13 @@
+{
+    "usingComponents": {
+        "wux-row": "../../../lib/row/index",
+        "wux-col": "../../../lib/col/index",
+        "wux-icon": "../../../lib/icon/index",
+        "wux-card": "../../../lib/card/index",
+        "wux-wing-blank": "../../../lib/wing-blank/index",
+        "wux-cell-group": "../../../lib/cell-group/index",
+          "wux-cell": "../../../lib/cell/index",
+          "wux-form": "../../../lib/form/index",
+          "wux-field": "../../../lib/field/index"
+      }
+}

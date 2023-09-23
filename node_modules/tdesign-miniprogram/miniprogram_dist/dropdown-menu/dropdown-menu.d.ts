@@ -12,10 +12,16 @@ export default class DropdownMenu extends SuperComponent {
         menus: any;
         activeIdx: number;
         bottom: number;
+        _arrowIcon: {
+            name: string | object;
+        };
     };
     relations: RelationsOptions;
     lifetimes: {
         ready(): void;
+    };
+    observers: {
+        arrowIcon(v: any): void;
     };
     methods: {
         toggle(index: number): void;

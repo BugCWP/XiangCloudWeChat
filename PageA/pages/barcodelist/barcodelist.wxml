@@ -1,0 +1,65 @@
+<view class="page">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="托盘清单" t-class-title="nav-title" left-arrow />
+    </view>
+    <view class="card">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;">箱信息</view>
+        <t-divider />
+        <view style="display:flex; align-items: center;justify-content: center;margin-left: 20px;">
+            <view style="flex: 2;">
+                <view style="font-size:30rpx;font-weight: 600;">箱号： {{xianghao}}</view>
+                <view style="font-size:30rpx;font-weight: 600;">箱形： {{xiangxing}}</view>
+            </view>
+        </view>
+        <view style="margin-left: 20px;margin-top: 5px;"> 
+            <label class="lblStyle">本集装箱预配<a style="font-size:14px;color:#a5040d;font-weight:bold;">{{maxxiangcount}}</a>个托盘，已装入<a style="font-size:14px;color:#a5040d;font-weight:bold;">{{preparexiangcount}}</a>托，尚有<a style="font-weight:bold;font-size:14px;color:#a5040d;">{{remianxiangcount}}</a>托未装入。</label>
+        </view>
+    </view>
+
+    <view class="card">
+        <view style="font-weight: 600;color: #a5040d;margin-left: 20px;margin-top: 5px;">托盘清单</view>
+        <t-divider />
+        <view style="display:flex; align-items: center;justify-content: center;margin-bottom: 5px;">
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 600;">托盘位置</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 600">托盘号</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 600">件数</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 600">托盘位置</view>
+            </view>
+        </view>
+        <view style="display:flex; align-items: center;justify-content: center;margin-left: 20px;margin-top: 3px;" wx:for="{{arrHaveProduct}}" wx:key="arrHaveProduct">
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;color: blue;">{{item.Index}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;color: blue;">{{item.BarCode}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;color: blue;">{{item.Qty}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;color: blue;">{{item.StorageCode}}</view>
+            </view>
+        </view>
+        <view style="display:flex; align-items: center;justify-content: center;margin-left: 20px;margin-top: 3px;" wx:for="{{arrRemainProduct}}" wx:key="arrRemainProduct">
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;">{{item.Index}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;">{{item.BarCode}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;">{{item.Qty}}</view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:30rpx;font-weight: 400;">{{item.StorageCode}}</view>
+            </view>
+        </view>
+    </view>
+</view>

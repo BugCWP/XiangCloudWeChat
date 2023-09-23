@@ -30,17 +30,14 @@ let Indexes = class Indexes extends SuperComponent {
                 type: 'child',
             },
         };
-        this.behaviors = [
-            pageScrollMixin(function (event) {
-                this.onScroll(event);
-            }),
-        ];
+        this.behaviors = [pageScrollMixin()];
         this.timer = null;
         this.groupTop = [];
         this.sidebar = null;
         this.observers = {
             indexList(v) {
                 this.setIndexList(v);
+                this.setHeight(this.data._height);
             },
             height(v) {
                 this.setHeight(v);
@@ -48,11 +45,10 @@ let Indexes = class Indexes extends SuperComponent {
         };
         this.lifetimes = {
             ready() {
-                var _a;
                 if (this.data._height === 0) {
                     this.setHeight();
                 }
-                if (((_a = this.data._indexList) === null || _a === void 0 ? void 0 : _a.length) === 0) {
+                if (this.data.indexList === null) {
                     this.setIndexList();
                 }
             },

@@ -12,7 +12,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import props from './props';
 import { getInstance } from '../common/utils';
 const defaultOptions = {
-    actions: false,
+    actions: [],
     buttonLayout: props.buttonLayout.value,
     cancelBtn: props.cancelBtn.value,
     closeOnOverlayClick: props.closeOnOverlayClick.value,

@@ -1,0 +1,79 @@
+page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: rgba(0, 0, 0, .85);
+    background-color: #f8f8f8;
+    font-size: 16px;
+    font-family: PingFang SC, Helvetica Neue, Hiragino Sans GB, Helvetica, Microsoft YaHei, Arial;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  
+  }
+  
+  .card {
+    width: 710rpx;
+    background: white;
+    border-radius: 15rpx;
+    margin: 20rpx 20rpx 0rpx 20rpx;
+  }
+  
+  .imgImageStyle{
+    height:200px;
+    width:200px;
+    }
+  
+  .buttonStyle {
+    background: #a5040d;
+    border-radius: 10px;
+    color: white;
+    margin-left: 1px;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  .img-wrap {
+    width: 720rpx;
+    height: 720rpx;
+    margin-top: 15rpx;
+    margin-left: 15rpx;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+  }
+  
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2px;
+  }
+  .custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+.box {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+}
+.button-example {
+  margin: 0 32rpx;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32rpx;
+}
+.long-content {
+  height: 750rpx;
+  margin-top: 16rpx;
+  font-size: 32rpx;
+  color: #888;
+}
+
+.long-content .content-container {
+  white-space: pre-line;
+}

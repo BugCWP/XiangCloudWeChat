@@ -13,6 +13,10 @@ const props = {
         type: Boolean,
         value: true,
     },
+    split: {
+        type: Boolean,
+        value: true,
+    },
     sticky: {
         type: Boolean,
         value: false,

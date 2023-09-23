@@ -45,6 +45,11 @@
   color: transparent;
 }
 .t-tree-select__item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   height: var(--td-tree-item-height, 112rpx);
   line-height: var(--td-tree-item-height, 112rpx);
   font-size: var(--td-tree-item-font-size, 32rpx);

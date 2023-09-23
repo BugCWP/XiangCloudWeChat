@@ -1,0 +1,532 @@
+<canvas class='canvas' style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;top:{{canvasHeight*2}}px;" canvas-id="firstCanvas"></canvas>
+<view class="block" wx:if="{{!iscamera}}">
+    <t-navbar class="custom-navbar" title="铁路装箱照片详情" t-class-title="nav-title" left-arrow />
+</view>
+
+<block wx:if="{{iscamera}}">
+    <view style="background-color: black;width: 100%;height: 100%;">
+        <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:80%;position: fixed;top: 14%;">
+        </camera> 
+        <view style="position: fixed;text-align: center;left: 5%;top: 8%;">
+            <t-icon name="close" size="70rpx" style="color: white;" bind:click="closeCarPhoto" />
+        </view>
+        <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
+            <view style="flex: 2;text-align: center;display: flex;">
+                <view style="flex: 1;"></view>
+                <view style="flex: 1;">
+                    <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
+                </view>
+                <view style="flex: 1;"></view>
+            </view>
+            <view style="flex: 1;text-align: center;">
+                <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takeCarPhoto"></t-button>
+            </view>
+            <view style="flex: 2;text-align: center;"></view>
+        </view>
+        <view style="position: fixed;bottom: 5%;right: 10%;">
+        </view>
+    </view>
+</block>
+
+<view class="page" hidden="{{hidden1stPage}}" wx:if="{{!iscamera}}">
+    <view style="padding:2%;border: 1px solid #bebebe;border-radius: 10px;background-color: white;margin-top:3px;margin-bottom:2px;width: 90%;margin-left: 3%;">
+        <view style="display: flex;justify-content: space-between;align-items: center;">
+            <view style="flex: 1;">
+                <view style="color:#a5040d;font-weight:bold;margin-left: 10%;">箱门照</view>
+                <t-divider />
+                <view style="width:100%;">
+                    <image mode="aspectFit" data-src="{{srcImg1}}" catchtap="bigimg" src="{{srcImg1}}" style="width:140px;height:110px;padding:5px;"></image>
+                </view>
+            </view>
+            <view style="flex: 1;">
+                <view style="font-size:16px;margin-top:10px;font-weight: 600;">
+                    <view hidden="true">ID：{{id}}</view>
+                    <view>箱号：{{packageNo}}</view>
+                    <view>箱型：{{packageType}}</view>
+                    <!-- <view>关单号B/L：{{guandanhao}}</view> -->
+                    <view>单号：{{liushuihao}}</view>
+                    <view>拍照人：{{DoorPhotoBy}}</view>
+                    <view>预约车：{{ResvPlateNo}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{isFront}}" style="padding:2%;border: 1px solid #bebebe;border-radius: 10px;background-color: white;margin-top:3px;margin-bottom:2px;width: 90%;margin-left: 3%;">
+        <view style="display: flex;width: 90%;margin-left: 5%;">
+            <view style="flex: 1;text-align: center;">
+                <view style="color:#a5040d;font-weight:bold;">集卡车头</view>
+                <t-divider />
+                <view bindlongtap="takePhotoCar" wx:if="{{truckPic!=''}}" style="z-index:1000">
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{truckPic}}" style="height:70px;width:80px;" data-src="{{truckPic}}" catchtap="bigimg"></image>
+                </view>
+                <view style="display: inline-block;" wx:if="{{truckPic == ''}}">
+                    <t-grid-item icon="photo" bindtap="takePhotoCar" data-index="3" />
+                </view>
+            </view>
+            <view style="flex: 1;text-align: center;">
+                <view style="color:#a5040d;font-weight:bold;margin-left: 10px;">集装箱</view>
+                <t-divider />
+                <view bindlongtap="takePhotoCar2" wx:if="{{container1Pic!=''}}" style="z-index:1000">
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{container1Pic}}" style="height:70px;width:80px;" data-src="{{container1Pic}}" catchtap="bigimg"></image>
+                </view>
+                <view style="display: inline-block;" wx:if="{{container1Pic == ''}}">
+                    <t-grid-item icon="photo" bindtap="takePhotoCar2" data-index="3" />
+                </view>
+            </view>
+            <view style="flex: 1;text-align: center;">
+                <view style="color:#a5040d;font-weight:bold;">集卡车尾</view>
+                <t-divider />
+                <view bindlongtap="takePhotoCar4" wx:if="{{tailTruckPic!=''}}" style="z-index:1000">
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{tailTruckPic}}" style="height:70px;width:80px;" data-src="{{tailTruckPic}}" catchtap="bigimg"></image>
+                </view>
+                <view style="display: inline-block;" wx:if="{{tailTruckPic == ''}}">
+                    <t-grid-item icon="photo" bindtap="takePhotoCar4" data-index="3" />
+                </view>
+            </view>
+        </view>
+        <view class="button-example">
+            <t-button theme="primary" block bindtap="finishCar" shape="round">完成车辆进出拍摄</t-button>
+        </view>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{imgmain}}">
+        <view>
+            <view style="display: flex;">
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;">
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">箱门照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img1Color}};color: white;font-size: 20px;border: 3px solid {{img1Color}};width: 20px;text-align: center;">1</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{srcImg1}}" catchtap="bigimg" src="{{srcImg1}}" />
+                    </view>
+                </view>
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takePhotoKongXiang" bindlongpress="changeImg1">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{KongXiangZhao.length == 0}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">空箱照</view>
+                        <view style="width: 100%;height: 100%;background-color: gray;"></view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img2Color}};color: white;font-size: 20px;border: 3px solid {{img2Color}};width: 20px;text-align: center;" wx:if="{{KongXiangZhao.length > 0}}">{{KongXiangZhao.length}}</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{KongXiangZhao}}" src="{{KongXiangZhao[0]}}" wx:if="{{KongXiangZhao.length > 0}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{KongXiangZhao.length == 0}}" />
+                    </view>
+                </view>
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeBanZhuangPhoto" bindlongpress="changeImg2">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{halfPhotoList.length == 0}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">装箱照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img3Color}};color: white;font-size: 20px;border: 3px solid {{img3Color}};width: 20px;text-align: center;" wx:if="{{halfPhotoList.length > 0}}">{{halfPhotoList.length}}</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{halfPhotoList}}" src="{{halfPhotoList[0]}}" wx:if="{{halfPhotoList.length > 0}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{halfPhotoList.length == 0}}" />
+                    </view>
+                </view>
+            </view>
+            <view style="display: flex;">
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeManZhuangPhoto" bindlongpress="changeImg3">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{ManZhuangZhao.length == 0}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">满装照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img4Color}};color: white;font-size: 20px;border: 3px solid {{img4Color}};width: 20px;text-align: center;" wx:if="{{ManZhuangZhao.length > 0}}">{{ManZhuangZhao.length}}</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{ManZhuangZhao}}" src="{{ManZhuangZhao[0]}}" wx:if="{{ManZhuangZhao.length > 0}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{ManZhuangZhao.length == 0}}" />
+                    </view>
+                </view>
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takePhotoJiaGu" bindlongpress="changeImg4">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{JiaGuZhao.length == 0}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">加固照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img5Color}};color: white;font-size: 20px;border: 3px solid {{img5Color}};width: 20px;text-align: center;" wx:if="{{JiaGuZhao.length > 0}}">{{JiaGuZhao.length}}</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{JiaGuZhao}}" src="{{JiaGuZhao[0]}}" wx:if="{{JiaGuZhao.length > 0}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{JiaGuZhao.length == 0}}" />
+                    </view>
+                </view>
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeBanGuanMenPhoto">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{imgBanGuanMenPhoto==''}}">点击拍摄</view>
+                        <view style="position: absolute;left: 10%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">半关门照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img6Color}};color: white;font-size: 20px;border: 3px solid {{img6Color}};width: 20px;text-align: center;" wx:if="{{imgBanGuanMenPhoto!=''}}">1</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{imgBanGuanMenPhoto}}" bindlongpress="bigimg" src="{{imgBanGuanMenPhoto}}" wx:if="{{imgBanGuanMenPhoto!=''}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{imgBanGuanMenPhoto==''}}" />
+                    </view>
+                </view>
+            </view>
+            <view style="display: flex;">
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeGuanMenShiFengPhoto">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{imgGuanMenShiFengPhoto == ''}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">关门照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img7Color}};color: white;font-size: 20px;border: 3px solid {{img7Color}};width: 20px;text-align: center;" wx:if="{{imgGuanMenShiFengPhoto != ''}}">1</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{imgGuanMenShiFengPhoto}}" bindlongpress="bigimg" src="{{imgGuanMenShiFengPhoto}}" wx:if="{{imgGuanMenShiFengPhoto != ''}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{imgGuanMenShiFengPhoto==''}}" />
+                    </view>
+                </view>
+                <view style="flex:1">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeOtherPhoto" bindlongpress="changeImg5">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{FengZhiZhao.length == 0}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">封志照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img8Color}};font-size: 20px;color: white;border: 3px solid {{img8Color}};width: 20px;text-align: center;" wx:if="{{FengZhiZhao.length > 0}}">{{FengZhiZhao.length}}</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{FengZhiZhao}}" src="{{FengZhiZhao[0]}}" wx:if="{{FengZhiZhao.length>0}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{FengZhiZhao.length == 0}}" />
+                    </view>
+                </view>
+                <view style="flex:1"></view>
+            </view>
+        </view>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img1}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">空箱照</view>
+        <view style="display: inline-block;float:right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg1"></t-button>
+        </view>
+
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ KongXiangZhao }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close-circle" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img2}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">装箱照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg2"></t-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ halfPhotoList }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img3}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">满装照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg3"></t-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ ManZhuangZhao }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img4}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">加固照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg4"></t-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ JiaGuZhao}}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>=0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img5}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">封志照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg5"></t-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ FengZhiZhao }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img6}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">半关门照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <t-button theme="primary" icon="close" color="#a5040d" size="extra-small" shape="round" bindtap="closeimg6"></t-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ imgBanGuanMenPhoto }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+
+    <view style="width: 90%;margin-left: 3%;background-color: white;padding: 2%;border: 1px solid #bebebe;border-radius:10px" wx:if="{{img7}}">
+        <view style="color:#a5040d;font-weight: 600;display: inline-block;margin-top: 10px;">关门照</view>
+        <view style="display: inline-block;float: right;margin-top: 5px;">
+            <van-button round icon="revoke" color="#a5040d" size="small" bind:click="closeimg7"></van-button>
+        </view>
+        <t-divider />
+        <t-grid column="3" border="{{ false }}" gutter="{{ 10 }}">
+            <t-grid-item use-slot wx:for="{{ imgGuanMenShiFengPhoto }}" wx:for-index="idx" wx:for-item="item">
+                <view style="position: absolute;bottom: 20px;right: 25px;">
+                    <t-icon name="close" color="red" size="25px" wx:if="{{FenShu[idx]==0}}" />
+                    <t-icon name="passed" color="green" size="25px" wx:if="{{FenShu[idx]>=7}}" />
+                    <t-icon name="question-o" color="yellow" size="25px" wx:if="{{FenShu[idx]<7&&FenShu[idx]>0}}" />
+                </view>
+                <image style="width: 100%; height: 90px;" src="{{item}}" data-src="{{item}}" bindtap="bigimg" />
+            </t-grid-item>
+        </t-grid>
+    </view>
+
+</view>
+<view style="height: 150px"></view>
+<view wx:if="{{!isFront && !iscamera}}" style="position: fixed;width: 100%;bottom: 0px;background-color: white;height: 10%;">
+    <view style="display: flex;justify-content:center;align-items: center;display: grid;grid-template-columns: repeat(3, 1fr);gap: 32rpx;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+        <t-button theme="light" block size="large" bindtap="showClearAllPhotos">一键清除</t-button>
+        <t-button theme="primary" block size="large" bindtap="onchange">切换</t-button>
+        <t-button theme="primary" block size="large" bindtap="confirmPackagePhoto">保存上传</t-button>
+    </view>
+</view>
+<t-picker visible="{{changePackageVisible}}" value="{{id}}" title="箱照切换" cancelBtn="取消" confirmBtn="确认" bindchange="changePackage" bindcancel="changePackageCancel">
+    <t-picker-item options="{{changeDatas}}"></t-picker-item>
+</t-picker>
+<t-dialog visible="{{!modalSuccessHidden}}" title="{{modalTitle}}" content="{{successinfo}} " confirm-btn="{{ { content: '确认', variant: 'base' } }}" bind:confirm="resetSuccessModal" wx:if="{{!iscamera}}" />
+
+<t-dialog visible="{{!hiddenConfirm}}" title="提示" content="封志未拍，真要完成吗？ " confirm-btn="{{ { content: '确认', variant: 'base' } }}" cancel-btn="取消" bind:confirm="confirmGoOn" bind:cancel="cancelHiddenModal" />
+
+<t-dialog visible="{{!hiddenNotice}}" title="特别提醒" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="hiddenNoticePage">
+    <scroll-view slot="content" scroll-y>
+        <view class="content-container">
+            <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>本集装箱为<label style="color:#a5040d;font-weight:bold;">铁路用箱</label>，装箱拍照需按照中铁相关要求进行，请务必按照相关的规定完成装箱、加固、施封、拍照等工作。 </view>
+            <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>本程序可协助您完成规定的照片收集、整理、存储工作，请按照程序提示的流程完成所述工作。 </view>
+            <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>因技术受限，本程序并不能保证您提交的装箱照片为中铁认可，我们将继续努力提高系统的智能性，进一步提高您的工作效率！ </view>
+            <view style="display:flex;justify-content: space-between;align-items:center;margin-top:10px">
+                <view style="font-size:16px;text-align:left;color:#a5040d;" bindtap="showRules">*查阅相关规定</view>
+                <view>
+                    <checkbox checked="{{iscb}}" bindtap="cbChange" />不再提醒
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</t-dialog>
+
+<t-dialog visible="{{!hiddenRules}}" title="特别提醒" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="hiddenShowRules">
+    <scroll-view slot="content" scroll-y class="long-content">
+        <view class="content-container">
+            <view style="font-size:18px;text-align:center;font-weight:bold;"> 多联公司关于加强中欧（中亚）回程班列境外代理运输安全操作管理的告知函 </view>
+            <view style="font-size:16px;text-align:left;">各境外代理公司:</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>为进一步确保中欧（中亚）回程班列运输安全可控，避免因偏载、偏重、箱体破损、液体渗漏等其他安全隐患，造成的中途甩车、口岸滞留等班列无法正常开行的情况出现，请各单位严格按照如下规定进行代理运输操作。
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>一、货物品名要求</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>按照铁路危险货物名录检查货物是否符合铁路运输要求，对生僻品名、理化性质不明货物等无法确定是否为危险品的货物，
+                必须在确认订舱前提供由铁路认可的鉴定机构（机构名称见附件1）出具的非危鉴定证明。</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>二、装运要求</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>对于不同运输条件的货物、根据货物性质不能混装运输的货物，一律不得混装。下列货物不得混装于同一集装箱内：1、易腐货物与非易腐货物；2、危险货物与非危险货物；3、性质相抵的货物；4、运输条件不同的货物。
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>三、装运箱体要求</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>必须符合集装箱铁路运输的要求，不使用报废箱、破损箱、二手翻新箱以及不符合铁路运输标准的其他箱型，所用自备箱必须具备船级社集装箱证书，应使用状态良好的集装箱，标有定期检验日期或连续检验计划标记
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>四、装箱要求</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（一）基本技术要求。货物装箱时应码放稳固，装载均
+                衡，不超载、不集重、不偏重、不偏载、不撞击箱体，采取防止货物移动、滚动或开门时倒塌的措施，保证箱内货物和集装箱运输安全。</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（二）基本原则。使用合格的隔离衬垫及捆扎加固材料，
+                装箱时必须考虑方便拆箱卸货，在整个集装箱内均匀地分布载荷重量，尽可能地等高装载；轻浮货物装在重质货物之上，不同货物层次之间使用隔离材料分开，把相同或相近包装尺寸的货物堆装在一起，把不同包装尺寸或不同类型的货物以及不同密度的货物分隔开来，在它们之间使用分隔材料分隔；使用挡块、支架或其它隔离材料把不规则的货物同其余货物隔离开
+                来，细长货物在集装箱的底部按顺向装载；已损坏或包装损坏的货物不能装箱，装箱前已坏的包装要修复好，才可装入箱 内，装货完毕要检查，做到货物不松动，以免集装箱倾斜造成货损。</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（三）装载加固要求。箱内货物前侧与后侧重量差不超过3.5 吨；左侧与右侧重量差不超过 0.5 吨；装运货物单件超过0.5
+                吨，必须在确认订舱前提供装箱方案；对于钢铁产品，必须提供特殊的装箱计划供承运人批准</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（四）注意事项。利用钉牢于地板上的方木、支架等阻挡货物（常用于箱门处），或者使用橡胶垫等摩擦系数大的材料作为支垫材料来防止货物移动；利用填充材料塞入货物装载隙缝中，用以防止货物的移动；使用绳索、化纤带、索具或用网具等材料，把货物系固于集装箱内提供的系固点上或者货物
+                间，捆扎在一起以防止货物移动。</view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>五、装箱照片要求</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>装货时拍摄装箱照片（照片要求至少包括：空箱照片、货物装半时照片、货物装满时照片、能清晰反应货物装载加固状态的照片、装满后左侧箱门打开并右侧箱门关闭照片、箱门关闭施封后照片），施封后照片必须能清晰反映施封、落锁情况和锁杆、门把手紧固及螺栓完好状态。装箱照片模板见附件2。
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+            <view style="font-size:16px;text-align:right;"><text style='display:inline-block;width:20px'></text>中铁国际多式联运有限公司
+            </view>
+            <view style="font-size:16px;text-align:right;"><text style='display:inline-block;width:20px'></text>2020 年 11 月 10 日
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+
+            <view style="font-size:16px;text-align:left;font-weight:bold;">附件 1</view>
+            <view style="font-size:18px;text-align:center;font-weight:bold;"> 非危货物鉴定机构名录 </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>根据《化学品物理危险性鉴定与分类管理办法》（国家安全监管总局令第 60 号）的有关规定，下列 11 家单位具备非危货物鉴定资质：
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>中国安全生产科学研究院；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>国家安全生产监督管理总局化学品登记中心（中国石油化工股份有限公司青岛安全工程研究院）；</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>沈阳化工研究院有限公司；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>浙江省化工产品质量检验站有限公司；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>四川省危险化学品质量监督检验所；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>南京理工大学化学材料测试中心；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>国家化学品及制品安全质量监督检验中心； </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>化学工业合成材料老化质量监督检验中心； </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>中国工程物理研究院含能材料测试评价中心； </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>湖北航天化学技术研究所；
+            </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>贵州省分析测试研究院。
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+
+            <view style="font-size:16px;text-align:left;font-weight:bold;">附件 2</view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（1）空箱照片</view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian21.jpg">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（2）货物装半时照片</view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian22.jpg">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（3）货物装满时照片</view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian23.png">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（4）能清晰反应货物装载加固状态的照片</view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian24.png">
+                </image>
+            </view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian25.png">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（5）装满后左侧箱门打开并右侧箱门关闭照片</view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian26.png">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（6）箱门关闭施封后照片
+            </view>
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian27.png">
+                </image>
+            </view>
+
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>正确施封位置 </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>如图所示，面对箱门，右侧箱门的左侧把手 </view>
+            <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>注意：禁止将铅封封在其他位置。
+            </view>
+
+            <view class="imgImageStyle">
+                <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian28.png">
+                </image>
+            </view>
+        </view>
+    </scroll-view>
+</t-dialog>
+
+<t-dialog visible="{{!hiddenGoOnSaveBill}}" title="{{myNewErrorInfo}}" content="告知当前状态、信息和解决方法，等内容。描述文案尽可能控制在三行内" confirm-btn="{{ { content: '确认', variant: 'base' } }}" cancel-btn="取消" bind:confirm="continueSaveBill" bind:cancel="cancelSaveBill" />
+
+
+<!-- 
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view>
+
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage1}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto1" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext1" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view>
+
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage2}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto2" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext2" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view>
+
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage3}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto3" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext3" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view>
+
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage4}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto4" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext4" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view>
+
+<view class="flex-row" hidden="{{hiddenPhotoButtonPage5}}">
+    <button class='buttonSubmitStyle' bindtap="closePhoto5" style="margin-left:20px;margin-right:20px;width:50%;">关闭</button>
+    <button class='buttonSubmitStyle' bindtap="takePhotoCreateCameraContext5" style="margin-left:20px;margin-right:20px;width:50%;">拍照</button>
+</view> -->
+
+<t-dialog visible="{{!hiddenShowTipKongXiang}}" title="" content="打开箱门，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipKongXiang">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/tipkongxiang.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowTipBanZhuangXiang}}" title="" content=" 货物装入一半，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipBanZhuangXiang">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/banzhuangxiang.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowTipManZhuangXiang}}" title="" content="货物装满，留出箱壁箱号位置，箱外略靠左站立，确保立柱横梁底梁都在取景范围内，且能看清箱内壁箱号。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipManZhuangXiang">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/banzhuangxiang.png" />
+</t-dialog>
+<t-dialog visible="{{!hiddenShowTipJiaGu}}" title="" content="打开箱门正对集装箱方向拍摄,确保集装箱门框立柱位于照片内确保光线充足，能看清货物及加固情况。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipJiaGu">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/jiagu.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowTipBanGuanMen}}" title="" content="半关箱门正对集装箱方向拍摄，确保集装箱门框立柱位于照片内确保光线充足，能看清装箱情况确保货物装载规整" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipBanGuanMen">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/banguanmen.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowTipShiFeng}}" title="" content="关闭箱门正对集装箱方向拍摄，确保集装箱门框立柱位于照片内确保光线充足，能看清箱号。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipShiFeng">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/shifengzhao.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowTipShiFeng}}" title="" content="关闭箱门正对集装箱方向拍摄，确保集装箱门框立柱位于照片内确保光线充足，能看清箱号。" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTipShiFeng">
+    <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/shifengzhao.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenShowShoudong}}" title="录入关单号" content="" confirm-btn="确定" bind:confirm="confirmGuanDan">
+    <view slot="content">
+        <t-input borderless class="dialog-input" clearable placeholder="请输入关单号" placeholder-class="placeholder" value="{{inputGuandan}}" bind:change='bindGuandan' />
+    </view>
+</t-dialog>
+
+<!-- <modal hidden="{{hiddenShowShoudong}}" no-cancel title="录入关单号" bindconfirm="confirmGuanDan">
+    <view style="display:flex">
+        <view style="padding:10rpx 0rpx">关单号：</view>
+        <input style="flex:1;padding:10rpx 5rpx;border-bottom: 2rpx solid #a1cff8;" maxlength="25" placeholder="请输入关单号" value="{{inputGuandan}}" bindinput="bindGuandan"></input>
+    </view>
+</modal> -->
+
+<t-dialog visible="{{!ClearAllPhoto}}" title="信息确认" confirm-btn="{{ {content: '我确定要删除', variant: 'base' } }}" cancel-btn="取消" bind:confirm="ClearAllPhotos" bind:cancel="closeClearAllPhotos">
+    <scroll-view slot="content" scroll-y>
+        <view style="margin-top: 10px;">
+            <view style="margin-left: 30px;">箱号：{{packageNo}} {{packageType}}</view>
+            <view style="margin-left: 30px;">单号：{{liushuihao}}</view>
+        </view>
+        <view style="text-align:left;font-size:16px;margin-top:20px;">
+            请仔细核对，图像数据一旦清除,不可恢复!
+        </view>
+    </scroll-view>
+</t-dialog>

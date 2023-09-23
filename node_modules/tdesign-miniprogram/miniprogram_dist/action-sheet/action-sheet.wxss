@@ -123,6 +123,9 @@
 .t-action-sheet__list-item-icon {
   margin-right: 16rpx;
 }
+.t-action-sheet__list-item-icon--suffix {
+  margin-left: auto;
+}
 .t-action-sheet__swiper-wrap {
   margin-top: 8rpx;
   position: relative;

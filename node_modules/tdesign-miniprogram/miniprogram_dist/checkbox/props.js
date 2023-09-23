@@ -1,11 +1,11 @@
 const props = {
-    placement: {
-        type: String,
-        value: 'left',
-    },
     block: {
         type: Boolean,
         value: true,
+    },
+    borderless: {
+        type: Boolean,
+        value: false,
     },
     checkAll: {
         type: Boolean,
@@ -26,7 +26,7 @@ const props = {
         type: Boolean,
     },
     disabled: {
-        type: Boolean,
+        type: null,
         value: undefined,
     },
     externalClasses: {
@@ -54,6 +54,10 @@ const props = {
     name: {
         type: String,
         value: '',
+    },
+    placement: {
+        type: String,
+        value: 'left',
     },
     readonly: {
         type: Boolean,

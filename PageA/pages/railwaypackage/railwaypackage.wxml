@@ -1,0 +1,314 @@
+<view class="page" hidden="{{hiddenmainpage}}">
+  <view class="block">
+    <t-navbar class="custom-navbar" title="铁路装箱照片" t-class-title="nav-title" left-arrow />
+  </view>
+  <scroll-view scroll-y="true" class="scoll-h">
+    <block wx:for="{{dataArray}}" wx:key="dataArray">
+      <view class="card" style="font-size:28rpx">
+        <view style="display:flex">
+          <image mode="aspectFit" src="{{item.srcImg}}" style="width:250rpx;height:150rpx;margin-top:30rpx;margin-left:20rpx" id="imagephot{{item.Id}}" id="imagephot{{item.Id}}" data-src="{{item.srcImg}}" bindtap="bigimg"></image>
+
+          <view>
+            <view style="color:#888;margin-left:20rpx;margin-top:33rpx">箱号:<text style="color:black">{{item.packageNo}}</text></view>
+
+            <view style="color:#888;margin-left:20rpx;margin-top:13rpx">箱型:<text style="color:black">{{item.packageType}}</text>
+            </view>
+
+            <view style="color:#888;margin-left:20rpx;margin-top:13rpx">提单号:<text style="color:black">{{item.liushuihao}}</text>
+            </view>
+            <view style="color:#888;margin-left:20rpx;margin-top:13rpx">拍照人:<text style="color:black">{{item.DoorPhotoBy}}</text>
+            </view>
+            <view style="color:#888;margin-left:20rpx;margin-top:13rpx" wx:if="{{item.importImageTitle != '拍箱门照' && (item.inPortDate == null||item.inPortDate=='')}}">预约状态:<text style="color:#a5040d">{{item.ResvDate==null?'未预约':'已预约'}}</text>
+            </view>
+          </view>
+
+        </view>
+
+        <view style="margin-top:20rpx;margin-left:20rpx">
+          <view style="display:flex">
+            <view style="max-width:600rpx;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;" wx:if="{{item.address}}">{{item.address}}</view>
+            <image mode="aspectFit" src="../../img/from.png" style="width:50rpx;height:50rpx" wx:if="{{item.lng&&item.lat}}" bindtap="bindaddress" data-item="{{item}}">
+            </image>
+          </view>
+
+          <view style="display:flex;margin-top:10rpx;align-items:center;font-size: 16px;">
+            <block wx:if="{{item.shipmentDate}}">
+              <view>已发运</view>
+              <view style="margin-left:30rpx;color:#888">{{item.shipmentDate}}</view>
+            </block>
+            <block wx:elif="{{item.inPortDate}}">
+              <view>已进站</view>
+              <view style="margin-left:30rpx;color:#888">{{item.inPortDate}}</view>
+            </block>
+            <block wx:elif="{{item.completeDate}}">
+              <view>拍照完成</view>
+              <view style="margin-left:30rpx;color:#888">{{item.completeDate}}</view>
+            </block>
+
+          </view>
+
+        </view>
+
+
+
+        <view style="width:100%;margin-top:15rpx;height: 60rpx;">
+          <view style="width:160rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="gotoTakePhotoDetail">
+            {{item.importImageTitle == '拍箱门照'?'开始':'继续'}}</view>
+          <view wx:if="{{item.importImageTitle != '拍箱门照' && (item.inPortDate == null ||item.inPortDate=='')}}" style="border-radius: 30rpx;color:white;background:#a5040d;text-align:center;width:220rpx;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="showYuYue" data-item="{{item}}">{{item.ResvDate==null?'送箱预约进场':'我要更新预约'}}</view>
+          <view wx:if="{{(comID ==75||comID ==54||comID ==76)&&item.importImageTitle == '拍箱门照'}}" style="width:220rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="gotoChooseImg">相册选择</view>
+          <view wx:if="{{item.RailInReceiptPath!=null&&item.RailInReceiptPath!=''&&item.importImageTitle != '拍箱门照'}}" style="width:220rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" data-src="{{item.RailInReceiptPath}}" bindtap="downloadPDF">下载落箱小票</view>
+
+        </view>
+        <view style="height:20rpx"></view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+
+<t-dialog visible="{{hiddenPhotoPage&&isshowimg}}" title="箱门照拍摄方法" content="请正对集装箱箱门将集装箱箱门置于参考线内拍摄照片" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeImg">
+  <t-image slot="middle" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/railHint_1_DoorPhoto.png" />
+</t-dialog>
+
+<view style="width:100%;height:200rpx" wx:if="{{hiddenPhotoPage}}"></view>
+
+<view style="font-size:28rpx;position:fixed;bottom:0;z-index:99;width:100%;padding-bottom: 10px;padding-top: 5px;background-color: white;" wx:if="{{hiddenPhotoPage}}">
+  <view class="button-example">
+    <t-button theme="primary" block size="small" shape="round" bindtap="showImg">如何拍摄箱门照</t-button>
+    <t-button theme="primary" block size="small" shape="round" bindtap="showNotice">拍照注意事项</t-button>
+  </view>
+</view>
+
+
+
+<block wx:if="{{!hiddenPhotoPage}}">
+  <view style="background-color: black;width: 100%;height: 100%;">
+    <camera frame-size="large" resolution="high" device-position="back" flash="{{flashSet}}" style="width:100%;height:50%;position: fixed;top: 14%;" wx:if="{{!hiddenPhotoPage}}">
+      <cover-view style="height:100%;width:100%;">
+        <cover-image src='{{templateImg}}' class="img-wrap"></cover-image>
+      </cover-view>
+    </camera> 
+    <view style="position: fixed;text-align: center;left: 5%;top: 8%;">
+      <t-icon name="close" size="70rpx" style="color: white;" bind:click="closePhoto" />
+    </view>
+    <view style="position: fixed;bottom: 10%;display: flex;width: 100%;align-items:center;">
+
+      <view style="flex: 2;text-align: center;display: flex;">
+        <view style="flex: 1;"></view>
+        <view style="flex: 1;">
+          <t-icon name="{{lightName}}" size="70rpx" bind:click="lightChange" />
+        </view>
+        <view style="flex: 1;"></view>
+      </view>
+      <view style="flex: 1;text-align: center;">
+        <t-button theme="primary" style="width: 60px;height: 60px;" size="large" icon="photo" shape="circle" bindtap="takePhoto"></t-button>
+      </view>
+      <view style="flex: 2;text-align: center;"></view>
+    </view>
+    <view style="position: fixed;bottom: 5%;right: 10%;">
+
+    </view>
+  </view>
+</block>
+<t-dialog visible="{{!modalSuccessHidden}}" title="{{modalTitle}}" content=" {{successinfo}} " confirm-btn="{{ { content: '确定', variant: 'base' } }}" bind:confirm="resetSuccessModal" />
+
+<t-dialog visible="{{!directUpload}}" title="提示" content="您3次没能识别箱号，请手动输入箱号" confirm-btn="确定" cancel-btn="取消" bind:confirm="confirmDirectUpload" bind:cancel="cancelDirectUpload">
+  <view slot="content">
+    <t-input borderless class="dialog-input" clearable placeholder="输入箱号" placeholder-class="placeholder" value="{{containerNo}}" bind:change='handleInputChange' />
+  </view>
+  <view slot="content">
+    <t-radio-group default-value="0" borderless t-class="box" style="width: 60%;" slot="content" bindchange="cntrSizeRadioChange">
+      <t-radio block="{{false}}" label="20" value="20" />
+      <t-radio block="{{false}}" label="40" value="40" />
+    </t-radio-group>
+  </view>
+</t-dialog>
+
+<t-dialog
+  visible="{{!hiddenShowTip}}"
+  title=""
+  content="请正对集装箱箱门将集装箱箱门置于参考线内拍摄照片"
+  confirm-btn="{{ {content: '确定', variant: 'base' } }}"
+  bind:confirm="closeShowTip"
+>
+  <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/packagedemo.png" />
+</t-dialog>
+
+<t-dialog visible="{{!hiddenNotice}}" title="特别提醒" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="hiddenNoticePage">
+  <scroll-view slot="content" scroll-y>
+    <view class="content-container">
+      <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>本集装箱为<label style="color:#a5040d;font-weight:bold;">铁路用箱</label>，装箱拍照需按照中铁相关要求进行，请务必按照相关的规定完成装箱、加固、施封、拍照等工作。 </view>
+      <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>本程序可协助您完成规定的照片收集、整理、存储工作，请按照程序提示的流程完成所述工作。 </view>
+      <view style="font-size:18px;text-align:left;margin-top:10px;"><text style='display:inline-block;width:20px'></text>因技术受限，本程序并不能保证您提交的装箱照片为中铁认可，我们将继续努力提高系统的智能性，进一步提高您的工作效率！ </view>
+      <view style="display:flex;justify-content: space-between;align-items:center;margin-top:10px">
+        <view style="font-size:16px;text-align:left;color:#a5040d;" bindtap="showRules">*查阅相关规定</view>
+      </view>
+    </view>
+  </scroll-view>
+</t-dialog>
+
+<t-dialog visible="{{!hiddenRules}}" title="多联公司关于加强中欧（中亚）回程班列境外代理运输安全操作管理的告知函" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="hiddenShowRules">
+  <scroll-view slot="content" scroll-y class="long-content">
+    <view class="content-container">
+      <view style="font-size:16px;text-align:left;">各境外代理公司:</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>为进一步确保中欧（中亚）回程班列运输安全可控，避免因偏载、偏重、箱体破损、液体渗漏等其他安全隐患，造成的中途甩车、口岸滞留等班列无法正常开行的情况出现，请各单位严格按照如下规定进行代理运输操作。
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>一、货物品名要求</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>按照铁路危险货物名录检查货物是否符合铁路运输要求，对生僻品名、理化性质不明货物等无法确定是否为危险品的货物，
+        必须在确认订舱前提供由铁路认可的鉴定机构（机构名称见附件1）出具的非危鉴定证明。</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>二、装运要求</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>对于不同运输条件的货物、根据货物性质不能混装运输的货物，一律不得混装。下列货物不得混装于同一集装箱内：1、易腐货物与非易腐货物；2、危险货物与非危险货物；3、性质相抵的货物；4、运输条件不同的货物。
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>三、装运箱体要求</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>必须符合集装箱铁路运输的要求，不使用报废箱、破损箱、二手翻新箱以及不符合铁路运输标准的其他箱型，所用自备箱必须具备船级社集装箱证书，应使用状态良好的集装箱，标有定期检验日期或连续检验计划标记
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>四、装箱要求</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（一）基本技术要求。货物装箱时应码放稳固，装载均
+        衡，不超载、不集重、不偏重、不偏载、不撞击箱体，采取防止货物移动、滚动或开门时倒塌的措施，保证箱内货物和集装箱运输安全。</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（二）基本原则。使用合格的隔离衬垫及捆扎加固材料，
+        装箱时必须考虑方便拆箱卸货，在整个集装箱内均匀地分布载荷重量，尽可能地等高装载；轻浮货物装在重质货物之上，不同货物层次之间使用隔离材料分开，把相同或相近包装尺寸的货物堆装在一起，把不同包装尺寸或不同类型的货物以及不同密度的货物分隔开来，在它们之间使用分隔材料分隔；使用挡块、支架或其它隔离材料把不规则的货物同其余货物隔离开
+        来，细长货物在集装箱的底部按顺向装载；已损坏或包装损坏的货物不能装箱，装箱前已坏的包装要修复好，才可装入箱 内，装货完毕要检查，做到货物不松动，以免集装箱倾斜造成货损。</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（三）装载加固要求。箱内货物前侧与后侧重量差不超过3.5 吨；左侧与右侧重量差不超过 0.5 吨；装运货物单件超过0.5
+        吨，必须在确认订舱前提供装箱方案；对于钢铁产品，必须提供特殊的装箱计划供承运人批准</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（四）注意事项。利用钉牢于地板上的方木、支架等阻挡货物（常用于箱门处），或者使用橡胶垫等摩擦系数大的材料作为支垫材料来防止货物移动；利用填充材料塞入货物装载隙缝中，用以防止货物的移动；使用绳索、化纤带、索具或用网具等材料，把货物系固于集装箱内提供的系固点上或者货物
+        间，捆扎在一起以防止货物移动。</view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>五、装箱照片要求</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>装货时拍摄装箱照片（照片要求至少包括：空箱照片、货物装半时照片、货物装满时照片、能清晰反应货物装载加固状态的照片、装满后左侧箱门打开并右侧箱门关闭照片、箱门关闭施封后照片），施封后照片必须能清晰反映施封、落锁情况和锁杆、门把手紧固及螺栓完好状态。装箱照片模板见附件2。
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+      <view style="font-size:16px;text-align:right;"><text style='display:inline-block;width:20px'></text>中铁国际多式联运有限公司
+      </view>
+      <view style="font-size:16px;text-align:right;"><text style='display:inline-block;width:20px'></text>2020 年 11 月 10 日
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+
+      <view style="font-size:16px;text-align:left;font-weight:bold;">附件 1</view>
+      <view style="font-size:18px;text-align:center;font-weight:bold;"> 非危货物鉴定机构名录 </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>根据《化学品物理危险性鉴定与分类管理办法》（国家安全监管总局令第 60 号）的有关规定，下列 11 家单位具备非危货物鉴定资质：
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>中国安全生产科学研究院；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>国家安全生产监督管理总局化学品登记中心（中国石油化工股份有限公司青岛安全工程研究院）；</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>沈阳化工研究院有限公司；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>浙江省化工产品质量检验站有限公司；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>四川省危险化学品质量监督检验所；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>南京理工大学化学材料测试中心；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>国家化学品及制品安全质量监督检验中心； </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>化学工业合成材料老化质量监督检验中心； </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>中国工程物理研究院含能材料测试评价中心； </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>湖北航天化学技术研究所；
+      </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>贵州省分析测试研究院。
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text></view>
+
+      <view style="font-size:16px;text-align:left;font-weight:bold;">附件 2</view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（1）空箱照片</view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian21.jpg">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（2）货物装半时照片</view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian22.jpg">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（3）货物装满时照片</view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian23.png">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（4）能清晰反应货物装载加固状态的照片</view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian24.png">
+        </image>
+      </view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian25.png">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（5）装满后左侧箱门打开并右侧箱门关闭照片</view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian26.png">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>（6）箱门关闭施封后照片
+      </view>
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian27.png">
+        </image>
+      </view>
+
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>正确施封位置 </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>如图所示，面对箱门，右侧箱门的左侧把手 </view>
+      <view style="font-size:16px;text-align:left;"><text style='display:inline-block;width:20px'></text>注意：禁止将铅封封在其他位置。
+      </view>
+
+      <view class="imgImageStyle">
+        <image mode="aspectFit" style="width:100%;height:100%" src="http://www.xiang-cloud.com:8099/images/fujian28.png">
+        </image>
+      </view>
+    </view>
+  </scroll-view>
+</t-dialog>
+
+<view style="width:80%;margin-left:10%;border:none;padding:10rpx;position: fixed;top: 30%;" wx:if="{{showGetPhoneNumberBtn}}">
+  <view style="background-color: #a5040d;color: white;padding-left: 10px;padding-top: 10px;padding-bottom: 10px;">信息确认
+    <van-button round color="#a5040d" icon="close" size="small" style="float: right;margin-top: -5px;" bindtap="closeGetPhoneNumber"></van-button>
+  </view>
+  <view style="background-color: white;padding-left: 10px;padding-top: 10px;padding-bottom: 20px;">
+    <text>检测到您未授权小程序获取您的手机号码，是否获取授权？</text>
+  </view>
+  <view>
+    <button style="color:white;background-color: #a5040d;" slot="footer" bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">确定</button>
+  </view>
+</view>
+
+<t-dialog visible="{{YuYue}}" title="信息确认" confirm-btn="{{ {content: '确认提交预约', variant: 'base' } }}" data-item="{{YuYueDate}}" cancel-btn="更新车辆信息" bind:confirm="submitYuYue" bind:cancel="changeCar" close-btn>
+  <scroll-view slot="content" scroll-y>
+    <view class="content-container" style="margin-left: 10%;margin-top: 20px;">
+      <view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">箱号:</view>
+          <view style="flex:3">{{YuYueDate.packageNo}}</view>
+        </view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">箱型:</view>
+          <view style="flex:3">{{YuYueDate.packageType}}</view>
+        </view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">姓名:</view>
+          <view style="flex:3">{{ResvDriverInfo == null||ResvDriverInfo=='undefined'||ResvDriverInfo ==''?YuYueDate.ResvDriverInfo:ResvDriverInfo}}</view>
+        </view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">车牌:</view>
+          <view style="flex:3">{{ResvPlateNo == null||ResvPlateNo=='undefined'||ResvPlateNo==''?YuYueDate.ResvPlateNo:ResvPlateNo}}</view>
+        </view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">手机:</view>
+          <view style="flex:3">{{ResvPhone == null||ResvPhone=='undefined'||ResvPhone==''?YuYueDate.ResvPhone:ResvPhone}}</view>
+        </view>
+        <view style="padding: 5px;padding-bottom: 20px;display: flex;">
+          <view style="flex:2">装箱照片:</view>
+          <view style="flex:3">{{YuYueDate.completeDate==null?'未完成':'完成'}}</view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</t-dialog>
+<t-toast id="t-toast" />

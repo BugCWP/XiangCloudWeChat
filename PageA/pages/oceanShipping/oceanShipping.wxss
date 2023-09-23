@@ -14,12 +14,12 @@ page {
   }
 
   .card {
-    width: 92%;
+    width: 90%;
     background: white;
     border-radius: 15rpx;
     margin:2%;
     margin-top: 30rpx;
-    padding: 2%;
+    padding: 3%;
     padding-top: 40rpx;
-    padding-bottom: 40rpx;
+    padding-bottom: 80rpx;
   }

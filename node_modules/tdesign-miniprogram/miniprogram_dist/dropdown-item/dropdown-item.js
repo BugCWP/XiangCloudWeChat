@@ -99,6 +99,7 @@ let DropdownMenuItem = class DropdownMenuItem extends SuperComponent {
                 this.setData({
                     show: false,
                 });
+                this.triggerEvent('close');
             },
             getParentBottom(cb) {
                 getRect(this.$parent, `#${prefix}-bar`).then((rect) => {
