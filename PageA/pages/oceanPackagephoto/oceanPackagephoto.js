@@ -40,30 +40,39 @@ Page({
     },
     showSeven: false,
     OutsideUndercarriagePhoto: '',
+    OutsideUndercarriagePhotoList: [],
     OutsideUndercarriageOk: false,
     OutsideUndercarriageRemark: "",
     OutsideInsideDoorPhoto: '',
+    OutsideInsideDoorPhotoList: [],
     OutsideInsideDoorOk: false,
     OutsideInsideDoorRemark: '',
     RightSidePhoto: '',
+    RightSidePhotoList: [],
     RightSideOk: false,
     RightSideRemark: '',
     LeftSidePhoto: '',
+    LeftSidePhotoList: [],
     LeftSideOk: false,
     LeftSideRemark: '',
     FrontWallPhoto: '',
+    FrontWallPhotoList: [],
     FrontWallOk: false,
     FrontWallRemark: '',
     CeilingRoofPhoto: '',
+    CeilingRoofPhotoList: [],
     CeilingRoofOk: false,
     CeilingRoofRemark: true,
     FloorPhoto: '',
+    FloorPhotoList: [],
     FloorOk: false,
     FloorRemark: '',
     LightTestPhoto: '',
+    LightTestPhotoList: [],
     LightTestOk: false,
     LightTestRemark: '',
     CleannessPhoto: '',
+    CleannessPhotoList: [],
     CleannessOk: false,
     CleannessRemark: '',
     CreatedBy: '',
@@ -93,7 +102,8 @@ Page({
     bigImgUrl: '',
     touchS: [0, 0],
     touchE: [0, 0],
-    style: 'height: 248rpx'
+    style: 'height: 248rpx',
+    inspectionStatus:0,
   },
 
   /**
@@ -152,13 +162,52 @@ Page({
     } else if (type == 5) {
       img.push(thisView.data.emptyImageFengZhiImg2);
       showIndexValue = false
+    }else if(type == 6){
+        indexNumber = index;
+      img=thisView.data.OutsideUndercarriagePhotoList;
+      showIndexValue = true
+    }else if(type == 7){
+        indexNumber = index;
+        img=thisView.data.OutsideInsideDoorPhotoList;
+        showIndexValue = true
+    }else if(type == 8){
+        indexNumber = index;
+        img=thisView.data.LeftSidePhotoList;
+        showIndexValue = true
+    }else if(type == 9){
+        indexNumber = index;
+        img=thisView.data.CeilingRoofPhotoList;
+        showIndexValue = true
+    }else if(type == 10){
+        indexNumber = index;
+        img=thisView.data.FrontWallPhotoList;
+        showIndexValue = true
     }
+    else if(type == 11){
+        indexNumber = index;
+        img=thisView.data.RightSidePhotoList;
+        showIndexValue = true
+    } else if(type == 12){
+        indexNumber = index;
+        img=thisView.data.FloorPhotoList;
+        showIndexValue = true
+    }else if(type == 13){
+        indexNumber = index;
+        img=thisView.data.LightTestPhotoList;
+        showIndexValue = true
+    }else if(type == 14){
+        indexNumber = index;
+        img=thisView.data.CleannessPhotoList;
+        showIndexValue = true
+    }
+    var bigImg=img[indexNumber];
+    debugger;
     thisView.setData({
       visible: true,
       initialindex: indexNumber,
       images: img,
       showIndex: showIndexValue,
-      bigImgUrl: img[indexNumber]
+      bigImgUrl: bigImg
     });
   },
   touchStart: function (e) {
@@ -842,7 +891,7 @@ Page({
         lightName: '../../../img/lightning-no.png',
         flashSet: 'off'
       })
-      wx.setStorageSync('flashSet', 'torch');
+      wx.setStorageSync('flashSet', 'off');
     }
 
   },
@@ -885,6 +934,7 @@ Page({
           icon: 'success',
           duration: 3000
         })
+        thisView.getSevenData();
       },
       complete: function (res) {
         wx.hideLoading()
@@ -913,32 +963,70 @@ Page({
         if (result == undefined || result == "")
           return;
         var rtn = result.data;
+        var inspectionNum = 0;
+        if(rtn.OutsideUndercarriagePhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.OutsideInsideDoorPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.RightSidePhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.LeftSidePhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.FrontWallPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.CeilingRoofPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.FloorPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.LightTestPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
+        if(rtn.CleannessPhoto!=null){
+            inspectionNum=inspectionNum+1;
+        }
         thisView.setData({
+          inspectionStatus:inspectionNum,
           OutsideUndercarriagePhoto: rtn.OutsideUndercarriagePhoto==null?'': rtn.OutsideUndercarriagePhoto,
+          OutsideUndercarriagePhotoList:rtn.OutsideUndercarriagePhoto==null?[]:rtn.OutsideUndercarriagePhoto.split(";"),
           OutsideUndercarriageOk: rtn.OutsideUndercarriageOk==null?'': rtn.OutsideUndercarriageOk,
           OutsideUndercarriageRemark: rtn.OutsideUndercarriageRemark==null?'': rtn.OutsideUndercarriageRemark,
           OutsideInsideDoorPhoto: rtn.OutsideInsideDoorPhoto==null?'': rtn.OutsideInsideDoorPhoto,
+          OutsideInsideDoorPhotoList:rtn.OutsideInsideDoorPhoto==null?[]:rtn.OutsideInsideDoorPhoto.split(";"),
           OutsideInsideDoorOk: rtn.OutsideInsideDoorOk==null?'': rtn.OutsideInsideDoorOk,
           OutsideInsideDoorRemark: rtn.OutsideInsideDoorRemark==null?'': rtn.OutsideInsideDoorRemark,
           RightSidePhoto: rtn.RightSidePhoto==null?'': rtn.RightSidePhoto,
+          RightSidePhotoList:rtn.RightSidePhoto==null?[]:rtn.RightSidePhoto.split(";"),
           RightSideOk: rtn.RightSideOk==null?'': rtn.RightSideOk,
           RightSideRemark: rtn.RightSideRemark==null?'': rtn.RightSideRemark,
           LeftSidePhoto: rtn.LeftSidePhoto==null?'': rtn.LeftSidePhoto,
+          LeftSidePhotoList:rtn.LeftSidePhoto==null?[]:rtn.LeftSidePhoto.split(";"),
           LeftSideOk: rtn.LeftSideOk==null?'': rtn.LeftSideOk,
           LeftSideRemark: rtn.LeftSideRemark==null?'': rtn.LeftSideRemark,
           FrontWallPhoto: rtn.FrontWallPhoto==null?'': rtn.FrontWallPhoto,
+          FrontWallPhotoList:rtn.FrontWallPhoto==null?[]:rtn.FrontWallPhoto.split(";"),
           FrontWallOk: rtn.FrontWallOk==null?'': rtn.FrontWallOk,
           FrontWallRemark: rtn.FrontWallRemark==null?'': rtn.FrontWallRemark,
           CeilingRoofPhoto: rtn.CeilingRoofPhoto==null?'': rtn.CeilingRoofPhoto,
+          CeilingRoofPhotoList:rtn.CeilingRoofPhoto==null?[]:rtn.CeilingRoofPhoto.split(";"),
           CeilingRoofOk: rtn.CeilingRoofOk==null?'': rtn.CeilingRoofOk,
           CeilingRoofRemark: rtn.CeilingRoofRemark==null?'': rtn.CeilingRoofRemark,
           FloorPhoto: rtn.FloorPhoto==null?'': rtn.FloorPhoto,
+          FloorPhotoList:rtn.FloorPhoto==null?[]:rtn.FloorPhoto.split(";"),
           FloorOk: rtn.FloorOk==null?'': rtn.FloorOk,
           FloorRemark: rtn.FloorRemark==null?'': rtn.FloorRemark,
           LightTestPhoto: rtn.LightTestPhoto==null?'': rtn.LightTestPhoto,
+          LightTestPhotoList:rtn.LightTestPhoto==null?[]:rtn.LightTestPhoto.split(";"),
           LightTestOk: rtn.LightTestOk==null?'': rtn.LightTestOk,
           LightTestRemark: rtn.LightTestRemark==null?'': rtn.LightTestRemark,
           CleannessPhoto: rtn.CleannessPhoto==null?'': rtn.CleannessPhoto,
+          CleannessPhotoList:rtn.CleannessPhoto==null?[]:rtn.CleannessPhoto.split(";"),
           CleannessOk: rtn.CleannessOk==null?'': rtn.CleannessOk,
           CleannessRemark: rtn.CleannessRemark==null?'': rtn.CleannessRemark,
           CreatedBy: rtn.CreatedBy==null?'': rtn.CreatedBy,
@@ -1147,40 +1235,76 @@ Page({
               thisView.doBoxPacking();
               thisView.savePhoto();
             } else if (thisView.data.takePhotoType == 5) {
+              var list= thisView.data.OutsideUndercarriagePhotoList;
+              list.push(rtn.FileName);
+              var filephoto = list.join(";");
               thisView.setData({
-                OutsideUndercarriagePhoto: rtn.FileName
+                OutsideUndercarriagePhoto: filephoto,
+                OutsideUndercarriagePhotoList:list
               });
             } else if (thisView.data.takePhotoType == 6) {
+                var list= thisView.data.OutsideInsideDoorPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                OutsideInsideDoorPhoto: rtn.FileName
+                OutsideInsideDoorPhoto: filephoto,
+                OutsideInsideDoorPhotoList:list
               });
             } else if (thisView.data.takePhotoType == 7) {
+                var list= thisView.data.LeftSidePhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                LeftSidePhoto: rtn.FileName
+                LeftSidePhoto: filephoto,
+                LeftSidePhotoList:list
               });
             } else if (thisView.data.takePhotoType == 8) {
+                var list= thisView.data.CeilingRoofPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                CeilingRoofPhoto: rtn.FileName
+                CeilingRoofPhoto: filephoto,
+                CeilingRoofPhotoList:list
               });
             } else if (thisView.data.takePhotoType == 9) {
+                var list= thisView.data.FrontWallPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                FrontWallPhoto: rtn.FileName
+                FrontWallPhoto: filephoto,
+                FrontWallPhotoList:list
               });
             } else if (thisView.data.takePhotoType == 10) {
+                var list= thisView.data.RightSidePhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                RightSidePhoto: rtn.FileName
+                RightSidePhoto: filephoto,
+                RightSidePhotoList:list
               });
             } else if (thisView.data.takePhotoType == 11) {
+                var list= thisView.data.FloorPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                FloorPhoto: rtn.FileName
+                FloorPhoto: filephoto,
+                FloorPhotoList:list
               });
             } else if (thisView.data.takePhotoType == 12) {
+                var list= thisView.data.LightTestPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                LightTestPhoto: rtn.FileName
+                LightTestPhoto: filephoto,
+                LightTestPhotoList:list
               });
             } else if (thisView.data.takePhotoType == 13) {
+                var list= thisView.data.CleannessPhotoList;
+                list.push(rtn.FileName);
+                var filephoto = list.join(";");
               thisView.setData({
-                CleannessPhoto: rtn.FileName
+                CleannessPhoto: filephoto,
+                CleannessPhotoList:list
               });
             }
           },

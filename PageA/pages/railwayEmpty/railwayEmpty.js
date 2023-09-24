@@ -23,7 +23,7 @@ import {
       remarkNo: true,
       showGetPhoneNumberBtn: false,
       thisId: 0,
-      emptyImageBanFengMenImg: '../../img/imagept1.png',
+      emptyImageBanFengMenImg: '',
       iscamera: false,
       flashSet: 'off',
       carphotonum: 0,
@@ -420,7 +420,7 @@ import {
             lightName: '../../../img/lightning-no.png',
             flashSet: 'off'
           })
-          wx.setStorageSync('flashSet', 'torch');
+          wx.setStorageSync('flashSet', 'off');
         }
       },
     getDetailData() {

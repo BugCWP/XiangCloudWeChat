@@ -622,7 +622,7 @@
           lightName: '../../../img/lightning-no.png',
           flashSet: 'off'
         })
-        wx.setStorageSync('flashSet', 'torch');
+        wx.setStorageSync('flashSet', 'off');
       }
     },
     bigimg: function (event) {
