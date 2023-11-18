@@ -1,0 +1,129 @@
+/* PageA/pages/employeeMine/employeeMine.wxss */.custom-navbar {
+    --td-navbar-color: #fff;
+    --td-navbar-bg-color: #a5040d;
+}
+
+.swiper {
+    height: 600px;
+}
+
+.t-image-viewer__nav {
+    margin-top: 80px;
+}
+
+.minetitle {
+    height: 320rpx;
+    background-color: #a5040d;
+    color: white;
+    width: 100%;
+    position: fixed;
+    z-index: 200;
+}
+
+.body {
+    background-color: transparent;
+    margin-top: 180px;
+}
+
+.foot {
+    position: fixed;
+    bottom: 0px;
+    padding-bottom: 20px;
+    background-color: white;
+    padding-top: 10px;
+    z-index: 100;
+    width: 100%;
+}
+.input-example__label {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 35rpx;
+    line-height: 40rpx;
+    margin: 0 8rpx 16rpx;
+  }
+.button-example {
+    margin: 0 32rpx;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rpx;
+}
+
+.button-example:not(:last-child) {
+    margin-bottom: 32rpx;
+}
+
+.input-example {
+    --td-input-vertical-padding: 24rpx;
+    background-color: #fff;
+    padding: 32rpx 32rpx 16rpx;
+}
+
+.popblock {
+    width: 100vw;
+    height: 600px;
+    background: #fff;
+    border-top-left-radius: 16rpx;
+    border-top-right-radius: 16rpx;
+}
+
+.wrapper {
+    margin: 32rpx;
+    display: block;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    height: 116rpx;
+}
+
+.title {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    font-size: 36rpx;
+}
+
+.btn {
+    font-size: 32rpx;
+    padding: 32rpx;
+}
+
+.btn--cancel {
+    color: rgba(0, 0, 0, .6);
+}
+
+.btn--confirm {
+    color: #a5040d;
+}
+
+.box {
+    padding: 32rpx;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+}
+.t-radio__icon{
+    display: inline-block;
+}
+
+.radio-group {
+    border-bottom: 1px solid #ddd;
+    display:flex;
+    flex-direction:column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content:left;
+    align-items:flex-start;
+    margin-left: 10px;
+  }
+  .radio {
+    border-top: 0px solid #ddd;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .example-search {
+    background-color: #fff;
+    padding: 0rpx 32rpx;
+  }

@@ -1,0 +1,54 @@
+<!--PageA/pages/employee/employee.wxml-->
+<block style="background-color:azure">
+    <view class="block">
+        <t-navbar class="custom-navbar" title="员工注册" t-class-title="nav-title" left-arrow />
+    </view>
+    <view class="card">
+        <view class="input-example">
+            <view class="input-example__label"> 用户名 <view style="color: red;font-size: 25px;display: inline-block;vertical-align: middle;">*</view></view>
+            <t-input status="error" tips="{{usernameerror}}" placeholder="请输入用户名" borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" model:value="{{username}}"/>
+        </view>
+        <view class="input-example">
+            <view class="input-example__label"> 绑定公司 <view style="color: red;font-size: 25px;display: inline-block;vertical-align: middle;">*</view></view>
+            <t-input status="error" tips="{{companyerror}}" placeholder="请输入公司名称关键字" borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" model:value="{{company}}">
+                <t-button slot="suffix" theme="primary" size="extra-small" bindtap="selectCompang"> 选择 </t-button>
+            </t-input>
+        </view>
+        <view class="input-example">
+            <view class="input-example__label"> 运营地址 </view>
+            <t-input placeholder="请选择运营地址" borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" model:value="{{address}}">
+                <t-button slot="suffix" theme="primary" size="extra-small" bindtap="getAddress"> 选择 </t-button>
+            </t-input>
+        </view>
+        <view style="height: 40px;"></view>
+        <view class="button-example">
+            <t-button theme="primary" size="large" block shape="round" bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">注册</t-button>
+        </view>
+    </view>
+</block>
+<t-picker
+  visible="{{companyselectpage}}"
+  value="{{cityValue}}"
+  data-key="city"
+  title="绑定公司"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindchange="companyonChange"
+  bindcancel="companyselectpageonClose"
+>
+  <t-picker-item options="{{companycolumns}}"></t-picker-item>
+</t-picker>
+<t-picker
+  visible="{{addressselectpage}}"
+  value="{{cityValue}}"
+  data-key="city"
+  title="运营地址"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindchange="addressonChange"
+  bindcancel="addressselectpageonClose"
+>
+  <t-picker-item options="{{addresscolumns}}"></t-picker-item>
+</t-picker>
+<t-dialog visible="{{!modalHidden}}" title="提示信息" content=" {{errinfo}} " confirm-btn="{{ { content: '确定', variant: 'base' } }}" bind:confirm="resetModal" />
+<t-dialog visible="{{!modalSuccessHidden}}" title="成功" content=" {{successinfo}} " confirm-btn="{{ { content: '确定', variant: 'base' } }}" bind:confirm="resetSuccessModal" />

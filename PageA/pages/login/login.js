@@ -189,6 +189,7 @@ Page({
                     if (res.code) {
                         var js_code = res.code;
                         wx.request({
+                            method: 'Post',
                             url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=WeXinLogin2',
                             data: {
                                 code: js_code
@@ -259,12 +260,147 @@ Page({
         }
     },
     //跳转集运公司老板注册
-    goCompany() {
+    goCompany(e) {
+        var thisView = this;
+        wx.request({
+            url: "https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=DecryptPhoneNumber",
+            data: {
+                sessionId: thisView.data.session_key,
+                encryptedData: e.detail.encryptedData,
+                iv: e.detail.iv
+            },
+            header: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            method: 'POST',
+            success: function (res) {
 
+                var rtn = JSON.parse(JSON.stringify(res));
+
+                if (rtn == undefined || rtn == "")
+                    return;
+
+                var result = rtn.data;
+
+                if (result == undefined || result == null || result.phoneNumber == undefined || result.phoneNumber == null || result.phoneNumber == "") {
+                    thisView.setData({
+                        errTitle: '注册失败',
+                        errDialogShow: true,
+                        errinfo: result.ErrorDesc != '' ? result.ErrorDesc : '由于用户主动拒绝，未获取到手机号，请重新授权',
+                        errConfirmBtn: {
+                            content: '确认',
+                            variant: 'base'
+                        }
+                    })
+                    return;
+                }
+                thisView.setData({
+                    phoneNo: result.phoneNumber
+                })
+                thisView.confirmContinue2(e);
+            },
+            fail: function (err) {
+                var errResult = err;
+            }
+        })
+    },
+    confirmContinue2(e) {
+
+        var thisView = this;
+
+        var mobile = thisView.data.phoneNo; //e.detail.value.telphone;
+
+        if (mobile.length == 0) {
+            wx.showToast({
+                title: '请获取手机号',
+                icon: 'none',
+                duration: 1500
+            })
+            return;
+        }
+        wx.setStorageSync('myTelephone', mobile);
+        wx.showLoading({
+            title: '正在保存',
+            mask: true
+        })
+        wx.request({
+            url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=RegisterAccount',
+            data: {
+                paraUserName: wx.getStorageSync('mywechatuser').nickName,
+                paraTelphone: mobile,
+                paraPassword: '',
+                paraWeChatNumber: wx.getStorageSync("mywechatid"),
+                source: wx.getStorageSync("sceneSource")
+            },
+            header: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            method: 'POST',
+            success: function (res) {
+
+                var rtn = JSON.parse(JSON.stringify(res));
+
+                if (rtn == undefined || rtn == "")
+                    return;
+
+                var result = rtn.data;
+
+                if (result)
+                    try {
+                        if (result.ErrorDesc || result.ErrorCode || result.HasError) {
+                            let msg = (result.ErrorCode ? '(' + result.ErrorCode + ') ' : '') + result.ErrorDesc;
+                            thisView.setData({
+                                errTitle: '注册失败',
+                                errDialogShow: true,
+                                errinfo: msg,
+                                errConfirmBtn: {
+                                    content: '确认',
+                                    variant: 'base'
+                                }
+                            })
+                            return;
+                        } else if (typeof result === 'string' && result.match(/error/)) {
+                            thisView.setData({
+                                errTitle: '注册失败',
+                                errDialogShow: true,
+                                errinfo: result,
+                                errConfirmBtn: {
+                                    content: '确认',
+                                    variant: 'base'
+                                }
+                            })
+                            return;
+                        }
+                    }
+                catch (e) {
+                    throw e;
+                }
+                thisView.gotoComapany();
+            },
+            fail: function (res) {
+                wx.hideLoading()
+
+                thisView.setData({
+                    modalHidden: false,
+                    errinfo: res
+                })
+
+            },
+            complete: function (res) {
+                wx.hideLoading()
+            },
+        })
+    },
+    gotoComapany(){
+        wx.redirectTo({
+            url: '../companyphoto/companyphoto?regist=1',
+          })
     },
     //跳转集运公司员工注册
     goEmployee() {
-
+        wx.navigateTo({
+            url: '../employee/employee',
+        })
     },
     closeErrDialog() {
         var thisView = this;
@@ -452,6 +588,7 @@ Page({
     getWeXinLogin(e) {
         var thisView = this;
         wx.request({
+            method: 'Post',
             url: 'https://www.xiang-cloud.com/Api/Mini/SignIn.ashx?act=WeXinLogin2',
             data: {
                 code: e

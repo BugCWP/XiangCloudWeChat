@@ -141,12 +141,12 @@ Page({
         } else if (wx.getStorageSync('myUserProfileType') == '102') {
             //公司员工
             wx.navigateTo({
-                url: '../driverphoto/driverphoto?comefromInfo=1',
+                url: '../../PageA/pages/employeeMine/employeeMine',
             })
         } else {
             //公司管理
             wx.navigateTo({
-                url: '../companyphoto/companyphoto?comefromInfo=1',
+                url: '../../PageA/pages/companyphoto/companyphoto?comefromInfo=1',
             })
         }
     },

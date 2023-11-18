@@ -66,14 +66,14 @@ class AuthService {
   wxLogin(forceNew) {
     if (forceNew)
       return wx.login.promisify()
-        .then(x => helper.httpRequest('SignIn', 'WeXinLogin', {code: x.code}))
+        .then(x => helper.httpRequest('SignIn', 'WeXinLogin2', {code: x.code}))
         .then(x => this.sessionId = x);
     else
       return wx.checkSession.promisify()
         .then(() => Promise.resolve(),
           () => {
             return wx.login.promisify()
-              .then(x => helper.httpRequest('SignIn', 'WeXinLogin', {code: x.code}))
+              .then(x => helper.httpRequest('SignIn', 'WeXinLogin2', {code: x.code}))
               .then(x => this.sessionId = x)
           }
         );
@@ -84,7 +84,7 @@ class AuthService {
       return true;
 
     wx.login.promisify()
-      .then(x => helper.httpRequest('SignIn', 'WeXinLogin', {code: x.code}))
+      .then(x => helper.httpRequest('SignIn', 'WeXinLogin2', {code: x.code}))
       .then(x => {
         this.sessionId = x;
         const pages = getCurrentPages();

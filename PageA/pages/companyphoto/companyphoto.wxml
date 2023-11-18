@@ -1,0 +1,90 @@
+<view class='drawer_content' style='margin-top:10px;'>
+
+  <form bindsubmit='confirmSubmit'>
+    <view class="block">
+      <t-navbar class="custom-navbar" title="公司信息" t-class-title="nav-title" left-arrow />
+    </view>
+    <view style="display:flex;align-items:center;text-align: center;">
+      <view style="margin:0 auto;">
+        <view style="display: inline-block;font-size: 20px;font-weight: 600;">登录名称:</view>
+        <view style="display: inline-block;font-size: 20px;font-weight: 600;">{{parenttelphone}}</view>
+      </view>
+
+    </view>
+
+    <view hidden="{{hiddenNewCompanyView}}">
+
+      <view class="top grid" hidden="true">
+        <text class="title col-0">开户账号</text>
+        <input name='zhanghao' value='{{kaihuzhanghaoval}}' class="input_base input_h30 col-1" type='number'></input>
+      </view>
+
+      <view class='flex-column'>
+
+        <view class="top grid">
+          <text class="title col-0" style="font-weight: 600;">公司抬头</text>
+          <input name='gongsidizhi' class="input_base input_h30 col-1" value='{{gongsitaitouval}}' style='font-size:12px;' type='text'></input>
+        </view>
+
+        <view class="top grid">
+          <text class="title col-0" style="font-weight: 600;">注册地址</text>
+          <input name='dizhi' class="input_base input_h30 col-1" value='{{dizhival}}' style='font-size:12px;' type='text' disabled='true'></input>
+        </view>
+
+        <view class="top grid">
+          <text class="title col-0" style="font-weight: 600;">公司税号</text>
+          <input name='gongsishuihao' value='{{xinyongdaimaval}}' class="input_base input_h30 col-1" style='font-size:12px;' type='text'></input>
+        </view>
+
+        <view class="top grid">
+          <text class="title col-0" style="font-weight: 600;">办公电话</text>
+          <input name='bangongdianhua' value='{{bangongdianhuaval}}' class="input_base input_h30 col-1" style='font-size:12px;' type='text'></input>
+        </view>
+
+
+      </view>
+
+      <view class='flex-column'>
+        <view class="top grid" style="text-align: center;">
+          <text class="title col-0" style="font-weight: 600;width: 200rpx;">营业执照上传</text>
+          <t-button theme="primary" icon="../../../img/backup.png" shape="square" size="extra-small" class="margin" id='imgYingYeZhiZhao'  aria-label="上传" bindtap="photoFunc"></t-button>
+        </view>
+        <view style="width:100%;display:flex;justify-content: space-between;margin-top:20rpx" wx:if="{{defaultYingYeZhiZhaoImage}}">
+          <view style="width:20rpx"></view>
+          <image class='imageStyle' mode='aspectFit' src='{{defaultYingYeZhiZhaoImage}}' id='imgYingYeZhiZhao' name='imgYingYeZhiZhao' bindtap='previewImage'></image>
+          <view style="width:20rpx"></view>
+        </view>
+        <!-- <view style="width:100%;display:flex;justify-content: space-between;margin-top:20rpx" wx:if="{{registpage}}">
+          <t-button theme="primary" size="large" block shape="round" id='imgYingYeZhiZhao' bindtap="photoFunc">上传营业执照</t-button>
+        </view> -->
+        <t-divider content="" />
+        <view class="top grid">
+          <text class="title col-0" style="font-weight: 600;">道路许可证</text>
+          <input name='daoluxukezhenghao' value='{{daoluxukeval}}' class="input_base input_h30 col-1" style='font-size:12px;margin-bottom:10px;margin-right: 10px;' type='text'></input>
+          <t-button theme="primary" icon="../../../img/backup.png" shape="square" size="extra-small" class="margin" id='imgDaoLuXuKe'  aria-label="上传" bindtap="photoFunc"></t-button>
+        </view>
+        <view style="width:100%;display:flex;justify-content: space-between;margin-top:20rpx" wx:if="{{defaultDaoLuXuKeImage}}">
+          <view style="width:20rpx"></view>
+          <image class='imageStyle' mode='aspectFit' src='{{defaultDaoLuXuKeImage}}' id='imgDaoLuXuKe' name='imgDaoLuXuKe' bindtap='previewImage'></image>
+          <view style="width:20rpx"></view>
+        </view>
+      </view>
+      <view class="button-example" style="position: fixed;width: 90%;bottom: 15px;">
+        <t-button theme="primary" size="large" block shape="round" type='submit'>确定保存</t-button>
+      </view>
+    </view>
+  </form>
+</view>
+
+<modal hidden="{{finishhidden}}" no-cancel bindconfirm="gotoLogin">
+  <view style="font-size:26rpx">您的公司账号在管理员审批后方可进行相关操作</view>
+  <view style="font-size:26rpx">PC端登陆方式</view>
+  <view style="font-size:26rpx;color:#4a8edb;text-decoration:underline;">http://user.xiang-clound.com/signIn</view>
+  <view style="font-size:26rpx">用户名：您的手机号</view>
+  <view style="font-size:26rpx">初始密码：您的手机号</view>
+  <view style="font-size:26rpx">请在用户创建后,尽快登陆并变更初始密码</view>
+</modal>
+
+<t-dialog visible="{{!modalHidden}}" title="提示信息" content="{{errinfo}}" confirm-btn="确认" bind:confirm="resetModal" />
+<t-dialog visible="{{!modalSuccessHidden}}" title="成功" content="{{successinfo}}" confirm-btn="确认" cancel-btn="取消" bind:confirm="resetSuccessModal" />
+<t-dialog visible="{{!modalSuccessUnBind}}" title="成功" content="{{successinfo}}" confirm-btn="确认" cancel-btn="取消" bind:confirm="resetSuccessModalUnBind" />

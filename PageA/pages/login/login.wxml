@@ -17,7 +17,7 @@
                 </t-input>
                 <view style="width: 80%;margin-left: 10%;margin-top: 40px;" class="button-example">
                     <t-button theme="primary" size="large" block bindtap="loginGotoMainForm">登录</t-button>
-                    <t-button icon="logo-wechat" theme="light" size="large" block bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">快捷登录</t-button>
+                    <t-button  theme="light" size="large" block bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">手机号快捷登录</t-button>
                 </view>
             </view>
         </t-tab-panel>
@@ -33,7 +33,7 @@
                 </view>
                 <view style="text-align:left;">
                     <t-image src="../../../img/employeebtn.jpg" width="50" height="50" shape="round" bindtap="goEmployee" />
-                    <t-button theme="primary" size="large" variant="text" bindgetphonenumber="goEmployee" open-type="getPhoneNumber">集运公司员工</t-button>
+                    <t-button theme="primary" size="large" variant="text" bindtap="goEmployee">集运公司员工</t-button>
                 </view>
             </view>
         </t-tab-panel>

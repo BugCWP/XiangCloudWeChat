@@ -23,7 +23,10 @@
                 "pages/railwaypackagephoto/railwaypackagephoto",
                 "pages/railwaypackagestep/railwaypackagestep",
                 "pages/railwayImport/railwayImport",
-                "pages/railwayEmpty/railwayEmpty"
+                "pages/railwayEmpty/railwayEmpty",
+                "pages/employee/employee",
+                "pages/companyphoto/companyphoto",
+                "pages/employeeMine/employeeMine"
             ]
         }
     ],

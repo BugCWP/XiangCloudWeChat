@@ -1,0 +1,86 @@
+<view class="block">
+    <t-navbar class="custom-navbar" title="公司员工" t-class-title="nav-title" left-arrow />
+</view>
+<view class="minetitle">
+    <view style="width: 80%;margin-left: 10%;padding-top: 50rpx;">
+        <view style="display: inline-block;">
+            <view>
+                <t-avatar size="large" icon="user" wx:if="{{image==null||image==''}}" />
+                <t-avatar size="large" image="{{image}}" wx:else bindtap='showImg' data-imgsrc="{{image}}" />
+            </view>
+            <view style="margin-top: 5px;">
+                <t-button theme="light" size="extra-small" id='imgHeadImage' bindtap='photoFunc'>修改头像</t-button>
+            </view>
+        </view>
+        <view style="display: inline-block;margin-left: 20px;position: relative;top: -25px;">
+            <view style="margin-bottom: 4px;font-weight: 600;font-size: 18px;">
+                {{myUserName}}
+                <t-button style="margin-left: 10px;" icon='edit' theme="light" size="extra-small" bindtap="showEdit"></t-button>
+            </view>
+            <view>{{myTelephone}}</view>
+        </view>
+    </view>
+</view>
+<view class="body">
+    <view style="margin:20rpx;background-color:white;font-size:26rpx;border-radius: 20rpx">
+        <view style="padding:20rpx">
+            <view class="input-example">
+                <view class="input-example__label"> 绑定公司 
+                </view>
+                <t-input status="error" tips="{{companyerror}}" placeholder="请输入公司名称关键字" borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" model:value="{{keyValueCompanyName}}" wx:if="{{!hiddenbindcompany}}">
+                    <t-button slot="suffix" theme="primary" size="extra-small" bindtap="selectCompang"> 选择 </t-button>
+                </t-input>
+                <t-input status="error" tips="{{companyerror}}"  borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" disabled model:value="{{keyValueCompanyName}}" wx:if="{{hiddenbindcompany}}">
+                </t-input>
+            </view>
+            <view class="input-example">
+                <view class="input-example__label"> 运营地址 </view>
+                <t-input placeholder="请选择运营地址" borderless="{{true}}" style="{{'border: 2rpx solid rgba(220,220,220,1);border-radius: 12rpx;'}}" model:value="{{address}}">
+                    <t-button slot="suffix" theme="primary" size="extra-small" bindtap="getAddress"> 选择 </t-button>
+                </t-input>
+            </view>
+        </view>
+    </view>
+
+</view>
+<view class="foot">
+    <view class="button-example">
+        <t-button theme="light" block size="large" variant="outline" bindtap="bindingCompany" wx:if="{{!hiddenbindcompany}}">确认挂靠关系</t-button>
+        <t-button theme="light" block size="large" variant="outline" bindtap="unbindCompany" wx:if="{{!hiddenunbindcompany}}">取消挂靠关系</t-button>
+        <t-button theme="primary" block size="large" bindtap="signOut">注销用户</t-button>
+    </view>
+</view>
+<t-dialog visible="{{errDialogShow}}" title="{{errTitle}}" content="{{errinfo}}" confirm-btn="{{ errConfirmBtn }}" bind:confirm="closeErrDialog" />
+<t-dialog visible="{{SignOutDialogShow}}" title="注销" content="确认要注销此用户？" confirm-btn="{{SignOutConfirmBtn}}" cancel-btn="取消" bind:confirm="confirmSignOut" bind:cancel="closeSignOut" />
+<t-image-viewer deleteBtn="{{deleteBtn}}" closeBtn="{{closeBtn}}" showIndex="{{showIndex}}" visible="{{visible}}" images="{{images}}" bind:change="onChange" bind:delete="onDelete" bind:close="onClose"></t-image-viewer>
+<t-dialog visible="{{EditDialogShow}}" title="个人信息修改" confirm-btn="提交" cancel-btn="取消" bind:confirm="confirmEditDialog" bind:cancel="closeEditDialog">
+    <t-input borderless class="dialog-input" clearable slot="content" label="姓名" placeholder="请输入正确姓名" placeholder-class="placeholder" model:value="{{userName}}" />
+    <t-input borderless class="dialog-input" clearable slot="content" label="车牌" placeholder="请输入正确车牌" placeholder-class="placeholder" model:value="{{plateNo}}" />
+</t-dialog>
+<t-toast id="t-toast" />
+
+<t-picker
+  visible="{{companyselectpage}}"
+  value="{{cityValue}}"
+  data-key="city"
+  title="绑定公司"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindchange="companyonChange"
+  bindcancel="companyselectpageonClose"
+>
+  <t-picker-item options="{{items}}"></t-picker-item>
+</t-picker>
+<t-picker
+  visible="{{addressselectpage}}"
+  value="{{cityValue}}"
+  data-key="city"
+  title="运营地址"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindchange="addressonChange"
+  bindcancel="addressselectpageonClose"
+>
+  <t-picker-item options="{{arrayBizLocation}}"></t-picker-item>
+</t-picker>
+

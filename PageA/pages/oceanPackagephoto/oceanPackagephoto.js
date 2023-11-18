@@ -104,6 +104,7 @@ Page({
     touchE: [0, 0],
     style: 'height: 248rpx',
     inspectionStatus:0,
+    inspectionPre:0
   },
 
   /**
@@ -993,6 +994,7 @@ Page({
         }
         thisView.setData({
           inspectionStatus:inspectionNum,
+          inspectionPre:Math.ceil(inspectionNum/9*100),
           OutsideUndercarriagePhoto: rtn.OutsideUndercarriagePhoto==null?'': rtn.OutsideUndercarriagePhoto,
           OutsideUndercarriagePhotoList:rtn.OutsideUndercarriagePhoto==null?[]:rtn.OutsideUndercarriagePhoto.split(";"),
           OutsideUndercarriageOk: rtn.OutsideUndercarriageOk==null?'': rtn.OutsideUndercarriageOk,
