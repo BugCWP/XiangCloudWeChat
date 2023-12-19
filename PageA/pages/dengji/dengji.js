@@ -842,7 +842,7 @@ Page({
     })
   },
   baocun() {
-    debugger;
+    ;
     var thisView = this;
     thisView.setData({
       queren: true,
@@ -853,7 +853,7 @@ Page({
   },
   querenbutton() {
     var thisView = this
-    debugger;
+    ;
     if (thisView.data.userName == '') {
       wx.showToast({
         title: '司机姓名不能为空',

@@ -2,7 +2,7 @@
   <view class="block">
     <t-navbar class="custom-navbar" title="铁路装箱照片" t-class-title="nav-title" left-arrow />
   </view>
-  <scroll-view scroll-y="true" class="scoll-h">
+  <scroll-view scroll-y="true" class="scoll-h" wx:if="{{dataArray.length>0}}">
     <block wx:for="{{dataArray}}" wx:key="dataArray">
       <view class="card" style="font-size:28rpx">
         <view style="display:flex">
@@ -27,7 +27,7 @@
         <view style="margin-top:20rpx;margin-left:20rpx">
           <view style="display:flex">
             <view style="max-width:600rpx;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;" wx:if="{{item.address}}">{{item.address}}</view>
-            <image mode="aspectFit" src="../../img/from.png" style="width:50rpx;height:50rpx" wx:if="{{item.lng&&item.lat}}" bindtap="bindaddress" data-item="{{item}}">
+            <image mode="aspectFit" src="../../../img/from.png" style="width:50rpx;height:50rpx" wx:if="{{item.lng&&item.lat}}" bindtap="bindaddress" data-item="{{item}}">
             </image>
           </view>
 
@@ -53,7 +53,8 @@
 
         <view style="width:100%;margin-top:15rpx;height: 60rpx;">
           <view style="width:160rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="gotoTakePhotoDetail">
-            {{item.importImageTitle == '拍箱门照'?'开始':'继续'}}</view>
+            {{item.importImageTitle == '拍箱门照'?'开始':'继续'}}
+          </view>
           <view wx:if="{{item.importImageTitle != '拍箱门照' && (item.inPortDate == null ||item.inPortDate=='')}}" style="border-radius: 30rpx;color:white;background:#a5040d;text-align:center;width:220rpx;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="showYuYue" data-item="{{item}}">{{item.ResvDate==null?'送箱预约进场':'我要更新预约'}}</view>
           <view wx:if="{{(comID ==75||comID ==54||comID ==76)&&item.importImageTitle == '拍箱门照'}}" style="width:220rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" id="takephoto{{item.Id}}" bindtap="gotoChooseImg">相册选择</view>
           <view wx:if="{{item.RailInReceiptPath!=null&&item.RailInReceiptPath!=''&&item.importImageTitle != '拍箱门照'}}" style="width:220rpx;border-radius: 30rpx;color:white;background:#a5040d;text-align:center;padding:15rpx 0rpx;float: right;margin-right: 10px;" data-src="{{item.RailInReceiptPath}}" bindtap="downloadPDF">下载落箱小票</view>
@@ -63,6 +64,10 @@
       </view>
     </block>
   </scroll-view>
+  <view wx:if="{{dataArray.length<=0}}" style="width: 94%;background-color: white;border-radius: 10px;margin-left: 3%;padding-top: 20px;padding-bottom: 50px;margin-top: 10px;">
+    <t-image slot="middle" style="width: 100%;" src="../../../img/homepage.png" />
+    <view style="width: 94%;margin-left: 3%;margin-top: 10px;text-indent: 2em; ">当前页面无铁路集装箱装载照片上传任务，需要拍摄、上传铁路集装箱装载照片，请通过微信”扫一扫“进入拍照任务栏。</view>
+  </view>
 </view>
 
 <t-dialog visible="{{hiddenPhotoPage&&isshowimg}}" title="箱门照拍摄方法" content="请正对集装箱箱门将集装箱箱门置于参考线内拍摄照片" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeImg">
@@ -123,13 +128,7 @@
   </view>
 </t-dialog>
 
-<t-dialog
-  visible="{{!hiddenShowTip}}"
-  title=""
-  content="请正对集装箱箱门将集装箱箱门置于参考线内拍摄照片"
-  confirm-btn="{{ {content: '确定', variant: 'base' } }}"
-  bind:confirm="closeShowTip"
->
+<t-dialog visible="{{!hiddenShowTip}}" title="" content="请正对集装箱箱门将集装箱箱门置于参考线内拍摄照片" confirm-btn="{{ {content: '确定', variant: 'base' } }}" bind:confirm="closeShowTip">
   <t-image slot="top" t-class="dialog-image" src="http://www.xiang-cloud.com:8099/images/packagedemo.png" />
 </t-dialog>
 
@@ -267,17 +266,31 @@
   </scroll-view>
 </t-dialog>
 
-<view style="width:80%;margin-left:10%;border:none;padding:10rpx;position: fixed;top: 30%;" wx:if="{{showGetPhoneNumberBtn}}">
-  <view style="background-color: #a5040d;color: white;padding-left: 10px;padding-top: 10px;padding-bottom: 10px;">信息确认
-    <van-button round color="#a5040d" icon="close" size="small" style="float: right;margin-top: -5px;" bindtap="closeGetPhoneNumber"></van-button>
+<t-popup visible="{{showGetPhoneNumberBtn}}" bind:visible-change="onVisibleChange" placement="{{'bottom'}}" content="检测到您未授权小程序获取您的手机号码，是否获取授权？">
+  <view class="block block--bottom" style="background-color: #2A282B;">
+    <view class="content-container">
+      <view>
+        <view style="padding: 5px;display: flex;margin-left: 25px;">
+          <view style="margin-top: 5px;">
+            <t-image src="../../../img/Snapshot - 2022-21-11-13-20-12.png" width="35" height="35" shape="circle" />
+          </view>
+          <view style="flex:1;padding: 10px;color: #B8B6B9;font-size: 18px;">箱云物流科技 申请</view>
+        </view>
+        <view style="padding: 5px;display: flex;margin-top: 20px;margin-bottom: 20px;margin-right: 20px;margin-left: 20px;">
+          <view style="flex:1;padding: 10px;color: #BEBCBF;">检测到您未授权小程序获取您的手机号码，是否获取授权？</view>
+        </view>
+        <view style="padding: 5px;display: flex;">
+          <view style="flex:1">
+            <button style="color:white;background-color: #363437;margin:5px;margin-left: 20px;margin-right: 20px;" slot="footer" bindtap="onVisibleChange">拒绝</button>
+          </view>
+          <view style="flex:1">
+            <button style="color:white;background-color: #47BA5D;margin:5px;margin-left: 20px;margin-right: 20px;" slot="footer" bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">允许</button>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
-  <view style="background-color: white;padding-left: 10px;padding-top: 10px;padding-bottom: 20px;">
-    <text>检测到您未授权小程序获取您的手机号码，是否获取授权？</text>
-  </view>
-  <view>
-    <button style="color:white;background-color: #a5040d;" slot="footer" bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber">确定</button>
-  </view>
-</view>
+</t-popup>
 
 <t-dialog visible="{{YuYue}}" title="信息确认" confirm-btn="{{ {content: '确认提交预约', variant: 'base' } }}" data-item="{{YuYueDate}}" cancel-btn="更新车辆信息" bind:confirm="submitYuYue" bind:cancel="changeCar" close-btn>
   <scroll-view slot="content" scroll-y>

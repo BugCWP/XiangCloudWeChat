@@ -77,7 +77,7 @@ Page({
         this.getCompany();
     },
     getPhoneNumber(e) {
-        debugger;
+        ;
         var thisView = this;
         if (thisView.data.username == null || thisView.data.username == '') {
             thisView.setData({

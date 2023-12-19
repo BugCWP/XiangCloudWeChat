@@ -57,7 +57,7 @@
                 <view style="color:#a5040d;font-weight:bold;">集卡车头</view>
                 <t-divider />
                 <view bindlongtap="takePhotoCar" wx:if="{{truckPic!=''}}" style="z-index:1000">
-                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{truckPic}}" style="height:70px;width:80px;" data-src="{{truckPic}}" catchtap="bigimg"></image>
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{truckPic}}" style="height:70px;width:80px;" data-src="https://www.xiang-cloud.com/uploads/zxzp/{{truckPic}}" catchtap="bigimg"></image>
                 </view>
                 <view style="display: inline-block;" wx:if="{{truckPic == ''}}">
                     <t-grid-item icon="photo" bindtap="takePhotoCar" data-index="3" />
@@ -67,7 +67,7 @@
                 <view style="color:#a5040d;font-weight:bold;margin-left: 10px;">集装箱</view>
                 <t-divider />
                 <view bindlongtap="takePhotoCar2" wx:if="{{container1Pic!=''}}" style="z-index:1000">
-                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{container1Pic}}" style="height:70px;width:80px;" data-src="{{container1Pic}}" catchtap="bigimg"></image>
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{container1Pic}}" style="height:70px;width:80px;" data-src="https://www.xiang-cloud.com/uploads/zxzp/{{container1Pic}}" catchtap="bigimg"></image>
                 </view>
                 <view style="display: inline-block;" wx:if="{{container1Pic == ''}}">
                     <t-grid-item icon="photo" bindtap="takePhotoCar2" data-index="3" />
@@ -77,7 +77,7 @@
                 <view style="color:#a5040d;font-weight:bold;">集卡车尾</view>
                 <t-divider />
                 <view bindlongtap="takePhotoCar4" wx:if="{{tailTruckPic!=''}}" style="z-index:1000">
-                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{tailTruckPic}}" style="height:70px;width:80px;" data-src="{{tailTruckPic}}" catchtap="bigimg"></image>
+                    <image src="https://www.xiang-cloud.com/uploads/zxzp/{{tailTruckPic}}" style="height:70px;width:80px;" data-src="https://www.xiang-cloud.com/uploads/zxzp/{{tailTruckPic}}" catchtap="bigimg"></image>
                 </view>
                 <view style="display: inline-block;" wx:if="{{tailTruckPic == ''}}">
                     <t-grid-item icon="photo" bindtap="takePhotoCar4" data-index="3" />
@@ -166,7 +166,16 @@
                         <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{FengZhiZhao.length == 0}}" />
                     </view>
                 </view>
-                <view style="flex:1"></view>
+                <view style="flex:1" wx:if="{{CompanyId != 116}}"></view>
+                <view style="flex:1" wx:if="{{CompanyId == 116}}">
+                    <view style="position: relative;margin-left: 5px;margin-right: 5px;margin-top: 5px;" bindtap="takeMingPaiPhoto">
+                        <view style="position: absolute;left: 10%;top: 20%;font-weight: 600;color:yellow;font-size: 20px;" wx:if="{{imgMingPaiPhoto == ''}}">点击拍摄</view>
+                        <view style="position: absolute;left: 20%;top: 40%;font-weight: 600;color:yellow;font-size: 20px;">铭牌照</view>
+                        <view style="position: absolute;right: 5%;bottom: 5%;font-weight: 600;background-color:{{img9Color}};font-size: 20px;color: white;border: 3px solid {{img9Color}};width: 20px;text-align: center;" wx:if="{{imgMingPaiPhoto!=''}}">1</view>
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" data-src="{{imgMingPaiPhoto}}" bindlongpress="bigimg" src="{{imgMingPaiPhoto}}" wx:if="{{imgMingPaiPhoto != ''}}" />
+                        <image mode="scaleToFill" style="width: 100%;height: 100px;" src="../../../img/gray.jpg" wx:if="{{imgMingPaiPhoto==''}}" />
+                    </view>
+                </view>
             </view>
         </view>
     </view>

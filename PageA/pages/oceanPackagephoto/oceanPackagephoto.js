@@ -202,7 +202,7 @@ Page({
         showIndexValue = true
     }
     var bigImg=img[indexNumber];
-    debugger;
+    ;
     thisView.setData({
       visible: true,
       initialindex: indexNumber,
@@ -361,7 +361,7 @@ Page({
     })
   },
   onchange() {
-    debugger;
+    ;
     var thisView = this;
     var storageSaveIds = wx.getStorageSync('saveIdsArray');
     var arrData = [];

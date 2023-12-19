@@ -206,7 +206,7 @@ import {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      debugger;
+      ;
       var that = this;
       var key = 'N7ABZ-ZXXEF-UBZJB-N4IOA-7LNAV-66BNQ';
       //获取扫码携带参数

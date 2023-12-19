@@ -87,7 +87,7 @@ Page({
                 thisView.setData({
                     arrayCompany: result
                 })
-debugger;
+;
                 if (typeof (wx.getStorageSync("BindCompanyName")) == "undefined" || wx.getStorageSync("BindCompanyName") == null ||
                     wx.getStorageSync("BindCompanyName") == "") {
                     thisView.setData({
@@ -376,7 +376,7 @@ debugger;
 
     bindingCompany: function (e) {
         var thisView = this;
-        debugger;
+        ;
         console.log(e)
         var havebind = e.currentTarget.dataset.text
         if (thisView.data.parenttelphone == "") {
@@ -1351,7 +1351,7 @@ debugger;
     },
     companyonChange(e) {
         var thisView = this;
-        debugger;
+        ;
         const {
             key
         } = e.currentTarget.dataset;
@@ -1429,7 +1429,7 @@ debugger;
     },
     addressonChange(e) {
         var thisView = this;
-        debugger;
+        ;
         const {
             key
         } = e.currentTarget.dataset;

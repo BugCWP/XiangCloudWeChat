@@ -1,7 +1,8 @@
 {
     "projectname": "XiangCloudWeChat",
     "setting": {
-        "compileHotReLoad": true
+        "compileHotReLoad": true,
+        "bigPackageSizeSupport": true
     },
     "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
     "condition": {
@@ -355,6 +356,20 @@
                     "name": "",
                     "pathName": "PageA/pages/railwayEmpty/railwayEmpty",
                     "query": "scene=railwayEmpty%2C75%2C919",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "PageA/pages/railwaypackage/railwaypackage",
+                    "query": "scene=rail%2C54%2C47554",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/main/main",
+                    "query": "",
                     "launchMode": "default",
                     "scene": null
                 }

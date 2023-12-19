@@ -44,6 +44,7 @@
       hiddenXiangKuangAndPhoto: true,
       imgBanGuanMenPhoto: '',
       imgGuanMenShiFengPhoto: '',
+      imgMingPaiPhoto:'',
       hiddenBanGuanMenPhoto: true,
       hiddenGuanMenShiFengPhoto: true,
       currentImgIndex2nd: 5,
@@ -110,12 +111,14 @@
       img6Color: 'green',
       img7Color: 'green',
       img8Color: 'green',
+      img9Color: 'green',
       showRemark: false,
       FenShu: [],
       documentId: '',
       changePackageVisible:false,
       changeDatas:[],
       lightName: '../../../img/lightning-no.png',
+      CompanyId:0
     },
     GetPhotoPackingRailAiResultByFile(files) {
       var thisView = this;
@@ -286,6 +289,20 @@
                 img8Color: 'yellow'
               });
             }
+            if (res.data.MpsPhoto >= 7) {
+              thisView.setData({
+                img9Color: 'green'
+              });
+            } else if (res.data.MpsPhoto == 0) {
+              thisView.setData({
+                img9Color: 'red',
+                showRemark: true
+              });
+            } else {
+              thisView.setData({
+                img9Color: 'yellow'
+              });
+            }
           }
         },
         fail: function (res) {
@@ -409,8 +426,8 @@
             })
             wx.showToast({
               title: res.data.ErrorDesc,
-              icon: 'warning',
-              duration: 1500
+              icon: 'none',
+              duration: 3000
             })
           } else {
             wx.showToast({
@@ -428,10 +445,15 @@
           }
         },
         fail: function (res) {
-          wx.hideLoading()
+            wx.showToast({
+                title: res.data,
+                icon: 'none',
+                duration: 3000
+              })
+        //   wx.hideLoading()
         },
         complete: function (res) {
-          wx.hideLoading()
+        //   wx.hideLoading()
         },
       })
     },
@@ -478,24 +500,24 @@
       if (this.data.truckPic == '') {
         wx.showToast({
           title: '集卡车头未拍摄！',
-          icon: 'warning',
-          duration: 1500
+          icon: 'error',
+          duration: 3000
         })
         return;
       }
       if (this.data.container1Pic == '') {
         wx.showToast({
           title: '集装箱未拍摄！',
-          icon: 'warning',
-          duration: 1500
+          icon: 'error',
+          duration: 3000
         })
         return;
       }
       if (this.data.tailTruckPic == '') {
         wx.showToast({
           title: '集卡车尾未拍摄！',
-          icon: 'warning',
-          duration: 1500
+          icon: 'error',
+          duration: 3000
         })
         return;
       }
@@ -526,14 +548,14 @@
           if (res.data.HasError) {
             wx.showToast({
               title: res.data.ErrorDesc,
-              icon: 'warning',
-              duration: 1500
+              icon: 'error',
+              duration: 3000
             })
           } else {
             wx.showToast({
               title: "完成车辆进出拍摄成功！",
               icon: 'success',
-              duration: 2500
+              duration: 3000
             })
           }
         },
@@ -830,7 +852,7 @@
         title: 'upload...',
         mask: true
       })
-      debugger;
+      ;
       helper.httpRequest('Index', 'GetPermission')
         .then(x => {
           console.log(x);
@@ -934,7 +956,9 @@
               ResvPlateNo:result.ResvPlateNo,
               hiddenConfirmButton: true,
               hiddenBackUp: true,
+              CompanyId: result.CompanyId,
               imgBanGuanMenPhoto: '',
+              imgMingPaiPhoto: '',
               imgGuanMenShiFengPhoto: '',
               imgmodalnameandplan: '',
               imgxiangkuangandphoto: '',
@@ -959,10 +983,17 @@
             var mysealPhoto = result.SealPhoto;
             var mynamePlanPhoto = result.NamePlanPhoto;
             var mycertificatePhoto = result.CertificatePhoto;
+            var myMingPaiPhoto = result.MpsPhoto;
   
             if (myhalfCloseDoorPhoto != undefined && myhalfCloseDoorPhoto != null && myhalfCloseDoorPhoto != '') {
               thisView.setData({
                 imgBanGuanMenPhoto: myhalfCloseDoorPhoto.indexOf('https://www.xiang-cloud.com/uploads/zxzp/') != -1 ? myhalfCloseDoorPhoto : 'https://www.xiang-cloud.com/uploads/zxzp/' + myhalfCloseDoorPhoto
+              })
+            }
+
+            if (myMingPaiPhoto != undefined && myMingPaiPhoto != null && myMingPaiPhoto != '') {
+              thisView.setData({
+                imgMingPaiPhoto: myMingPaiPhoto.indexOf('https://www.xiang-cloud.com/uploads/zxzp/') != -1 ? myMingPaiPhoto : 'https://www.xiang-cloud.com/uploads/zxzp/' + myMingPaiPhoto
               })
             }
   
@@ -1139,7 +1170,16 @@
       return
     },
   
-  
+    takeMingPaiPhoto() {
+      var thisView = this;
+      if (thisView.data.isFront)
+        return;
+      wx.navigateTo({
+        url: '../railwaypackagestep/railwaypackagestep?selectIndex=7&id=' + thisView.data.id,
+      })
+      return
+    },
+
     takeGuanMenShiFengPhoto() {
       var thisView = this;
       if (thisView.data.isFront)
@@ -1250,7 +1290,7 @@
     },
   
     takePhotoKongXiang() {
-      debugger;
+      ;
       var thisView = this;
       if (thisView.data.isFront)
         return;
@@ -1636,6 +1676,7 @@
           strengthenPhotos: arrListstrengthenPhotos,
           otherPhotos: arrListQitaPhotos,
           halfCloseDoorPhoto: thisView.data.imgBanGuanMenPhoto,
+          MpsPhoto: thisView.data.imgMingPaiPhoto,
           sealPhoto: thisView.data.imgGuanMenShiFengPhoto,
           namePlanPhoto: thisView.data.imgmodalnameandplan,
           certificatePhoto: thisView.data.imgxiangkuangandphoto,
@@ -1651,6 +1692,7 @@
           strengthenPhotos: arrListstrengthenPhotos,
           otherPhotos: arrListQitaPhotos,
           halfCloseDoorPhoto: thisView.data.imgBanGuanMenPhoto,
+          MpsPhoto: thisView.data.imgMingPaiPhoto,
           sealPhoto: thisView.data.imgGuanMenShiFengPhoto,
           namePlanPhoto: thisView.data.imgmodalnameandplan,
           certificatePhoto: thisView.data.imgxiangkuangandphoto
@@ -1757,6 +1799,7 @@
           fullPhotos: arrListfullPhotos,
           strengthenPhotos: arrListstrengthenPhotos,
           halfCloseDoorPhoto: thisView.data.imgBanGuanMenPhoto,
+          MpsPhoto: thisView.data.imgMingPaiPhoto,
           sealPhoto: thisView.data.imgGuanMenShiFengPhoto,
           namePlanPhoto: thisView.data.imgmodalnameandplan,
           certificatePhoto: thisView.data.imgxiangkuangandphoto,
@@ -1857,7 +1900,7 @@
       })
     },
     onchange() {
-      debugger;
+      ;
       var thisView = this;
       var storageSaveIds = wx.getStorageSync('saveIdsArrayRailwayPackage');
       var arrData = [];

@@ -596,7 +596,7 @@ console.log(res)
   previewImage: function (e) {
     var objImageClick = e.currentTarget.id;
     var current = '';
-debugger;
+;
     switch (objImageClick) {
       case 'imgYingYeZhiZhao':
         current = 'https://www.xiang-cloud.com' + this.data.yingyezhizhaoUrl;

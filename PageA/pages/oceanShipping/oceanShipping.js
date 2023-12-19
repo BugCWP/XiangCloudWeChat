@@ -494,7 +494,7 @@ Page({
             var arrData = thisView.data.dataArray;
 
             var obj = {};
-            debugger;
+            ;
             obj.Id = result.Id;
             obj.srcImg =result.DoorPhoto;
             obj.packageNo = result.CntrNo;
